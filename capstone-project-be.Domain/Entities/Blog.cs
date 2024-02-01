@@ -12,5 +12,6 @@
         public User User { get; set; }
         public IEnumerable<BlogPhoto> BlogPhotos { get; set; }
         public IEnumerable<Blog_BlogCatagory> Blog_BlogCatagories { get; set; }
+        public IEnumerable<BlogComment> BlogComments { get; set; }
     }
 }
