@@ -3,7 +3,7 @@
     public class Trip
     {
         public required int TripId { get; set; }
-        public required int UssrId { get; set; }
+        public required int UserId { get; set; }
         public required string Title { get; set; }
         public string? Description { get; set; }
         public required DateTime StartDate { get; set; }

@@ -10,7 +10,7 @@ namespace capstone_project_be.Infrastructure.Context
 
         }
 
-        public DbSet<User> Books { get; set; }
-        public DbSet<Trip> Authors { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Trip> Trips { get; set; }
     }
 }
