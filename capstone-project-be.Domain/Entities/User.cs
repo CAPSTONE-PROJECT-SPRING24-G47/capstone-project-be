@@ -1,0 +1,17 @@
+﻿namespace capstone_project_be.Domain.Entities
+{
+    public class User
+    {
+        public required int UserId { get; set; }
+        public required int RoleId { get; set; }
+        public required string LastName { get; set; }
+        public required string FirstName { get; set; }
+        public required string Email { get; set; }
+        public required string Password { get; set; }
+        public string? PictureProfile { get; set; }
+        public string? GoogleToken { get; set; }
+
+        //Set quan hệ với các bảng khác ở đây
+        public IEnumerable<Trip> Trips { get; set; }
+    }
+}
