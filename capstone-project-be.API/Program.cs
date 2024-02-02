@@ -1,5 +1,7 @@
 using capstone_project_be.Application;
 using capstone_project_be.Infrastructure;
+using capstone_project_be.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +14,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.ConfigureApplicationServices();
 builder.Services.ConfigureInfrastructureServices();
+
+builder.Services.AddDbContext<ProjectContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("DbConnectionString"),
+    b => b.MigrationsAssembly("capstone-project-be.Infrastructure")));
 
 var app = builder.Build();
 
