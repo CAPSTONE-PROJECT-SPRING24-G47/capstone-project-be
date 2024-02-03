@@ -1,6 +1,7 @@
 ﻿using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace capstone_project_be.Infrastructure.Repositories
 {
@@ -43,5 +44,9 @@ namespace capstone_project_be.Infrastructure.Repositories
             _dbContext.Set<T>().RemoveRange(entities);
         }
 
+        public async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate)
+        {
+            return await _dbContext.Set<T>().Where(predicate).ToListAsync();
+        }
     }
 }

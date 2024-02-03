@@ -16,13 +16,6 @@ namespace capstone_project_be.API.Controllers
         public UserController(IMediator mediator)
         {
             _mediator = mediator;
-        }
-
-        [HttpPost]
-        public async Task SignUp([FromBody] UserSignUpDTO userSignUpData)
-        {
-            //khởi tạo request để gửi cho handler xử lý
-            await _mediator.Send(new SignUpRequest(userSignUpData));
-        }
+        }   
     }
 }
