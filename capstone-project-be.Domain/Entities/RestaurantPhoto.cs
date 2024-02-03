@@ -2,7 +2,7 @@
 {
     public class RestaurantPhoto
     {
-        public required int PhotoId { get; set; }
+        public required int RestaurantPhotoId { get; set; }
         public required int RestaurantId { get; set; }
         public required string PhotoUrl { get; set;}
 

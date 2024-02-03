@@ -2,7 +2,7 @@
 {
     public class Restaurant
     {
-        public required int ReutaurantId { get; set; }
+        public required int RestaurantId { get; set; }
         public required int CityId { get; set; }
         public required string RestaurantName { get; set; }
         public required string RestaurantDescription { get; set; }
