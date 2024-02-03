@@ -20,14 +20,25 @@ namespace capstone_project_be.Application.Features.Users.Handles
             _mapper = mapper;
         }
 
-        public Task Handle(SignUpRequest request, CancellationToken cancellationToken)
+        public async Task Handle(SignUpRequest request, CancellationToken cancellationToken)
         {
             //xử lý logic signup tronng này
+            var data = request.UserSignUpData;
+
+            //check email có thật hay không (chưa làm)
+
+            //check email có trong database hay không
+            var user = await _unitOfWork.UserRepository.Find(user => user.Email == data.Email);
+            //nếu đã có thì sẽ return message (ở đây t chưa thêm nên return không)
+            if (user != null) return;
+
+            //mã hóa password trước khi lưu (chưa làm)
 
             //xử lý xong gọi repository thông qua unitOfWork để add
-            _unitOfWork.UserRepository.Add(_mapper.Map<User>(request.UserSignUpData));
+            await _unitOfWork.UserRepository.Add(_mapper.Map<User>(data));
+            //sau khi thưc hiện viết vào db (update, add, delete) đều phải goi hàm save
+            await _unitOfWork.Save();
 
-            throw new NotImplementedException();
         }
     }
 }

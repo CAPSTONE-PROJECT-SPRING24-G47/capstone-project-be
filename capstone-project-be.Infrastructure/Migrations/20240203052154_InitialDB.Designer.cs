@@ -12,8 +12,8 @@ using capstone_project_be.Infrastructure.Context;
 namespace capstone_project_be.Infrastructure.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    [Migration("20240202165947_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240203052154_InitialDB")]
+    partial class InitialDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
