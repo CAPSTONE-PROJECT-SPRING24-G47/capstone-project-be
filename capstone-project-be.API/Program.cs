@@ -19,9 +19,6 @@ builder.Services.AddDbContext<ProjectContext>(options =>
 builder.Services.ConfigureApplicationServices();
 builder.Services.ConfigureInfrastructureServices();
 
-builder.Services.AddDbContext<ProjectContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("DbConnectionString"),
-    b => b.MigrationsAssembly("capstone-project-be.Infrastructure")));
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

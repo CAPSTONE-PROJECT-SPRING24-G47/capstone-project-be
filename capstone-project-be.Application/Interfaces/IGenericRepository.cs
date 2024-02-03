@@ -1,4 +1,6 @@
-﻿namespace capstone_project_be.Application.Interfaces
+﻿using System.Linq.Expressions;
+
+namespace capstone_project_be.Application.Interfaces
 {
     public interface IGenericRepository<T> where T : class
     {
@@ -8,5 +10,7 @@
         Task Update(T entity);
         Task Delete(T entity);
         Task DeleteRange(IEnumerable<T> entities);
+
+        Task<IEnumerable<T>> Find(Expression<Func<T,bool>> predicate);
     }
 }
