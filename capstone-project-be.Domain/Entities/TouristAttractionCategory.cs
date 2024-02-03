@@ -2,7 +2,7 @@
 {
     public class TouristAttractionCategory
     {
-        public required int TouristAttactionCategoryID { get; set; }
+        public required int TouristAttractionCategoryId { get; set; }
         public required string TouristAttactionCategoryName { get; set; }
 
         public IEnumerable<TouristAttraction_TouristAttractionCategory>
