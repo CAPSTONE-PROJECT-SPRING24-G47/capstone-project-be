@@ -9,6 +9,7 @@ namespace capstone_project_be.Application.AutoMapperProfile
         public MappingProfile()
         {
             CreateMap<UserSignUpDTO, User>().ReverseMap();
+            CreateMap<UserSignInDTO, User>().ReverseMap();
         }
     }
 }

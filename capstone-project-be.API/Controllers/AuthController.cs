@@ -27,7 +27,7 @@ namespace capstone_project_be.API.Controllers
         [HttpPost("signin")]
         public async Task SignIn([FromBody] UserSignInDTO userSignInData)
         {
-            throw new NotImplementedException();
+            await _mediator.Send(new SignInRequest(userSignInData));
         }
     }
 }
