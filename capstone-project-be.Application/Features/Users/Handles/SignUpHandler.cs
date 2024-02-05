@@ -30,6 +30,7 @@ namespace capstone_project_be.Application.Features.Users.Handles
 
             var email = request.UserSignUpData.Email;
             var verifyCodeGenerated = GenerateVerificationCode();
+            var expireTime = DateTime.Now.AddMinutes(1);
 
             await _emailSender.SendEmail(email, "Verify Code", $"Your verification code is {verifyCodeGenerated}");
 
@@ -39,6 +40,7 @@ namespace capstone_project_be.Application.Features.Users.Handles
             {
                 var userToUpdate = userList.First();
                 userToUpdate.VerificationCode = verifyCodeGenerated;
+                userToUpdate.VerificationCodeExpireTime  = expireTime;
                 await _unitOfWork.UserRepository.Update(userToUpdate);
                 await _unitOfWork.Save();
                 return $"Mã xác minh đã được gửi lại vào mail {data.Email}";
@@ -50,6 +52,7 @@ namespace capstone_project_be.Application.Features.Users.Handles
             var userMapped = _mapper.Map<User>(data);
 
             userMapped.VerificationCode = verifyCodeGenerated;
+            userMapped.VerificationCodeExpireTime = expireTime;
             userMapped.Password = passwordHash;
             await _unitOfWork.UserRepository.Add(userMapped);
             var isSuccessSave = await _unitOfWork.Save();

@@ -13,6 +13,7 @@
         public string? VerificationCode { get; set; }
         public bool IsVerified { get; set; }
         public DateTime CreatedAt { get; set; }
+        public DateTime VerificationCodeExpireTime { get; set; }
         
 
         //Set quan hệ với các bảng khác ở đây
