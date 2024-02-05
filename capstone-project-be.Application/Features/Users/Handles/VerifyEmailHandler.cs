@@ -5,11 +5,11 @@ using MediatR;
 
 namespace capstone_project_be.Application.Features.Users.Handles
 {
-    public class VerifyEmailHandle : IRequestHandler<VerifyEmailRequest, string>
+    public class VerifyEmailHandler : IRequestHandler<VerifyEmailRequest, string>
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public VerifyEmailHandle(IUnitOfWork unitOfWork)
+        public VerifyEmailHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }

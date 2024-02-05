@@ -32,9 +32,24 @@ namespace capstone_project_be.API.Controllers
         }
 
         [HttpPost("signin")]
-        public async Task SignIn([FromBody] UserSignInDTO userSignInData)
+        public async Task<string> SignIn([FromBody] UserSignInDTO userSignInData)
         {
-            await _mediator.Send(new SignInRequest(userSignInData));
+            var message = await _mediator.Send(new SignInRequest(userSignInData));
+            return message;
+        }
+
+        [HttpPost("resetpassword/verify")]
+        public async Task<string> VerifyResetPassword([FromBody] ResetPasswordVerificationDTO resetPasswordVerificationData)
+        {
+            var message = await _mediator.Send(new VerifyResetPasswordRequest(resetPasswordVerificationData));
+            return message;
+        }
+
+        [HttpPost("resetpassword")]
+        public async Task<string> ResetPassword([FromBody] ResetPasswordDTO resetPasswordData)
+        {
+            var message = await _mediator.Send(new ResetPasswordRequest(resetPasswordData));
+            return message;
         }
     }
 }
