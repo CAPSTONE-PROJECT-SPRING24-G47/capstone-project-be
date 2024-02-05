@@ -31,7 +31,7 @@ namespace capstone_project_be.Infrastructure.Repositories
 
         public async Task Update(T entity)
         {
-            throw new NotImplementedException();
+            _dbContext.Set<T>().Update(entity);
         }
 
         public async Task Delete(T entity)
