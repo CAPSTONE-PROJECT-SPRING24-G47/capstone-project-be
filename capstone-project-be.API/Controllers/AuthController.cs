@@ -1,7 +1,6 @@
 ﻿using capstone_project_be.Application.DTOs;
 using capstone_project_be.Application.Features.Users.Requests;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace capstone_project_be.API.Controllers
@@ -18,10 +17,18 @@ namespace capstone_project_be.API.Controllers
         }
 
         [HttpPost("signup")]
-        public async Task SignUp([FromBody] UserSignUpDTO userSignUpData)
+        public async Task<string> SignUp([FromBody] UserSignUpDTO userSignUpData)
         {
             //khởi tạo request để gửi cho handler xử lý
-            await _mediator.Send(new SignUpRequest(userSignUpData));
+            var message = await _mediator.Send(new SignUpRequest(userSignUpData));
+            return message;
+        }
+
+        [HttpPost("signup/verify")]
+        public async Task<string> VerifyEmail([FromBody] SignUpVerificationDTO signUpVerificationData)
+        {
+            var message = await _mediator.Send(new VerifyEmailRequest(signUpVerificationData));
+            return message;
         }
 
         [HttpPost("signin")]

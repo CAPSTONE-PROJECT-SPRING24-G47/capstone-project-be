@@ -1,44 +1,73 @@
 ﻿using AutoMapper;
+using BCrypt.Net;
 using capstone_project_be.Application.Features.Users.Requests;
 using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Domain.Entities;
 using MediatR;
+using System.Security.Cryptography;
 
 namespace capstone_project_be.Application.Features.Users.Handles
 {
     //IRequestHandler<t1,t2(optional)>
     //t1 là kiểu request thằng handle này sẽ nhận để xử lý
     //t2 là kiểu dữ liệu trả về (trong trường hợp này k có tại không trả về cái gì)
-    public class SignUpHandler : IRequestHandler<SignUpRequest>
+    public class SignUpHandler : IRequestHandler<SignUpRequest, string>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IEmailSender _emailSender;
 
-        public SignUpHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public SignUpHandler(IUnitOfWork unitOfWork, IMapper mapper, IEmailSender emailSender)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _emailSender = emailSender;
         }
 
-        public async Task Handle(SignUpRequest request, CancellationToken cancellationToken)
+        public async Task<string> Handle(SignUpRequest request, CancellationToken cancellationToken)
         {
-            //xử lý logic signup tronng này
             var data = request.UserSignUpData;
 
-            //check email có thật hay không (chưa làm)
+            var email = request.UserSignUpData.Email;
+            var verifyCodeGenerated = GenerateVerificationCode();
 
-            //check email có trong database hay không
-            var user = await _unitOfWork.UserRepository.Find(user => user.Email == data.Email);
-            //nếu đã có thì sẽ return message (ở đây t chưa thêm nên return không)
-            if (user != null) return;
+            await _emailSender.SendEmail(email, "Verify Code", $"Your verification code is {verifyCodeGenerated}");
 
-            //mã hóa password trước khi lưu (chưa làm)
+            var userList = await _unitOfWork.UserRepository.Find(user => user.Email == data.Email);
 
-            //xử lý xong gọi repository thông qua unitOfWork để add
-            await _unitOfWork.UserRepository.Add(_mapper.Map<User>(data));
-            //sau khi thưc hiện viết vào db (update, add, delete) đều phải goi hàm save
-            await _unitOfWork.Save();
+            if (userList.Any(user => !user.IsVerified))
+            {
+                var userToUpdate = userList.First();
+                userToUpdate.VerificationCode = verifyCodeGenerated;
+                await _unitOfWork.UserRepository.Update(userToUpdate);
+                await _unitOfWork.Save();
+                return $"Mã xác minh đã được gửi lại vào mail {data.Email}";
+            }
 
+            if (userList.Any(user => user.IsVerified)) return "Email này đã được sử dụng ở một tài khoản khác";
+
+            var passwordHash = BCrypt.Net.BCrypt.EnhancedHashPassword(data.Password, 13);
+            var userMapped = _mapper.Map<User>(data);
+
+            userMapped.VerificationCode = verifyCodeGenerated;
+            userMapped.Password = passwordHash;
+            await _unitOfWork.UserRepository.Add(userMapped);
+            var isSuccessSave = await _unitOfWork.Save();
+            if (isSuccessSave == 0)
+            {
+                return "Đăng ký không thành công";
+            }
+            return "Đăng ký thành công";
         }
+
+        private string GenerateVerificationCode()
+        {
+            Random rnd = new Random();
+            int code = rnd.Next(1000000, 9999999);
+
+            return code.ToString();
+        }
+
+
     }
 }

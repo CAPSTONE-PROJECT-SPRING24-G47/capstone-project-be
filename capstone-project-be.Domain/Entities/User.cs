@@ -10,6 +10,10 @@
         public required string Password { get; set; }
         public string? PictureProfile { get; set; }
         public string? GoogleToken { get; set; }
+        public string? VerificationCode { get; set; }
+        public bool IsVerified { get; set; }
+        public DateTime CreatedAt { get; set; }
+        
 
         //Set quan hệ với các bảng khác ở đây
         public IEnumerable<Trip> Trips { get; set; }

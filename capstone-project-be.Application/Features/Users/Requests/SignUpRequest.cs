@@ -4,7 +4,7 @@ using MediatR;
 namespace capstone_project_be.Application.Features.Users.Requests
 {
     //Kiểu request mà controller sẽ dùng để gửi đi cho handler xử lý
-    public class SignUpRequest(UserSignUpDTO userSignUpData) : IRequest
+    public class SignUpRequest(UserSignUpDTO userSignUpData) : IRequest<string>
     {
         //nếu request này muốn nhận tham số thì dùng constructor
         //trong trường hợp này cần nhận dữ liệu đăng ký từ người dùng
