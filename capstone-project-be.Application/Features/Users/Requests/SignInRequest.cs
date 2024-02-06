@@ -3,7 +3,7 @@ using MediatR;
 
 namespace capstone_project_be.Application.Features.Users.Requests
 {
-    public class SignInRequest(UserSignInDTO userSignInData) : IRequest
+    public class SignInRequest(UserSignInDTO userSignInData) : IRequest<string>
     {
         public UserSignInDTO UserSignInData { get; set; } = userSignInData;
 

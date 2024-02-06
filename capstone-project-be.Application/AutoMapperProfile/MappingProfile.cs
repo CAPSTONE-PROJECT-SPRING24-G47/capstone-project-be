@@ -10,6 +10,8 @@ namespace capstone_project_be.Application.AutoMapperProfile
         {
             CreateMap<UserSignUpDTO, User>().ReverseMap();
             CreateMap<UserSignInDTO, User>().ReverseMap();
+            CreateMap<ResetPasswordVerificationDTO, User>().ReverseMap();
+            CreateMap<ResetPasswordDTO, User>().ReverseMap();
         }
     }
 }

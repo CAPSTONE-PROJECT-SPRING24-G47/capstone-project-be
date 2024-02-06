@@ -123,7 +123,10 @@ namespace capstone_project_be.Infrastructure.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PictureProfile = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    GoogleToken = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    GoogleToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    VerificationCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsVerified = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
