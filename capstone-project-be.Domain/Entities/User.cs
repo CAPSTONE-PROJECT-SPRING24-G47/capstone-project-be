@@ -22,5 +22,6 @@
         public IEnumerable<RestaurantComment> RestaurantComments { get; set; }
         public IEnumerable<AccommodationComment> AccommodationComments { get; set; }
         public Role Role { get; set; }
+        public VerificationCode VerificationCode { get; set; }
     }
 }
