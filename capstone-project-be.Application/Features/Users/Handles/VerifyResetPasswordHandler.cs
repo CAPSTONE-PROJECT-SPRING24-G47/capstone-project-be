@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using capstone_project_be.Application.Features.Users.Requests;
 using capstone_project_be.Application.Interfaces;
+using capstone_project_be.Domain.Entities;
 using MediatR;
 
 namespace capstone_project_be.Application.Features.Users.Handles
@@ -28,6 +29,8 @@ namespace capstone_project_be.Application.Features.Users.Handles
             if (userList.Any())
             {
                 await _emailSender.SendEmail(email, "Reset Password Code", $"Your reset password code is {verifyCodeGenerated}");
+                var userId = userList.First().UserId;
+                var codeList = await _unitOfWork.VerificationCodeRepository.Find(code => code.UserId == userId);
                 var userToUpdate = userList.First();
                 userToUpdate.VerificationCode = verifyCodeGenerated;
                 await _unitOfWork.UserRepository.Update(userToUpdate);
