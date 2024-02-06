@@ -5,11 +5,11 @@ using MediatR;
 
 namespace capstone_project_be.Application.Features.Users.Handles
 {
-    public class VerifyEmailHandle : IRequestHandler<VerifyEmailRequest, string>
+    public class VerifyEmailHandler : IRequestHandler<VerifyEmailRequest, string>
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public VerifyEmailHandle(IUnitOfWork unitOfWork)
+        public VerifyEmailHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
@@ -21,6 +21,12 @@ namespace capstone_project_be.Application.Features.Users.Handles
             // Tìm user với mã verify và email
             var userList = await _unitOfWork.UserRepository.Find(user =>
                 user.Email == data.Email && user.VerificationCode == data.VerificationCode);
+
+            if (userList.Any())
+            {
+                var user = userList.First();
+                if (user.VerificationCodeExpireTime <= DateTime.Now) return "Mã xác minh đã hết hạn";
+            }
 
             if (userList.Any())
             {

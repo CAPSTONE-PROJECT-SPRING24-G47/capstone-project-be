@@ -10,7 +10,6 @@ namespace capstone_project_be.Application.Interfaces
         Task Update(T entity);
         Task Delete(T entity);
         Task DeleteRange(IEnumerable<T> entities);
-
         Task<IEnumerable<T>> Find(Expression<Func<T,bool>> predicate);
     }
 }
