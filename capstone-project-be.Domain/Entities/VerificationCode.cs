@@ -6,5 +6,6 @@
         public required int UserId { get; set; }
         public required string Code { get; set; }
         public DateTime VerificationCodeExpireTime { get; set; }
+        public User User { get; set; }
     }
 }
