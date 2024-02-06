@@ -11,9 +11,11 @@ namespace capstone_project_be.Infrastructure.Repositories
         {
             _dbContext = dbContext;
             UserRepository = new UserRepository(_dbContext);
+            VerificationCodeRepository = new VerificationCodeRepository(_dbContext);
         }
 
         public IUserRepository UserRepository { get; set; }
+        public IVerificationCodeRepository VerificationCodeRepository { get; set; }
 
         public void Dispose()
         {

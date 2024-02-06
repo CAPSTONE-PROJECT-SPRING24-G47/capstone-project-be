@@ -40,6 +40,7 @@ namespace capstone_project_be.Infrastructure.Context
         public DbSet<Trip_Restaurant> Trip_Restaurants { get; set; }
         public DbSet<Trip_TouristAttraction> Trip_TouristAttractions { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<VerificationCode> VerificationCodes { get; set; }
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
