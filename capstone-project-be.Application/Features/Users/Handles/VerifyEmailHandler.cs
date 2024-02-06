@@ -17,32 +17,34 @@ namespace capstone_project_be.Application.Features.Users.Handles
         public async Task<string> Handle(VerifyEmailRequest request, CancellationToken cancellationToken)
         {
             var data = request.SignUpVerificationData;
-
-            // Tìm user với mã verify và email
-            var userList = await _unitOfWork.UserRepository.Find(user =>
-                user.Email == data.Email && user.VerificationCode == data.VerificationCode);
+            var userList = await _unitOfWork.UserRepository.Find(user => user.Email == data.Email);
 
             if (userList.Any())
             {
                 var user = userList.First();
-                if (user.VerificationCodeExpireTime <= DateTime.Now) return "Mã xác minh đã hết hạn";
-            }
+                var userVerifyCodeList = await _unitOfWork.VerificationCodeRepository.Find(code => code.UserId == user.UserId);
+                var userVerifyCode = userVerifyCodeList.First();
 
-            if (userList.Any())
-            {
-                //Set user verified và xóa verify code trong database
-                var user = userList.First();
+                if (userVerifyCode.VerificationCodeExpireTime <= DateTime.Now)
+                {
+                    await _unitOfWork.VerificationCodeRepository.Delete(userVerifyCode);
+                    await _unitOfWork.Save();
+                    return "Mã xác minh đã hết hạn";
+                }
+
                 user.IsVerified = true;
-                user.VerificationCode = null;
                 user.CreatedAt = DateTime.Now;
+                userVerifyCode.Code = null;
+
                 await _unitOfWork.UserRepository.Update(user);
+                await _unitOfWork.VerificationCodeRepository.Delete(userVerifyCode);
                 var isSuccessUpdate = await _unitOfWork.Save();
+
                 if (isSuccessUpdate != 0)
                     return "Tài khoản của bạn đã được xác minh thành công";
                 else return "Có lỗi xảy ra";
             }
 
-            //reuturn message verify code không đúng
             return "Mã xác nhận không hợp lệ";
         }
     }

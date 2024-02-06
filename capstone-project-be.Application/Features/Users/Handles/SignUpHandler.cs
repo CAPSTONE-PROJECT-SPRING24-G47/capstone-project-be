@@ -1,16 +1,11 @@
 ﻿using AutoMapper;
-using BCrypt.Net;
 using capstone_project_be.Application.Features.Users.Requests;
 using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Domain.Entities;
 using MediatR;
-using System.Security.Cryptography;
 
 namespace capstone_project_be.Application.Features.Users.Handles
 {
-    //IRequestHandler<t1,t2(optional)>
-    //t1 là kiểu request thằng handle này sẽ nhận để xử lý
-    //t2 là kiểu dữ liệu trả về (trong trường hợp này k có tại không trả về cái gì)
     public class SignUpHandler : IRequestHandler<SignUpRequest, string>
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -39,10 +34,29 @@ namespace capstone_project_be.Application.Features.Users.Handles
             if (userList.Any(user => !user.IsVerified))
             {
                 var userToUpdate = userList.First();
-                userToUpdate.VerificationCode = verifyCodeGenerated;
-                userToUpdate.VerificationCodeExpireTime  = expireTime;
-                await _unitOfWork.UserRepository.Update(userToUpdate);
-                await _unitOfWork.Save();
+                var userVerifyCodeList = await _unitOfWork.VerificationCodeRepository.Find(code => code.UserId == userToUpdate.UserId);
+                VerificationCode userVerifyCodeToUpdate;
+                if (userVerifyCodeList.Any())
+                {
+                    userVerifyCodeToUpdate = userVerifyCodeList.First();
+                    userVerifyCodeToUpdate.Code = verifyCodeGenerated;
+                    userVerifyCodeToUpdate.VerificationCodeExpireTime = expireTime;
+
+                    await _unitOfWork.VerificationCodeRepository.Update(userVerifyCodeToUpdate);
+                    await _unitOfWork.Save();
+                }
+                else
+                {
+                    await _unitOfWork.VerificationCodeRepository.Add(
+                         new VerificationCode()
+                         {
+                             UserId = userToUpdate.UserId,
+                             Code = verifyCodeGenerated,
+                             VerificationCodeExpireTime = expireTime
+                         });
+                    await _unitOfWork.Save();
+                }
+
                 return $"Mã xác minh đã được gửi lại vào mail {data.Email}";
             }
 
@@ -50,16 +64,19 @@ namespace capstone_project_be.Application.Features.Users.Handles
 
             var passwordHash = BCrypt.Net.BCrypt.EnhancedHashPassword(data.Password, 13);
             var userMapped = _mapper.Map<User>(data);
-
-            userMapped.VerificationCode = verifyCodeGenerated;
-            userMapped.VerificationCodeExpireTime = expireTime;
             userMapped.Password = passwordHash;
+
             await _unitOfWork.UserRepository.Add(userMapped);
-            var isSuccessSave = await _unitOfWork.Save();
-            if (isSuccessSave == 0)
-            {
-                return "Đăng ký không thành công";
-            }
+            await _unitOfWork.Save();
+            await _unitOfWork.VerificationCodeRepository.Add(
+                  new VerificationCode()
+                  {
+                      UserId = userMapped.UserId,
+                      Code = verifyCodeGenerated,
+                      VerificationCodeExpireTime = expireTime
+                  });
+            await _unitOfWork.Save();
+
             return "Đăng ký thành công";
         }
 
