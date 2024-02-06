@@ -24,6 +24,12 @@ namespace capstone_project_be.Application.Features.Users.Handles
 
             if (userList.Any())
             {
+                var user = userList.First();
+                if (user.VerificationCodeExpireTime <= DateTime.Now) return "Mã xác minh đã hết hạn";
+            }
+
+            if (userList.Any())
+            {
                 //Set user verified và xóa verify code trong database
                 var user = userList.First();
                 user.IsVerified = true;
