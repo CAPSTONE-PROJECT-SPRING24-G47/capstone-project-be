@@ -19,18 +19,34 @@ namespace capstone_project_be.Application.Features.Users.Handles
         public async Task<string> Handle(ResetPasswordRequest request, CancellationToken cancellationToken)
         {
             var data = request.ResetPasswordData;
-            var userList = await _unitOfWork.UserRepository.
-                Find(user => user.Email == data.Email && user.VerificationCode == data.VerificationCode);
-            if (userList.Any())
-            {
-                var userToUpdate = userList.First();
-                var passwordHash = BCrypt.Net.BCrypt.EnhancedHashPassword(data.Password, 13);
-                userToUpdate.Password = passwordHash;
-                await _unitOfWork.UserRepository.Update(userToUpdate);
-                await _unitOfWork.Save();
-                return "Cập nhật mật khẩu thành công !";
+            var userList = await _unitOfWork.UserRepository.Find(user => user.Email == data.Email);
+            if (!userList.Any()) return "Xảy ra lỗi khi cập nhật mật khẩu !";
 
+            var userToUpdate = userList.First();
+            var codeList = await _unitOfWork.VerificationCodeRepository.Find(code => code.UserId == userToUpdate.UserId);
+            var verificationCode = codeList.First();
+
+            if (verificationCode.Code == data.VerificationCode) 
+            {
+                if (verificationCode.VerificationCodeExpireTime <= DateTime.Now)
+                {
+                    await _unitOfWork.VerificationCodeRepository.Delete(verificationCode);
+                    await _unitOfWork.Save();
+                    return "Mã xác minh đã hết hạn";
+                }
+
+                if (codeList.Any())
+                {
+                    var passwordHash = BCrypt.Net.BCrypt.EnhancedHashPassword(data.Password, 13);
+                    userToUpdate.Password = passwordHash;
+                    await _unitOfWork.UserRepository.Update(userToUpdate);
+                    await _unitOfWork.Save();
+                    return "Cập nhật mật khẩu thành công !";
+                }
+
+                else return "Xảy ra lỗi khi cập nhật mật khẩu !";
             }
+
             else return "Mã xác minh không đúng, vui lòng kiểm tra lại !";
         }
     }

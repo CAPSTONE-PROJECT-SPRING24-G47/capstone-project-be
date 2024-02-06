@@ -23,6 +23,7 @@ namespace capstone_project_be.Application.Features.Users.Handles
             var data = request.ResetPasswordData;
             var email = request.ResetPasswordData.Email;
             var verifyCodeGenerated = GenerateVerificationCode();
+            var expireTime = DateTime.Now.AddMinutes(1);
 
             var userList = await _unitOfWork.UserRepository.Find(user => user.Email == data.Email);
 
@@ -31,10 +32,26 @@ namespace capstone_project_be.Application.Features.Users.Handles
                 await _emailSender.SendEmail(email, "Reset Password Code", $"Your reset password code is {verifyCodeGenerated}");
                 var userId = userList.First().UserId;
                 var codeList = await _unitOfWork.VerificationCodeRepository.Find(code => code.UserId == userId);
-                var userToUpdate = userList.First();
-                userToUpdate.VerificationCode = verifyCodeGenerated;
-                await _unitOfWork.UserRepository.Update(userToUpdate);
-                await _unitOfWork.Save();
+                if (codeList.Any()) 
+                {
+                    var codeToUpdate = codeList.First();
+                    codeToUpdate.UserId = userId;
+                    codeToUpdate.Code = verifyCodeGenerated;
+                    codeToUpdate.VerificationCodeExpireTime = expireTime;
+                    await _unitOfWork.VerificationCodeRepository.Update(codeToUpdate);
+                    await _unitOfWork.Save();
+                }
+                else
+                {
+                    await _unitOfWork.VerificationCodeRepository.Add(
+                         new VerificationCode()
+                         {
+                             UserId = userId,
+                             Code = verifyCodeGenerated,
+                             VerificationCodeExpireTime = expireTime
+                         });
+                    await _unitOfWork.Save();
+                }
                 return $"Mã xác minh đã được gửi vào mail {data.Email}";
             }
 
