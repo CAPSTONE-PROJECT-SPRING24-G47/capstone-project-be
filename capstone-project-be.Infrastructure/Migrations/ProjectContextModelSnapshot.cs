@@ -884,29 +884,6 @@ namespace capstone_project_be.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("capstone_project_be.Domain.Entities.VerificationCode", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("VerificationCodeExpireTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("VerificationCodes");
-                });
-
             modelBuilder.Entity("capstone_project_be.Domain.Entities.Accommodation", b =>
                 {
                     b.HasOne("capstone_project_be.Domain.Entities.City", "City")
