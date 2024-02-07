@@ -27,7 +27,7 @@ namespace capstone_project_be.Application.Features.Users.Handles
             var verifyCodeGenerated = GenerateVerificationCode();
             var expireTime = DateTime.Now.AddMinutes(1);
 
-            await _emailSender.SendEmail(email, "Verify Code", $"Your verification code is {verifyCodeGenerated}");
+            //await _emailSender.SendEmail(email, "Verify Code", $"Your verification code is {verifyCodeGenerated}");
 
             var userList = await _unitOfWork.UserRepository.Find(user => user.Email == data.Email);
 

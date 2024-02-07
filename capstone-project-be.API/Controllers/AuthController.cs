@@ -38,14 +38,14 @@ namespace capstone_project_be.API.Controllers
             return message;
         }
 
-        [HttpPost("resetpassword/verify")]
+        [HttpPost("reset-password/verify")]
         public async Task<string> VerifyResetPassword([FromBody] ResetPasswordVerificationDTO resetPasswordVerificationData)
         {
             var message = await _mediator.Send(new VerifyResetPasswordRequest(resetPasswordVerificationData));
             return message;
         }
 
-        [HttpPost("resetpassword")]
+        [HttpPost("reset-password")]
         public async Task<string> ResetPassword([FromBody] ResetPasswordDTO resetPasswordData)
         {
             var message = await _mediator.Send(new ResetPasswordRequest(resetPasswordData));

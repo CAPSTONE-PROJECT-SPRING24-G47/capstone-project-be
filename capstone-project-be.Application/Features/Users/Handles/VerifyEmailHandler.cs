@@ -25,6 +25,11 @@ namespace capstone_project_be.Application.Features.Users.Handles
                 var userVerifyCodeList = await _unitOfWork.VerificationCodeRepository.Find(code => code.UserId == user.UserId);
                 var userVerifyCode = userVerifyCodeList.First();
 
+                if(userVerifyCode.Code != data.VerificationCode)
+                {
+                    return "Sai mã xác nhận";
+                }
+
                 if (userVerifyCode.VerificationCodeExpireTime <= DateTime.Now)
                 {
                     await _unitOfWork.VerificationCodeRepository.Delete(userVerifyCode);
