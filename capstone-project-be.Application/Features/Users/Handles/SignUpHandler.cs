@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
+using capstone_project_be.Application.DTOs;
 using capstone_project_be.Application.Features.Users.Requests;
 using capstone_project_be.Application.Interfaces;
+using capstone_project_be.Application.Responses;
 using capstone_project_be.Domain.Entities;
 using MediatR;
 
 namespace capstone_project_be.Application.Features.Users.Handles
 {
-    public class SignUpHandler : IRequestHandler<SignUpRequest, string>
+    public class SignUpHandler : IRequestHandler<SignUpRequest, object>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -19,7 +21,7 @@ namespace capstone_project_be.Application.Features.Users.Handles
             _emailSender = emailSender;
         }
 
-        public async Task<string> Handle(SignUpRequest request, CancellationToken cancellationToken)
+        public async Task<object> Handle(SignUpRequest request, CancellationToken cancellationToken)
         {
             var data = request.UserSignUpData;
 
@@ -57,10 +59,18 @@ namespace capstone_project_be.Application.Features.Users.Handles
                     await _unitOfWork.Save();
                 }
 
-                return $"Mã xác minh đã được gửi lại vào mail {data.Email}";
+                return new BaseResponse<UserDTO>()
+                {
+                    Message = $"Mã xác minh đã được gửi lại vào mail {data.Email}"
+                };
             }
 
-            if (userList.Any(user => user.IsVerified)) return "Email này đã được sử dụng ở một tài khoản khác";
+            if (userList.Any(user => user.IsVerified))
+                return new BaseResponse<UserDTO>()
+                {
+                    IsSuccess = false,
+                    Message = "Email này đã được sử dụng ở một tài khoản khác"
+                };
 
             var passwordHash = BCrypt.Net.BCrypt.EnhancedHashPassword(data.Password, 13);
             var userMapped = _mapper.Map<User>(data);
@@ -77,7 +87,11 @@ namespace capstone_project_be.Application.Features.Users.Handles
                   });
             await _unitOfWork.Save();
 
-            return "Đăng ký thành công";
+            return new BaseResponse<UserDTO>()
+            {
+                IsSuccess = false,
+                Message = $"Đăng ký thành công, mã xác minh đã được gửi vào {data.Email}",
+            };
         }
 
         private string GenerateVerificationCode()
@@ -87,7 +101,5 @@ namespace capstone_project_be.Application.Features.Users.Handles
 
             return code.ToString();
         }
-
-
     }
 }
