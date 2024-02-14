@@ -9,7 +9,7 @@
         public required string Email { get; set; }
         public required string Password { get; set; }
         public string? PictureProfile { get; set; }
-        public string? GoogleToken { get; set; }
+        public bool IsGoogleAuth { get; set; } = false;
         public bool IsVerified { get; set; }
         public DateTime CreatedAt { get; set; }
         
