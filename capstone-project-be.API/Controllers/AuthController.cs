@@ -1,4 +1,5 @@
-﻿using capstone_project_be.Application.DTOs;
+﻿using Azure;
+using capstone_project_be.Application.DTOs;
 using capstone_project_be.Application.Features.Users.Requests;
 using capstone_project_be.Application.Responses;
 using MediatR;
@@ -42,22 +43,22 @@ namespace capstone_project_be.API.Controllers
         [HttpPost("signin")]
         public async Task<string> SignIn([FromBody] UserSignInDTO userSignInData)
         {
-            var message = await _mediator.Send(new SignInRequest(userSignInData));
-            return message;
+            var response = await _mediator.Send(new SignInRequest(userSignInData));
+            return response;
         }
 
         [HttpPost("reset-password/verify")]
         public async Task<string> VerifyResetPassword([FromBody] ResetPasswordVerificationDTO resetPasswordVerificationData)
         {
-            var message = await _mediator.Send(new VerifyResetPasswordRequest(resetPasswordVerificationData));
-            return message;
+            var response = await _mediator.Send(new VerifyResetPasswordRequest(resetPasswordVerificationData));
+            return response;
         }
 
         [HttpPost("reset-password")]
         public async Task<string> ResetPassword([FromBody] ResetPasswordDTO resetPasswordData)
         {
-            var message = await _mediator.Send(new ResetPasswordRequest(resetPasswordData));
-            return message;
+            var response = await _mediator.Send(new ResetPasswordRequest(resetPasswordData));
+            return response;
         }
     }
 }

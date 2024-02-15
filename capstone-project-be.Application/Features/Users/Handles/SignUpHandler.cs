@@ -89,7 +89,7 @@ namespace capstone_project_be.Application.Features.Users.Handles
 
             return new BaseResponse<UserDTO>()
             {
-                IsSuccess = false,
+                IsSuccess = true,
                 Message = $"Đăng ký thành công, mã xác minh đã được gửi vào {data.Email}",
             };
         }
