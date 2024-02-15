@@ -13,6 +13,7 @@ namespace capstone_project_be.Application.AutoMapperProfile
             CreateMap<ResetPasswordVerificationDTO, User>().ReverseMap();
             CreateMap<ResetPasswordDTO, User>().ReverseMap();
             CreateMap<UpdateProfileDTO, User>().ReverseMap();
+            CreateMap<GoogleAuthDTO, User>().ReverseMap();
             CreateMap<UserDTO, User>().ReverseMap();
         }
     }
