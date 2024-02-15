@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
+using capstone_project_be.Application.DTOs;
 using capstone_project_be.Application.Features.Users.Requests;
 using capstone_project_be.Application.Interfaces;
+using capstone_project_be.Application.Responses;
 using capstone_project_be.Domain.Entities;
 using MediatR;
 
 namespace capstone_project_be.Application.Features.Users.Handles
 {
-    public class UpdateProfileHandler : IRequestHandler<UpdateProfileRequest, string>
+    public class UpdateProfileHandler : IRequestHandler<UpdateProfileRequest, object>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -16,7 +18,7 @@ namespace capstone_project_be.Application.Features.Users.Handles
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<string> Handle(UpdateProfileRequest request, CancellationToken cancellationToken)
+        public async Task<object> Handle(UpdateProfileRequest request, CancellationToken cancellationToken)
         {
             var data = request.UpdateProfileData;
             var userList = await _unitOfWork.UserRepository.Find(user => user.UserId == data.UserId);
@@ -28,9 +30,18 @@ namespace capstone_project_be.Application.Features.Users.Handles
                 userToUpdate.PictureProfile = data.PictureProfile;
                 await _unitOfWork.UserRepository.Update(userToUpdate);
                 await _unitOfWork.Save();
-                return "Cập nhật thành công !";
+                return new BaseResponse<UserDTO>()
+                {
+                    IsSuccess = true,
+                    Message = "Cập nhật thành công !"
+                };
+                
             }
-            return "Cập nhật thất bại !";
+            return new BaseResponse<UserDTO>()
+            {
+                IsSuccess = true,
+                Message = "Cập nhật thất bại !"
+            };
         }
     }
 }

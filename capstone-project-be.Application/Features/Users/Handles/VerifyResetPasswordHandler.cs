@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
+using capstone_project_be.Application.DTOs;
 using capstone_project_be.Application.Features.Users.Requests;
 using capstone_project_be.Application.Interfaces;
+using capstone_project_be.Application.Responses;
 using capstone_project_be.Domain.Entities;
 using MediatR;
 
 namespace capstone_project_be.Application.Features.Users.Handles
 {
-    public class VerifyResetPasswordHandler : IRequestHandler<VerifyResetPasswordRequest, string>
+    public class VerifyResetPasswordHandler : IRequestHandler<VerifyResetPasswordRequest, object>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -18,7 +20,7 @@ namespace capstone_project_be.Application.Features.Users.Handles
             _mapper = mapper;
             _emailSender = emailSender;
         }
-        public async Task<string> Handle(VerifyResetPasswordRequest request, CancellationToken cancellationToken)
+        public async Task<object> Handle(VerifyResetPasswordRequest request, CancellationToken cancellationToken)
         {
             var data = request.ResetPasswordData;
             var email = request.ResetPasswordData.Email;
@@ -52,10 +54,16 @@ namespace capstone_project_be.Application.Features.Users.Handles
                          });
                     await _unitOfWork.Save();
                 }
-                return $"Mã xác minh đã được gửi vào mail {data.Email}";
+                return new BaseResponse<UserDTO>()
+                {
+                    Message = $"Mã xác minh đã được gửi lại vào mail {data.Email}"
+                };
             }
 
-            else return "Email không tồn tại!";
+            else return new BaseResponse<UserDTO>()
+            {
+                Message = $"Email không tồn tại!"
+            };
         }
 
         private string GenerateVerificationCode()
