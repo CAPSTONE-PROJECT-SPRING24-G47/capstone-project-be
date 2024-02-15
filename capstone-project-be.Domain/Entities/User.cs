@@ -10,7 +10,8 @@
         public required string Password { get; set; }
         public string? PictureProfile { get; set; }
         public bool IsGoogleAuth { get; set; } = false;
-        public bool IsVerified { get; set; }
+        public bool IsVerified { get; set; } = false;
+        public bool Status { get; set; } = true;
         public DateTime CreatedAt { get; set; }
         
 
