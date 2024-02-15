@@ -2,7 +2,7 @@
 using capstone_project_be.Application.Responses;
 using MediatR;
 
-namespace capstone_project_be.Application.Features.Users.Requests
+namespace capstone_project_be.Application.Features.Auths.Requests
 {
     public class GoogleAuthRequest(GoogleAuthDTO googleAuthData) : IRequest<object>
     {

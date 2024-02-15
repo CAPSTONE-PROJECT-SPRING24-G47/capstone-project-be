@@ -1,7 +1,5 @@
-﻿using Azure;
-using capstone_project_be.Application.DTOs;
-using capstone_project_be.Application.Features.Users.Requests;
-using capstone_project_be.Application.Responses;
+﻿using capstone_project_be.Application.DTOs;
+using capstone_project_be.Application.Features.Auths.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,7 +11,7 @@ namespace capstone_project_be.API.Controllers
     {
         private readonly IMediator _mediator;
 
-        public AuthController(IMediator mediator)
+        public AuthController(IMediator mediator) 
         {
             _mediator = mediator;
         }

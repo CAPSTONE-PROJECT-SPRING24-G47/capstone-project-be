@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using capstone_project_be.Application.DTOs;
-using capstone_project_be.Application.Features.Users.Requests;
+using capstone_project_be.Application.Features.Auths.Requests;
 using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Application.Responses;
 using capstone_project_be.Domain.Entities;
 using MediatR;
 
-namespace capstone_project_be.Application.Features.Users.Handles
+namespace capstone_project_be.Application.Features.Auths.Handles
 {
     public class VerifyResetPasswordHandler : IRequestHandler<VerifyResetPasswordRequest, object>
     {
@@ -34,7 +34,7 @@ namespace capstone_project_be.Application.Features.Users.Handles
                 await _emailSender.SendEmail(email, "Reset Password Code", $"Your reset password code is {verifyCodeGenerated}");
                 var userId = userList.First().UserId;
                 var codeList = await _unitOfWork.VerificationCodeRepository.Find(code => code.UserId == userId);
-                if (codeList.Any()) 
+                if (codeList.Any())
                 {
                     var codeToUpdate = codeList.First();
                     codeToUpdate.UserId = userId;

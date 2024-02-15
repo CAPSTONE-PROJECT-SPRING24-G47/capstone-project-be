@@ -19,18 +19,18 @@ namespace capstone_project_be.API.Controllers
         }
 
         [HttpPost("update-profile")]
-        public async Task<string> UpdateProfile([FromBody] UpdateProfileDTO updateProfileData)
+        public async Task<object> UpdateProfile([FromBody] UpdateProfileDTO updateProfileData)
         {
-            var message = await _mediator.Send(new UpdateProfileRequest(updateProfileData));
-            return message;
+            var response = await _mediator.Send(new UpdateProfileRequest(updateProfileData));
+            return response;
         }
 
 
         [HttpPost("{id}/ban")]
         public async Task<object> BanUser(string id)
         {
-            var message = await _mediator.Send(new BanUserRequest(id));
-            return message;
+            var response = await _mediator.Send(new BanUserRequest(id));
+            return response;
         }
 
         [HttpGet("")]

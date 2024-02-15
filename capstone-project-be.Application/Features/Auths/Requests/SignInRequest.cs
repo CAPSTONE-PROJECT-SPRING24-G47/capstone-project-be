@@ -1,7 +1,7 @@
 ﻿using capstone_project_be.Application.DTOs;
 using MediatR;
 
-namespace capstone_project_be.Application.Features.Users.Requests
+namespace capstone_project_be.Application.Features.Auths.Requests
 {
     public class SignInRequest(UserSignInDTO userSignInData) : IRequest<string>
     {
