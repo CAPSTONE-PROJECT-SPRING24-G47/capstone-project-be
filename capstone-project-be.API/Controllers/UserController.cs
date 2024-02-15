@@ -1,6 +1,5 @@
 ﻿using capstone_project_be.Application.DTOs;
 using capstone_project_be.Application.Features.Users.Requests;
-using capstone_project_be.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,19 +18,39 @@ namespace capstone_project_be.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("updateprofile")]
+        [HttpPost("update-profile")]
         public async Task<string> UpdateProfile([FromBody] UpdateProfileDTO updateProfileData)
         {
-            //khởi tạo request để gửi cho handler xử lý
             var message = await _mediator.Send(new UpdateProfileRequest(updateProfileData));
             return message;
         }
 
-        [HttpGet("")]
-        public async Task<IEnumerable<UserDTO>> UserList()
+
+        [HttpPost("{id}/ban")]
+        public async Task<object> BanUser(string id)
         {
-            //khởi tạo request để gửi cho handler xử lý
-            return await _mediator.Send(new UserListRequest());
+            var message = await _mediator.Send(new BanUserRequest(id));
+            return message;
         }
+
+        [HttpGet("")]
+        public async Task<IEnumerable<UserDTO>> GetUsers()
+        {
+            return await _mediator.Send(new GetUsersRequest());
+        }
+
+        [HttpGet("week")]
+        public async Task<object> GetNewUsersWeek()
+        {
+            return await _mediator.Send(new GetNewUsersWeekRequest());
+        }
+
+        [HttpGet("month")]
+        public async Task<object> GetNewUsersMonth()
+        {
+            return await _mediator.Send(new GetNewUsersMonthRequest());
+        }
+
+
     }
 }

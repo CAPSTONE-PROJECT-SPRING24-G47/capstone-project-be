@@ -8,6 +8,7 @@
         public required string FirstName { get; set; }
         public required string Email { get; set; }
         public string? PictureProfile { get; set; }
+        public bool Status { get; set; }
         public bool IsGoogleAuth { get; set; }
         public DateTime CreatedAt { get; set; }
 
