@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using capstone_project_be.Application.DTOs;
-using capstone_project_be.Application.Features.Users.Requests;
+using capstone_project_be.Application.Features.Auths.Requests;
 using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Application.Responses;
 using capstone_project_be.Domain.Entities;
 using MediatR;
 
-namespace capstone_project_be.Application.Features.Users.Handles
+namespace capstone_project_be.Application.Features.Auths.Handles
 {
     public class GoogleAuthHandler : IRequestHandler<GoogleAuthRequest, object>
     {
@@ -38,7 +38,7 @@ namespace capstone_project_be.Application.Features.Users.Handles
                 var userDTO = _mapper.Map<UserDTO>(user);
                 return new BaseResponse<UserDTO>()
                 {
-                    IsSuccess = false,
+                    IsSuccess = true,
                     Message = "Đăng nhập thành công",
                     Data = new List<UserDTO> { userDTO }
                 };
