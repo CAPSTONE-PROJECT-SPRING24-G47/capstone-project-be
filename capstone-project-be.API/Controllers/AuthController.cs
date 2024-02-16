@@ -11,7 +11,7 @@ namespace capstone_project_be.API.Controllers
     {
         private readonly IMediator _mediator;
 
-        public AuthController(IMediator mediator) 
+        public AuthController(IMediator mediator)
         {
             _mediator = mediator;
         }
