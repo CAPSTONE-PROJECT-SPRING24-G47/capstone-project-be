@@ -13,7 +13,7 @@ namespace capstone_project_be.Application.Features.Auths.Handles
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public GoogleAuthHandler(IUnitOfWork unitOfWork, IMapper mapper, IEmailSender emailSender)
+        public GoogleAuthHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
