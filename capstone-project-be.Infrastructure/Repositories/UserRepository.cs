@@ -13,11 +13,5 @@ namespace capstone_project_be.Infrastructure.Repositories
         {
             _dbContext = dbContext;
         }
-
-        public async Task<bool> UserExists(string email, string password)
-        {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
-            return user != null;
-        }
     }
 }

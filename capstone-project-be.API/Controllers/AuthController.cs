@@ -1,5 +1,7 @@
-﻿using capstone_project_be.Application.DTOs;
+﻿using Azure;
+using capstone_project_be.Application.DTOs;
 using capstone_project_be.Application.Features.Users.Requests;
+using capstone_project_be.Application.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,40 +18,54 @@ namespace capstone_project_be.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("signup")]
-        public async Task<string> SignUp([FromBody] UserSignUpDTO userSignUpData)
+        [HttpPost("google-auth")]
+        public async Task<object> GoogleAuth([FromBody] GoogleAuthDTO googleAuthData)
         {
-            //khởi tạo request để gửi cho handler xử lý
-            var message = await _mediator.Send(new SignUpRequest(userSignUpData));
-            return message;
+            var response = await _mediator.Send(new GoogleAuthRequest(googleAuthData));
+            return response;
+        }
+
+
+        [HttpPost("signup")]
+        public async Task<object> SignUp([FromBody] UserSignUpDTO userSignUpData)
+        {
+            var response = await _mediator.Send(new SignUpRequest(userSignUpData));
+            return response;
         }
 
         [HttpPost("signup/verify")]
-        public async Task<string> VerifyEmail([FromBody] SignUpVerificationDTO signUpVerificationData)
+        public async Task<object> VerifyEmail([FromBody] SignUpVerificationDTO signUpVerificationData)
         {
-            var message = await _mediator.Send(new VerifyEmailRequest(signUpVerificationData));
-            return message;
+            var response = await _mediator.Send(new VerifyEmailRequest(signUpVerificationData));
+            return response;
         }
 
         [HttpPost("signin")]
-        public async Task<string> SignIn([FromBody] UserSignInDTO userSignInData)
+        public async Task<object> SignIn([FromBody] UserSignInDTO userSignInData)
         {
-            var message = await _mediator.Send(new SignInRequest(userSignInData));
-            return message;
+            var response = await _mediator.Send(new SignInRequest(userSignInData));
+            return response;
         }
 
-        [HttpPost("resetpassword/verify")]
-        public async Task<string> VerifyResetPassword([FromBody] ResetPasswordVerificationDTO resetPasswordVerificationData)
+        [HttpPost("reset-password/verify")]
+        public async Task<object> VerifyResetPassword([FromBody] ResetPasswordVerificationDTO resetPasswordVerificationData)
         {
-            var message = await _mediator.Send(new VerifyResetPasswordRequest(resetPasswordVerificationData));
-            return message;
+            var response = await _mediator.Send(new VerifyResetPasswordRequest(resetPasswordVerificationData));
+            return response;
         }
 
-        [HttpPost("resetpassword")]
-        public async Task<string> ResetPassword([FromBody] ResetPasswordDTO resetPasswordData)
+        [HttpPost("reset-password/code")]
+        public async Task<object> ResetPasswordCode([FromBody] ResetPasswordCodeDTO resetPasswordCodeData)
         {
-            var message = await _mediator.Send(new ResetPasswordRequest(resetPasswordData));
-            return message;
+            var response = await _mediator.Send(new ResetPasswordCodeRequest(resetPasswordCodeData));
+            return response;
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<object> ResetPassword([FromBody] ResetPasswordDTO resetPasswordData)
+        {
+            var response = await _mediator.Send(new ResetPasswordRequest(resetPasswordData));
+            return response;
         }
     }
 }

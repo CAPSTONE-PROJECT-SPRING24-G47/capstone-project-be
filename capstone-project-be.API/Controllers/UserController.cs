@@ -1,5 +1,6 @@
 ﻿using capstone_project_be.Application.DTOs;
 using capstone_project_be.Application.Features.Users.Requests;
+using capstone_project_be.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,21 @@ namespace capstone_project_be.API.Controllers
         public UserController(IMediator mediator)
         {
             _mediator = mediator;
-        }   
+        }
+
+        [HttpPost("updateprofile")]
+        public async Task<object> UpdateProfile([FromBody] UpdateProfileDTO updateProfileData)
+        {
+            //khởi tạo request để gửi cho handler xử lý
+            var response = await _mediator.Send(new UpdateProfileRequest(updateProfileData));
+            return response;
+        }
+
+        [HttpGet("")]
+        public async Task<IEnumerable<UserDTO>> UserList()
+        {
+            //khởi tạo request để gửi cho handler xử lý
+            return await _mediator.Send(new UserListRequest());
+        }
     }
 }

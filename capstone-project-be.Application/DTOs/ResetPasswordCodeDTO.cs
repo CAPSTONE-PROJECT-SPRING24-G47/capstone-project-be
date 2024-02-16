@@ -1,8 +1,8 @@
 ﻿namespace capstone_project_be.Application.DTOs
 {
-    public class ResetPasswordDTO
+    public class ResetPasswordCodeDTO
     {
         public required string Email { get; set; }
-        public required string Password { get; set; }
+        public required string VerificationCode { get; set; }
     }
 }

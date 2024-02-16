@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using capstone_project_be.Infrastructure.Context;
 
@@ -11,9 +12,11 @@ using capstone_project_be.Infrastructure.Context;
 namespace capstone_project_be.Infrastructure.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    partial class ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20240206055310_AddVerificationCodeTable")]
+    partial class AddVerificationCodeTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -851,8 +854,8 @@ namespace capstone_project_be.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsGoogleAuth")
-                        .HasColumnType("bit");
+                    b.Property<string>("GoogleToken")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsVerified")
                         .HasColumnType("bit");
@@ -870,6 +873,12 @@ namespace capstone_project_be.Infrastructure.Migrations
 
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
+
+                    b.Property<string>("VerificationCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("VerificationCodeExpireTime")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("UserId");
 
@@ -898,8 +907,7 @@ namespace capstone_project_be.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasIndex("UserId");
 
                     b.ToTable("VerificationCodes");
                 });
@@ -1271,8 +1279,8 @@ namespace capstone_project_be.Infrastructure.Migrations
             modelBuilder.Entity("capstone_project_be.Domain.Entities.VerificationCode", b =>
                 {
                     b.HasOne("capstone_project_be.Domain.Entities.User", "User")
-                        .WithOne("VerificationCode")
-                        .HasForeignKey("capstone_project_be.Domain.Entities.VerificationCode", "UserId")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1393,9 +1401,6 @@ namespace capstone_project_be.Infrastructure.Migrations
                     b.Navigation("TouristAttractionComments");
 
                     b.Navigation("Trips");
-
-                    b.Navigation("VerificationCode")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

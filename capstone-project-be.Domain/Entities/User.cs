@@ -9,11 +9,9 @@
         public required string Email { get; set; }
         public required string Password { get; set; }
         public string? PictureProfile { get; set; }
-        public string? GoogleToken { get; set; }
-        public string? VerificationCode { get; set; }
+        public bool IsGoogleAuth { get; set; } = false;
         public bool IsVerified { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime VerificationCodeExpireTime { get; set; }
         
 
         //Set quan hệ với các bảng khác ở đây
@@ -24,5 +22,6 @@
         public IEnumerable<RestaurantComment> RestaurantComments { get; set; }
         public IEnumerable<AccommodationComment> AccommodationComments { get; set; }
         public Role Role { get; set; }
+        public VerificationCode VerificationCode { get; set; }
     }
 }
