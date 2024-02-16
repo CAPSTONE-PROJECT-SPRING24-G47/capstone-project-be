@@ -31,7 +31,7 @@ namespace capstone_project_be.Application.Features.Users.Handles
 
             if (userList.Any())
             {
-                await _emailSender.SendEmail(email, "Reset Password Code", $"Your reset password code is {verifyCodeGenerated}");
+                //await _emailSender.SendEmail(email, "Reset Password Code", $"Your reset password code is {verifyCodeGenerated}");
                 var userId = userList.First().UserId;
                 var codeList = await _unitOfWork.VerificationCodeRepository.Find(code => code.UserId == userId);
                 if (codeList.Any()) 
@@ -56,12 +56,14 @@ namespace capstone_project_be.Application.Features.Users.Handles
                 }
                 return new BaseResponse<UserDTO>()
                 {
+                    IsSuccess = true,
                     Message = $"Mã xác minh đã được gửi lại vào mail {data.Email}"
                 };
             }
 
             else return new BaseResponse<UserDTO>()
             {
+                IsSuccess= false,
                 Message = $"Email không tồn tại!"
             };
         }

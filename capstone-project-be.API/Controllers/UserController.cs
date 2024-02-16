@@ -20,11 +20,11 @@ namespace capstone_project_be.API.Controllers
         }
 
         [HttpPost("updateprofile")]
-        public async Task<string> UpdateProfile([FromBody] UpdateProfileDTO updateProfileData)
+        public async Task<object> UpdateProfile([FromBody] UpdateProfileDTO updateProfileData)
         {
             //khởi tạo request để gửi cho handler xử lý
-            var message = await _mediator.Send(new UpdateProfileRequest(updateProfileData));
-            return message;
+            var response = await _mediator.Send(new UpdateProfileRequest(updateProfileData));
+            return response;
         }
 
         [HttpGet("")]

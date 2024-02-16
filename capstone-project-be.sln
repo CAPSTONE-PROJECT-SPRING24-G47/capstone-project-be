@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "capstone-project-be.API", "capstone-project-be.API\capstone-project-be.API.csproj", "{179FE173-2AE3-4C7A-87F6-A56CB6E8BECC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "capstone-project-be.API", "capstone-project-be.API\capstone-project-be.API.csproj", "{179FE173-2AE3-4C7A-87F6-A56CB6E8BECC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "capstone-project-be.Domain", "capstone-project-be.Domain\capstone-project-be.Domain.csproj", "{74A2ABFD-3019-44A2-B586-B3753D4980C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "capstone-project-be.Domain", "capstone-project-be.Domain\capstone-project-be.Domain.csproj", "{74A2ABFD-3019-44A2-B586-B3753D4980C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "capstone-project-be.Application", "capstone-project-be.Application\capstone-project-be.Application.csproj", "{4489003A-724A-4052-935E-BF8E5CD57D87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "capstone-project-be.Application", "capstone-project-be.Application\capstone-project-be.Application.csproj", "{4489003A-724A-4052-935E-BF8E5CD57D87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "capstone-project-be.Infrastructure", "capstone-project-be.Infrastructure\capstone-project-be.Infrastructure.csproj", "{F7ED891B-AB8E-4124-A17F-2BAF03AC6B4F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "capstone-project-be.Infrastructure", "capstone-project-be.Infrastructure\capstone-project-be.Infrastructure.csproj", "{F7ED891B-AB8E-4124-A17F-2BAF03AC6B4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "capstone_project_be.Test", "capstone_project_be.Test\capstone_project_be.Test.csproj", "{39914339-9605-4B3B-8315-3A46B265F8AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{F7ED891B-AB8E-4124-A17F-2BAF03AC6B4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7ED891B-AB8E-4124-A17F-2BAF03AC6B4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7ED891B-AB8E-4124-A17F-2BAF03AC6B4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39914339-9605-4B3B-8315-3A46B265F8AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39914339-9605-4B3B-8315-3A46B265F8AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39914339-9605-4B3B-8315-3A46B265F8AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39914339-9605-4B3B-8315-3A46B265F8AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -29,50 +29,20 @@ namespace capstone_project_be.Application.Features.Users.Handles
                     Message = "Xảy ra lỗi khi cập nhật mật khẩu !"
                 };
 
-
-            var userToUpdate = userList.First();
-            var codeList = await _unitOfWork.VerificationCodeRepository.Find(code => code.UserId == userToUpdate.UserId);
-            var verificationCode = codeList.First();
-
-            if (verificationCode.Code == data.VerificationCode)
+            else
             {
-                if (verificationCode.VerificationCodeExpireTime <= DateTime.Now)
-                {
-                    await _unitOfWork.VerificationCodeRepository.Delete(verificationCode);
-                    await _unitOfWork.Save();
-                    return new CodeExpiredResponse<UserDTO>()
-                    {
-                        IsSuccess = false,
-                        Message = "Mã xác minh đã hết hạn",
-                        IsExpired = true
-                    };
-                }
-
-                if (codeList.Any())
-                {
-                    var passwordHash = BCrypt.Net.BCrypt.EnhancedHashPassword(data.Password, 13);
-                    userToUpdate.Password = passwordHash;
-                    await _unitOfWork.UserRepository.Update(userToUpdate);
-                    await _unitOfWork.Save();
-                    return new BaseResponse<UserDTO>()
-                    {
-                        IsSuccess = true,
-                        Message = "Cập nhật mật khẩu thành công !",
-                    };
-                }
-
-                else return new BaseResponse<UserDTO>()
+                var userToUpdate = userList.First();
+                var passwordHash = BCrypt.Net.BCrypt.EnhancedHashPassword(data.Password, 13);
+                userToUpdate.Password = passwordHash;
+                await _unitOfWork.UserRepository.Update(userToUpdate);
+                await _unitOfWork.Save();
+                return new BaseResponse<UserDTO>()
                 {
                     IsSuccess = true,
-                    Message = "Xảy ra lỗi khi cập nhật mật khẩu !",
+                    Message = "Cập nhật mật khẩu thành công !",
                 };
             }
 
-            else return new BaseResponse<UserDTO>()
-            {
-                IsSuccess = true,
-                Message = "Mã xác minh không đúng, vui lòng kiểm tra lại !",
-            };
         }
     }
 }
