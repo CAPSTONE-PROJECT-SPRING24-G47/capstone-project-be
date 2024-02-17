@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
 using capstone_project_be.Application.DTOs;
-using capstone_project_be.Application.Features.Users.Requests;
+using capstone_project_be.Application.Features.Auths.Requests;
 using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Application.Responses;
 using MediatR;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace capstone_project_be.Application.Features.Users.Handles
+namespace capstone_project_be.Application.Features.Auths.Handles
 {
     public class ResetPasswordCodeHandler : IRequestHandler<ResetPasswordCodeRequest, object>
     {

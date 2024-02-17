@@ -1,5 +1,4 @@
-﻿using System;
-namespace capstone_project_be.Application.DTOs
+﻿namespace capstone_project_be.Application.DTOs
 {
     public class ResetPasswordVerificationDTO
     {
