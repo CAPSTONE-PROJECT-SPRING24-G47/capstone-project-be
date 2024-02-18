@@ -1,4 +1,4 @@
-﻿namespace capstone_project_be.Application.DTOs
+﻿namespace capstone_project_be.Application.DTOs.Regions
 {
     public class UpdateRegionDTO
     {

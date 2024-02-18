@@ -1,4 +1,4 @@
-﻿using capstone_project_be.Application.DTOs;
+﻿using capstone_project_be.Application.DTOs.Auths;
 using capstone_project_be.Application.Responses;
 using MediatR;
 

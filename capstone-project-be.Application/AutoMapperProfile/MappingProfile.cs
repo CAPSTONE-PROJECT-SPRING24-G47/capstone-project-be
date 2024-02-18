@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
-using capstone_project_be.Application.DTOs;
+using capstone_project_be.Application.DTOs.Auths;
+using capstone_project_be.Application.DTOs.Regions;
+using capstone_project_be.Application.DTOs.Users;
 using capstone_project_be.Domain.Entities;
 
 namespace capstone_project_be.Application.AutoMapperProfile

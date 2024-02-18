@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using capstone_project_be.Application.DTOs;
+using capstone_project_be.Application.DTOs.Regions;
 using capstone_project_be.Application.Features.Regions.Requests;
 using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Application.Responses;

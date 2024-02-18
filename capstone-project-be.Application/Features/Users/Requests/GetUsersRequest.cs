@@ -1,4 +1,4 @@
-﻿using capstone_project_be.Application.DTOs;
+﻿using capstone_project_be.Application.DTOs.Users;
 using MediatR;
 
 namespace capstone_project_be.Application.Features.Users.Requests
