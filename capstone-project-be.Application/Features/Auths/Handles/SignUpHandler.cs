@@ -71,7 +71,7 @@ namespace capstone_project_be.Application.Features.Auths.Handles
                     IsSuccess = false,
                     Message = "Email này đã được sử dụng ở một tài khoản khác"
                 };
-
+            
             var passwordHash = BCrypt.Net.BCrypt.EnhancedHashPassword(data.Password, 13);
             var userMapped = _mapper.Map<User>(data);
             userMapped.Password = passwordHash;
