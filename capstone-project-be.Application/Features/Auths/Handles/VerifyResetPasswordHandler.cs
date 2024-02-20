@@ -64,7 +64,7 @@ namespace capstone_project_be.Application.Features.Auths.Handles
             else return new BaseResponse<UserDTO>()
             {
                 IsSuccess= false,
-                Message = $"Email không tồn tại!"
+                Message = "Email không tồn tại!"
             };
         }
 

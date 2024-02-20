@@ -59,11 +59,9 @@ namespace capstone_project_be.Application.Features.Auths.Handles
 
                 await _unitOfWork.UserRepository.Update(user);
                 await _unitOfWork.VerificationCodeRepository.Delete(userVerifyCode);
-                var isSuccessUpdate = await _unitOfWork.Save();
+                await _unitOfWork.Save();
 
-                if (isSuccessUpdate != 0)
-                    return new BaseResponse<UserDTO>() { IsSuccess = true, Message = "Tài khoản của bạn đã được xác minh thành công" };
-                else return new BaseResponse<UserDTO>() { IsSuccess = false, Message = "Có lỗi xảy ra" };
+                return new BaseResponse<UserDTO>() { IsSuccess = true, Message = "Tài khoản của bạn đã được xác minh thành công" };
             }
 
             return new BaseResponse<UserDTO>() { IsSuccess = false, Message = "Không tìm thấy mail" };
