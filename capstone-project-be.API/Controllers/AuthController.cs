@@ -1,4 +1,4 @@
-﻿using capstone_project_be.Application.DTOs;
+﻿using capstone_project_be.Application.DTOs.Auths;
 using capstone_project_be.Application.Features.Auths.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

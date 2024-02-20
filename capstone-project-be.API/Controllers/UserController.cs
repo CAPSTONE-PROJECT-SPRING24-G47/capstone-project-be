@@ -1,4 +1,4 @@
-﻿using capstone_project_be.Application.DTOs;
+﻿using capstone_project_be.Application.DTOs.Users;
 using capstone_project_be.Application.Features.Users.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

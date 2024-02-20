@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using capstone_project_be.Application.DTOs;
+using capstone_project_be.Application.DTOs.Users;
 using capstone_project_be.Application.Features.Auths.Requests;
 using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Application.Responses;
@@ -29,12 +29,14 @@ namespace capstone_project_be.Application.Features.Auths.Handles
                 };
             else
             {
-                bool isPasswordMatch = BCrypt.Net.BCrypt.EnhancedVerify(data.Password, userList.First().Password);
+                var user = userList.First();
+                bool isPasswordMatch = BCrypt.Net.BCrypt.EnhancedVerify(data.Password, user.Password);
                 if (isPasswordMatch)
                     return new BaseResponse<UserDTO>()
                     {
                         IsSuccess = true,
-                        Message = "Đăng nhập thành công!"
+                        Message = "Đăng nhập thành công!",
+                        Data = new List<UserDTO> { _mapper.Map<UserDTO>(user) }
                     };
                 else
                     return new BaseResponse<UserDTO>()

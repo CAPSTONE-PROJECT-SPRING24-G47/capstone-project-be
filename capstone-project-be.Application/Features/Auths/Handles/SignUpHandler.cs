@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using capstone_project_be.Application.DTOs;
+using capstone_project_be.Application.DTOs.Users;
 using capstone_project_be.Application.Features.Auths.Requests;
 using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Application.Responses;
@@ -44,6 +44,14 @@ namespace capstone_project_be.Application.Features.Auths.Handles
                     userVerifyCodeToUpdate.Code = verifyCodeGenerated;
                     userVerifyCodeToUpdate.VerificationCodeExpireTime = expireTime;
 
+                    var passwordEncrypt = BCrypt.Net.BCrypt.EnhancedHashPassword(data.Password, 13);
+
+                    userToUpdate.LastName = data.LastName;
+                    userToUpdate.FirstName = data.FirstName;
+                    userToUpdate.Password = passwordEncrypt;
+
+                    await _unitOfWork.UserRepository.Update(userToUpdate);
+                    await _unitOfWork.Save();
                     await _unitOfWork.VerificationCodeRepository.Update(userVerifyCodeToUpdate);
                     await _unitOfWork.Save();
                 }
@@ -61,6 +69,7 @@ namespace capstone_project_be.Application.Features.Auths.Handles
 
                 return new BaseResponse<UserDTO>()
                 {
+                    IsSuccess = true,
                     Message = $"Mã xác minh đã được gửi lại vào mail {data.Email}"
                 };
             }
