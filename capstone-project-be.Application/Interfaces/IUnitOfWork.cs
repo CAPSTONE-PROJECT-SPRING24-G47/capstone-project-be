@@ -4,6 +4,7 @@
     {
         IUserRepository UserRepository { get; }
         IRegionRepository RegionRepository { get; }
+        IPrefectureRepository PrefectureRepository { get; }
         IVerificationCodeRepository VerificationCodeRepository { get; }
         Task<int> Save();
     }
