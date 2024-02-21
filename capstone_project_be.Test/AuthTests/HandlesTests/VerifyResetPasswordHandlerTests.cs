@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using capstone_project_be.Application.DTOs;
+using capstone_project_be.Application.DTOs.Auths;
+using capstone_project_be.Application.DTOs.Users;
 using capstone_project_be.Application.Features.Auths.Handles;
 using capstone_project_be.Application.Features.Auths.Requests;
 using capstone_project_be.Application.Interfaces;
@@ -7,7 +8,6 @@ using capstone_project_be.Application.Responses;
 using capstone_project_be.Domain.Entities;
 using Moq;
 using System.Linq.Expressions;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace capstone_project_be.Test.AuthTests.HandlesTests
 {
