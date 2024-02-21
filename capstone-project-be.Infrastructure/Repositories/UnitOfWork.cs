@@ -13,11 +13,13 @@ namespace capstone_project_be.Infrastructure.Repositories
             UserRepository = new UserRepository(_dbContext);
             VerificationCodeRepository = new VerificationCodeRepository(_dbContext);
             RegionRepository = new RegionRepository(_dbContext);
+            PrefectureRepository = new PrefectureRepository(_dbContext);
         }
 
         public IUserRepository UserRepository { get; set; }
         public IVerificationCodeRepository VerificationCodeRepository { get; set; }
         public IRegionRepository RegionRepository { get; set; }
+        public IPrefectureRepository PrefectureRepository { get; set; }
 
         public void Dispose()
         {
