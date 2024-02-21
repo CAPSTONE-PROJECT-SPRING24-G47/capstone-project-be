@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using capstone_project_be.Application.DTOs.Auths;
+using capstone_project_be.Application.DTOs.Cities;
 using capstone_project_be.Application.DTOs.Prefectures;
 using capstone_project_be.Application.DTOs.Regions;
 using capstone_project_be.Application.DTOs.Users;
@@ -28,6 +29,9 @@ namespace capstone_project_be.Application.AutoMapperProfile
             CreateMap<PrefectureDTO, Prefecture>().ReverseMap();
             CreateMap<UpdatePrefectureDTO, Prefecture>().ReverseMap();
 
+            //City
+            CreateMap<CityDTO, City>().ReverseMap();
+            CreateMap<UpdateCityDTO, City>().ReverseMap();
         }
     }
 }
