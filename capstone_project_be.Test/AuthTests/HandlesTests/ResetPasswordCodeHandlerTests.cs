@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using capstone_project_be.Application.DTOs;
+using capstone_project_be.Application.DTOs.Auths;
+using capstone_project_be.Application.DTOs.Users;
 using capstone_project_be.Application.Features.Auths.Handles;
 using capstone_project_be.Application.Features.Auths.Requests;
 using capstone_project_be.Application.Interfaces;
@@ -38,7 +39,7 @@ namespace capstone_project_be.Test.AuthTests.HandlesTests
                 Status = false,
                 CreatedAt = DateTime.Now
             };
-            var verificationCode = new VerificationCode() 
+            var verificationCode = new VerificationCode()
             {
                 Id = 1,
                 UserId = 1,

@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using capstone_project_be.Application.DTOs.Regions;
+﻿using capstone_project_be.Application.DTOs.Regions;
 using capstone_project_be.Application.Features.Regions.Requests;
 using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Application.Responses;
@@ -10,12 +9,10 @@ namespace capstone_project_be.Application.Features.Regions.Handles
     public class DeleteRegionHandler : IRequestHandler<DeleteRegionRequest, object>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
 
-        public DeleteRegionHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public DeleteRegionHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
         }
 
         public async Task<object> Handle(DeleteRegionRequest request, CancellationToken cancellationToken)
