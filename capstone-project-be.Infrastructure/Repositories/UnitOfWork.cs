@@ -15,6 +15,9 @@ namespace capstone_project_be.Infrastructure.Repositories
             RegionRepository = new RegionRepository(_dbContext);
             PrefectureRepository = new PrefectureRepository(_dbContext);
             CityRepository = new CityRepository(_dbContext);
+            AccommodationRepository = new AccommodationRepository(_dbContext);
+            RestaurantRepository = new RestaurantRepository(_dbContext);
+            TouristAttractionRepository = new TouristAttractionRepository(_dbContext);
         }
 
         public IUserRepository UserRepository { get; set; }
@@ -22,6 +25,9 @@ namespace capstone_project_be.Infrastructure.Repositories
         public IRegionRepository RegionRepository { get; set; }
         public IPrefectureRepository PrefectureRepository { get; set; }
         public ICityRepository CityRepository { get; set; }
+        public IAccommodationRepository AccommodationRepository { get; set; }
+        public IRestaurantRepository RestaurantRepository { get; set; }
+        public ITouristAttractionRepository TouristAttractionRepository { get; set; }
 
         public void Dispose()
         {
