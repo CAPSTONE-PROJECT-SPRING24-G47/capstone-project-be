@@ -17,35 +17,35 @@ namespace capstone_project_be.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("getAccommodations")]
+        [HttpGet]
         public async Task<IEnumerable<AccommodationDTO>> GetAccommodations()
         {
             var response = await _mediator.Send(new GetAccommodationsRequest());
             return response;
         }
 
-        [HttpGet("getAccommodationById")]
+        [HttpGet("{id}")]
         public async Task<BaseResponse<AccommodationDTO>> GetAccommodation(string id)
         {
             var response = await _mediator.Send(new GetAccommodationRequest(id));
             return response;
         }
 
-        [HttpPost("createAccommodations")]
+        [HttpPost]
         public async Task<object> CreateAccommodation([FromBody] CRUDAccommodationDTO accommodationData)
         {
             var response = await _mediator.Send(new CreateAccommodationRequest(accommodationData));
             return response;
         }
 
-        [HttpPut("updateAccommodation")]
+        [HttpPut("{id}")]
         public async Task<object> UpdateAccommodation(string id, [FromBody] CRUDAccommodationDTO updateAccommodationData)
         {
             var response = await _mediator.Send(new UpdateAccommodationRequest(id, updateAccommodationData));
             return response;
         }
 
-        [HttpDelete("deleteAccommodation")]
+        [HttpDelete("{id}")]
         public async Task<object> DeleteAccommodation(string id)
         {
             var response = await _mediator.Send(new DeleteAccommodationRequest(id));
