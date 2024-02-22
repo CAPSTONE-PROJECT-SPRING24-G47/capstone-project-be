@@ -7,6 +7,9 @@
         IPrefectureRepository PrefectureRepository { get; }
         ICityRepository CityRepository { get; }
         IVerificationCodeRepository VerificationCodeRepository { get; }
+        IAccommodationRepository AccommodationRepository { get; }
+        IRestaurantRepository RestaurantRepository { get; }
+        ITouristAttractionRepository TouristAttractionRepository { get; }
         Task<int> Save();
     }
 }

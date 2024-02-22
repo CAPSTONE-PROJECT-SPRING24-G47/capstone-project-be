@@ -19,9 +19,9 @@ namespace capstone_project_be.Application.Features.Cities.Handles
 
         public async Task<IEnumerable<CityDTO>> Handle(GetCitiesRequest request, CancellationToken cancellationToken)
         {
-            var regions = await _unitOfWork.CityRepository.GetAll();
+            var cities = await _unitOfWork.CityRepository.GetAll();
 
-            return _mapper.Map<IEnumerable<CityDTO>>(regions);
+            return _mapper.Map<IEnumerable<CityDTO>>(cities);
         }
     }
 }
