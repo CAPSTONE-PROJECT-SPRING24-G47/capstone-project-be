@@ -20,7 +20,7 @@ namespace capstone_project_be.Application.Features.Auths.Handles
         public async Task<object> Handle(SignInRequest request, CancellationToken cancellationToken)
         {
             var data = request.UserSignInData;
-            var userList = await _unitOfWork.UserRepository.Find(user => user.Email == data.Email);
+            var userList = await _unitOfWork.UserRepository.Find(user => user.Email == data.Email && user.IsVerified == true);
             if (!userList.Any())
                 return new BaseResponse<UserDTO>()
                 {
