@@ -66,7 +66,7 @@ namespace capstone_project_be.Test.AuthTests.HandlesTests
                 PictureProfile = "",
                 IsGoogleAuth = false,
                 IsVerified = true,
-                Status = false,
+                IsBanned = false,
                 CreatedAt = DateTime.Now
             };
             var userList = new List<User>() { user };

@@ -11,5 +11,8 @@
         public string AccommodationPhone { get; set; }
         public string AccommodationDescription { get; set; }
         public string AccommodationLocation { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public int UserId { get; set; }
+        public string status { get; set; }
     }
 }

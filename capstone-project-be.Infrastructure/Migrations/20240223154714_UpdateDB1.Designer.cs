@@ -12,8 +12,8 @@ using capstone_project_be.Infrastructure.Context;
 namespace capstone_project_be.Infrastructure.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    [Migration("20240215125322_UpdateUser-7")]
-    partial class UpdateUser7
+    [Migration("20240223154714_UpdateDB1")]
+    partial class UpdateDB1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,6 +62,16 @@ namespace capstone_project_be.Infrastructure.Migrations
 
                     b.Property<int>("CityId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("AccommodationId");
 
@@ -391,6 +401,9 @@ namespace capstone_project_be.Infrastructure.Migrations
                     b.Property<int>("CityId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("RestaurantAddress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -420,6 +433,13 @@ namespace capstone_project_be.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RestaurantWebsite")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -559,6 +579,9 @@ namespace capstone_project_be.Infrastructure.Migrations
                     b.Property<int>("CityId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("TouristAttractionAddress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -579,6 +602,13 @@ namespace capstone_project_be.Infrastructure.Migrations
                         .HasColumnType("real");
 
                     b.Property<string>("TouristAttractionWebsite")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -854,6 +884,9 @@ namespace capstone_project_be.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsBanned")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsGoogleAuth")
                         .HasColumnType("bit");
 
@@ -873,9 +906,6 @@ namespace capstone_project_be.Infrastructure.Migrations
 
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("Status")
-                        .HasColumnType("bit");
 
                     b.HasKey("UserId");
 

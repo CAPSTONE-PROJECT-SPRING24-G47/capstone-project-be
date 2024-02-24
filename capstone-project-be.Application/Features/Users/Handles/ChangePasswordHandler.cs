@@ -8,18 +8,18 @@ using MediatR;
 
 namespace capstone_project_be.Application.Features.Users.Handles
 {
-    public class BanUserHandler : IRequestHandler<BanUserRequest, object>
+    public class ChangePasswordHandler : IRequestHandler<ChangePasswordRequest, object>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public BanUserHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public ChangePasswordHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
-        public async Task<object> Handle(BanUserRequest request, CancellationToken cancellationToken)
+        public async Task<object> Handle(ChangePasswordRequest request, CancellationToken cancellationToken)
         {
             if (!int.TryParse(request.Id, out int userId))
             {
@@ -33,20 +33,21 @@ namespace capstone_project_be.Application.Features.Users.Handles
             var users = await _unitOfWork.UserRepository.Find(user => user.UserId == userId);
             User user;
 
-            if(!users.Any()) return new BaseResponse<UserDTO>()
+            if (!users.Any()) return new BaseResponse<UserDTO>()
             {
                 Message = "Không tìm thấy người dùng",
                 IsSuccess = false
             };
 
+            var newPass = request.Password;
             user = users.First();
-            user.IsBanned = !user.IsBanned;
+            user.Password = BCrypt.Net.BCrypt.EnhancedHashPassword(newPass, 13);
             await _unitOfWork.UserRepository.Update(user);
             await _unitOfWork.Save();
 
             return new BaseResponse<UserDTO>()
             {
-                Message = user.IsBanned ? $"Người dùng {user.UserId} đã hết bị cấm" : $"Người dùng {user.UserId} đã bị cấm",
+                Message = "Cập nhật mật khẩu thành công!",
                 IsSuccess = true
             };
         }

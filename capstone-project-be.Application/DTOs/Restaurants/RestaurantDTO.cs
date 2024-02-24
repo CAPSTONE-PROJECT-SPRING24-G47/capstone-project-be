@@ -13,5 +13,8 @@
         public string RestaurantMenu { get; set; }
         public string RestaurantReserveTableUrl { get; set; }
         public string RestaurantLocation { get; set; }
+        public required DateTime CreatedAt { get; set; }
+        public required int UserId { get; set; }
+        public required string status { get; set; }
     }
 }

@@ -31,7 +31,7 @@ namespace capstone_project_be.Application.Features.TouristAttractions.Handles
             if (touristAttractionList.Count() == 0) return new BaseResponse<TouristAttractionDTO>()
             {
                 IsSuccess = false,
-                Message = $"Không tìm thấy nhà hàng với Id: {touristAttractionId}"
+                Message = $"Không tìm thấy địa điểm giải trí với Id: {touristAttractionId}"
             };
 
             var touristAttraction = touristAttractionList.First();
@@ -42,7 +42,7 @@ namespace capstone_project_be.Application.Features.TouristAttractions.Handles
             return new BaseResponse<TouristAttractionDTO>()
             {
                 IsSuccess = true,
-                Message = "Xóa địa điểm du lịch thành công"
+                Message = "Xóa địa điểm giải trí thành công"
             };
         }
     }

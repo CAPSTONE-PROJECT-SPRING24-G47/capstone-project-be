@@ -1,5 +1,6 @@
 ﻿using capstone_project_be.Application.DTOs.Accommodations;
 using capstone_project_be.Application.Features.Accommodations.Requests;
+using capstone_project_be.Application.Features.Users.Requests;
 using capstone_project_be.Application.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -31,10 +32,17 @@ namespace capstone_project_be.API.Controllers
             return response;
         }
 
+        [HttpGet("processing")]
+        public async Task<IEnumerable<AccommodationDTO>> GetProcessingAccommodations()
+        {
+            var response = await _mediator.Send(new GetProcessingAccommodationsRequest());
+            return response;
+        }
+
         [HttpPost]
         public async Task<object> CreateAccommodation([FromBody] CRUDAccommodationDTO accommodationData)
         {
-            var response = await _mediator.Send(new CreateAccommodationRequest(accommodationData));
+            var response = await _mediator.Send(new CreateAccommodationRequest( accommodationData));
             return response;
         }
 
@@ -49,6 +57,13 @@ namespace capstone_project_be.API.Controllers
         public async Task<object> DeleteAccommodation(string id)
         {
             var response = await _mediator.Send(new DeleteAccommodationRequest(id));
+            return response;
+        }
+
+        [HttpPost("{id}/approve-request")]
+        public async Task<object> ApproveCreateAccommodationRequest(string id, string action)
+        {
+            var response = await _mediator.Send(new ApproveCreateAccommodationRequest(id,action));
             return response;
         }
     }

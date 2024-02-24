@@ -51,7 +51,7 @@ namespace capstone_project_be.Application.Features.TouristAttractions.Handles
             return new BaseResponse<TouristAttractionDTO>()
             {
                 IsSuccess = true,
-                Message = "Update địa điểm du lịch thành công"
+                Message = "Update địa điểm du lịch giải trí"
             };
         }
     }

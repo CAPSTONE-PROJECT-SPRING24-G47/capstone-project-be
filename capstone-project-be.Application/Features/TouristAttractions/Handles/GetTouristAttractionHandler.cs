@@ -35,7 +35,7 @@ namespace capstone_project_be.Application.Features.TouristAttractions.Handles
                 return new BaseResponse<TouristAttractionDTO>()
                 {
                     IsSuccess = false,
-                    Message = "Không tìm thấy địa điểm du lịch!"
+                    Message = "Không tìm thấy địa điểm giải trí!"
                 };
             }
 

@@ -1,4 +1,8 @@
-﻿using capstone_project_be.Application.DTOs.TouristAttractions;
+﻿using capstone_project_be.Application.DTOs.Accommodations;
+using capstone_project_be.Application.DTOs.Restaurants;
+using capstone_project_be.Application.DTOs.TouristAttractions;
+using capstone_project_be.Application.Features.Accommodations.Requests;
+using capstone_project_be.Application.Features.Restaurants.Requests;
 using capstone_project_be.Application.Features.TouristAttractions.Requests;
 using capstone_project_be.Application.Responses;
 using MediatR;
@@ -31,6 +35,13 @@ namespace capstone_project_be.API.Controllers
             return response;
         }
 
+        [HttpGet("processing")]
+        public async Task<IEnumerable<TouristAttractionDTO>> GetProcessingTouristAttractions()
+        {
+            var response = await _mediator.Send(new GetProcessingTouristAttractionsRequest());
+            return response;
+        }
+
         [HttpPost]
         public async Task<object> CreateTouristAttraction([FromBody] CRUDTouristAttractionDTO touristAttractionData)
         {
@@ -45,10 +56,18 @@ namespace capstone_project_be.API.Controllers
             return response;
         }
 
+
         [HttpDelete("{id}")]
         public async Task<object> DeleteTouristAttraction(string id)
         {
             var response = await _mediator.Send(new DeleteTouristAttractionRequest(id));
+            return response;
+        }
+
+        [HttpPost("{id}/approve-request")]
+        public async Task<object> ApproveCreateTouristAttractionRequest(string id, string action)
+        {
+            var response = await _mediator.Send(new ApproveCreateTouristAttractionRequest(id, action));
             return response;
         }
     }

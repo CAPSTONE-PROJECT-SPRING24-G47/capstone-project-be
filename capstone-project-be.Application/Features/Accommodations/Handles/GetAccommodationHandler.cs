@@ -35,7 +35,7 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
                 return new BaseResponse<AccommodationDTO>()
                 {
                     IsSuccess = false,
-                    Message = "Không tìm thấy chỗ ở!"
+                    Message = "Không tìm thấy nơi ở!"
                 };
             }
 

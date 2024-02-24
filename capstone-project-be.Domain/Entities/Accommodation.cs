@@ -11,6 +11,10 @@
         public required string AccommodationPhone { get; set; }
         public required string AccommodationDescription { get; set; }
         public required string AccommodationLocation { get; set; }
+        public required DateTime CreatedAt { get; set; }
+        public required int UserId { get; set; }
+        public required string status { get; set; }
+
 
         public City City { get; set; }
         public IEnumerable<AccommodationPhoto> AccommodationPhotos { get; set; }
