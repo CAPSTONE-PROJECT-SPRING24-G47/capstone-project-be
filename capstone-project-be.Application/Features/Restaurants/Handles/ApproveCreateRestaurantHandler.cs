@@ -41,9 +41,9 @@ namespace capstone_project_be.Application.Features.Restaurants.Handles
             var action = request.Action;
             if (action.Equals("Approve"))
             {
-                restaurant.status = "Approved";
+                restaurant.Status = "Approved";
             }
-            else restaurant.status = "Denied";
+            else restaurant.Status = "Denied";
             await _unitOfWork.RestaurantRepository.Update(restaurant);
             await _unitOfWork.Save();
 

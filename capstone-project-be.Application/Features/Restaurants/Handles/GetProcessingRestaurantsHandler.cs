@@ -19,7 +19,7 @@ namespace capstone_project_be.Application.Features.Restaurants.Handles
 
         public async Task<IEnumerable<RestaurantDTO>> Handle(GetProcessingRestaurantsRequest request, CancellationToken cancellationToken)
         {
-            var restaurantList = await _unitOfWork.RestaurantRepository.Find(r => r.status == "Processing");
+            var restaurantList = await _unitOfWork.RestaurantRepository.Find(r => r.Status == "Processing");
 
             return _mapper.Map<IEnumerable<RestaurantDTO>>(restaurantList);
         }

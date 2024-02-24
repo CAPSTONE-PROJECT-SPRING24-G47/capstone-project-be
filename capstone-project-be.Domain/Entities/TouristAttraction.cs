@@ -14,7 +14,7 @@ namespace capstone_project_be.Domain.Entities
         public required string TouristAttractionLocation { get; set;}
         public required DateTime CreatedAt { get; set; }
         public required int UserId { get; set; }
-        public required string status { get; set; }
+        public required string Status { get; set; }
 
         public City City { get; set; }
         public IEnumerable<TouristAttractionPhoto> TouristAttractionPhotos { get; set; }

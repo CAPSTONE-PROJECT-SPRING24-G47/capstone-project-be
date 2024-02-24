@@ -34,9 +34,9 @@ namespace capstone_project_be.Application.Features.Restaurants.Handles
             var user = userList.First();
             if (user.RoleId == 3)
             {
-                restaurant.status = "Approved";
+                restaurant.Status = "Approved";
             }
-            else restaurant.status = "Processing";
+            else restaurant.Status = "Processing";
 
             await _unitOfWork.RestaurantRepository.Add(restaurant);
             await _unitOfWork.Save();

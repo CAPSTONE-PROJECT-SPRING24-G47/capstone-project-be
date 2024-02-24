@@ -34,9 +34,9 @@ namespace capstone_project_be.Application.Features.TouristAttractions.Handles
             var user = userList.First();
             if (user.RoleId == 3)
             {
-                touristAttraction.status = "Approved";
+                touristAttraction.Status = "Approved";
             }
-            else touristAttraction.status = "Processing";
+            else touristAttraction.Status = "Processing";
 
             await _unitOfWork.TouristAttractionRepository.Add(touristAttraction);
             await _unitOfWork.Save();

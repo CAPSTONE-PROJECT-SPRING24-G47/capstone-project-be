@@ -21,7 +21,7 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
 
         public async Task<IEnumerable<AccommodationDTO>> Handle(GetProcessingAccommodationsRequest request, CancellationToken cancellationToken)
         {
-            var accommodationList = await _unitOfWork.AccommodationRepository.Find(a => a.status == "Processing");
+            var accommodationList = await _unitOfWork.AccommodationRepository.Find(a => a.Status == "Processing");
 
             return _mapper.Map<IEnumerable<AccommodationDTO>>(accommodationList);
         }

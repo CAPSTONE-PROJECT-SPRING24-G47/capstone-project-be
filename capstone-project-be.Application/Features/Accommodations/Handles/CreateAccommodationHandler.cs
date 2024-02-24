@@ -34,9 +34,9 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
             var user = userList.First();
             if (user.RoleId == 3)
             {
-                accommodation.status = "Approved";
+                accommodation.Status = "Approved";
             }
-            else accommodation.status = "Processing";
+            else accommodation.Status = "Processing";
 
             await _unitOfWork.AccommodationRepository.Add(accommodation);
             await _unitOfWork.Save();

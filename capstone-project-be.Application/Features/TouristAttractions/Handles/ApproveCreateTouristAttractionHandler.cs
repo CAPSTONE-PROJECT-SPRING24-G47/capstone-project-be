@@ -41,9 +41,9 @@ namespace capstone_project_be.Application.Features.TouristAttractions.Handles
             var action = request.Action;
             if (action.Equals("Approve"))
             {
-                touristAttraction.status = "Approved";
+                touristAttraction.Status = "Approved";
             }
-            else touristAttraction.status = "Denied";
+            else touristAttraction.Status = "Denied";
             await _unitOfWork.TouristAttractionRepository.Update(touristAttraction);
             await _unitOfWork.Save();
 

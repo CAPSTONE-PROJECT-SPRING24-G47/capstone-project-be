@@ -41,9 +41,9 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
             var action = request.Action;
             if (action.Equals("Approve"))
             {
-                accommodation.status = "Approved";
+                accommodation.Status = "Approved";
             }
-            else accommodation.status = "Denied";
+            else accommodation.Status = "Denied";
             await _unitOfWork.AccommodationRepository.Update(accommodation);
             await _unitOfWork.Save();
 

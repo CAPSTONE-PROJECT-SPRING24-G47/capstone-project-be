@@ -12,6 +12,6 @@
         public string TouristAttractionLocation { get; set; }
         public DateTime CreatedAt { get; set; }
         public int UserId { get; set; }
-        public required string status { get; set; }
+        public required string Status { get; set; }
     }
 }
