@@ -10,5 +10,8 @@
         public string TouristAttractionWebsite { get; set; }
         public string TouristAttractionDescription { get; set; }
         public string TouristAttractionLocation { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public int UserId { get; set; }
+        public required string Status { get; set; }
     }
 }

@@ -36,7 +36,7 @@ namespace capstone_project_be.Test.AuthTests.HandlesTests
                 PictureProfile = "",
                 IsGoogleAuth = true,
                 IsVerified = true,
-                Status = false,
+                IsBanned = false,
                 CreatedAt = DateTime.Now
             };
             var userList = new List<User>() { user };
@@ -79,7 +79,7 @@ namespace capstone_project_be.Test.AuthTests.HandlesTests
                 PictureProfile = "",
                 IsGoogleAuth = true,
                 IsVerified = true,
-                Status = false,
+                IsBanned = false,
                 CreatedAt = DateTime.Now
             };
             var userList = new List<User>() { user };

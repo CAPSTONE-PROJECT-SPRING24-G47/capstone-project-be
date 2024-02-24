@@ -22,6 +22,21 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
         {
             var accommodationData = request.AccommodationData;
             var accommodation = _mapper.Map<Accommodation>(accommodationData);
+            var userList = await _unitOfWork.UserRepository.Find(u => u.UserId == accommodation.UserId);
+            if (!userList.Any()) 
+            {
+                return new BaseResponse<AccommodationDTO>() 
+                {
+                    IsSuccess = false,
+                    Message = $"Không tồn tại User với ID = {accommodation.UserId}"
+                };
+            }
+            var user = userList.First();
+            if (user.RoleId == 3)
+            {
+                accommodation.Status = "Approved";
+            }
+            else accommodation.Status = "Processing";
 
             await _unitOfWork.AccommodationRepository.Add(accommodation);
             await _unitOfWork.Save();
@@ -29,7 +44,7 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
             return new BaseResponse<AccommodationDTO>()
             {
                 IsSuccess = true,
-                Message = "Thêm chỗ ở mới thành công"
+                Message = "Thêm nơi ở mới thành công"
             };
         }
     }

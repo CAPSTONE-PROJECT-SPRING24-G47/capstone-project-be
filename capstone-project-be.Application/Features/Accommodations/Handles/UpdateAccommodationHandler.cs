@@ -50,7 +50,7 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
             return new BaseResponse<AccommodationDTO>()
             {
                 IsSuccess = true,
-                Message = "Update chỗ ở thành công"
+                Message = "Update nơi ở thành công"
             };
         }
     }

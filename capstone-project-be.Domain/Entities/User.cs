@@ -3,7 +3,7 @@
     public class User
     {
         public required int UserId { get; set; }
-        public required int RoleId { get; set; } = 4;
+        public required int RoleId { get; set; } = 5;
         public required string LastName { get; set; }
         public required string FirstName { get; set; }
         public required string Email { get; set; }
@@ -11,8 +11,9 @@
         public string? PictureProfile { get; set; }
         public bool IsGoogleAuth { get; set; } = false;
         public bool IsVerified { get; set; } = false;
-        public bool Status { get; set; } = true;
+        public bool IsBanned { get; set; } = false;
         public DateTime CreatedAt { get; set; }
+
         
 
         //Set quan hệ với các bảng khác ở đây

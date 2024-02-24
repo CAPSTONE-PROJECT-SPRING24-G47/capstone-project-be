@@ -1,4 +1,6 @@
-﻿using capstone_project_be.Application.DTOs.Users;
+﻿using capstone_project_be.Application.DTOs.Prefectures;
+using capstone_project_be.Application.DTOs.Users;
+using capstone_project_be.Application.Features.Prefectures.Requests;
 using capstone_project_be.Application.Features.Users.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +20,13 @@ namespace capstone_project_be.API.Controllers
             _mediator = mediator;
         }
 
+        [HttpPost()]
+        public async Task<object> CreateUser([FromBody] CRUDUserDTO userData)
+        {
+            var response = await _mediator.Send(new CreateUserRequest(userData));
+            return response;
+        }
+
         [HttpPost("update-profile")]
         public async Task<object> UpdateProfile([FromBody] UpdateProfileDTO updateProfileData)
         {
@@ -30,6 +39,13 @@ namespace capstone_project_be.API.Controllers
         public async Task<object> BanUser(string id)
         {
             var response = await _mediator.Send(new BanUserRequest(id));
+            return response;
+        }
+
+        [HttpPost("{id}/change-password")]
+        public async Task<object> ChangePassword(string id, string newPass)
+        {
+            var response = await _mediator.Send(new ChangePasswordRequest(id, newPass));
             return response;
         }
 

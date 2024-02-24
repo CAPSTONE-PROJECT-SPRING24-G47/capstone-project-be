@@ -31,7 +31,7 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
             if (accommodationList.Count() == 0) return new BaseResponse<AccommodationDTO>()
             {
                 IsSuccess = false,
-                Message = $"Không tìm thấy chỗ ở với Id: {accommodationId}"
+                Message = $"Không tìm thấy nơi ở với Id: {accommodationId}"
             };
 
             var accommodation = accommodationList.First();
@@ -42,7 +42,7 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
             return new BaseResponse<AccommodationDTO>()
             {
                 IsSuccess = true,
-                Message = "Xóa chỗ ở thành công"
+                Message = "Xóa nơi ở thành công"
             };
         }
     }

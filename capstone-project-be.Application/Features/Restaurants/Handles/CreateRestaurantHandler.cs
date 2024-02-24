@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using capstone_project_be.Application.DTOs.Accommodations;
+using capstone_project_be.Application.DTOs.Restaurants;
 using capstone_project_be.Application.Features.Restaurants.Requests;
 using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Application.Responses;
@@ -22,11 +22,26 @@ namespace capstone_project_be.Application.Features.Restaurants.Handles
         {
             var restaurantData = request.RestaurantData;
             var restaurant = _mapper.Map<Restaurant>(restaurantData);
+            var userList = await _unitOfWork.UserRepository.Find(u => u.UserId == restaurant.UserId);
+            if (!userList.Any())
+            {
+                return new BaseResponse<RestaurantDTO>()
+                {
+                    IsSuccess = false,
+                    Message = $"Không tồn tại User với ID = {restaurant.UserId}"
+                };
+            }
+            var user = userList.First();
+            if (user.RoleId == 3)
+            {
+                restaurant.Status = "Approved";
+            }
+            else restaurant.Status = "Processing";
 
             await _unitOfWork.RestaurantRepository.Add(restaurant);
             await _unitOfWork.Save();
 
-            return new BaseResponse<AccommodationDTO>()
+            return new BaseResponse<RestaurantDTO>()
             {
                 IsSuccess = true,
                 Message = "Thêm nhà hàng mới thành công"

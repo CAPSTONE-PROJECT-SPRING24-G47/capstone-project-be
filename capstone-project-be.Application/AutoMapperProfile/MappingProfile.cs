@@ -23,6 +23,7 @@ namespace capstone_project_be.Application.AutoMapperProfile
             CreateMap<UpdateProfileDTO, User>().ReverseMap();
             CreateMap<GoogleAuthDTO, User>().ReverseMap();
             CreateMap<UserDTO, User>().ReverseMap();
+            CreateMap<CRUDUserDTO, User>().ReverseMap();
 
             //Region
             CreateMap<RegionDTO, Region>().ReverseMap();

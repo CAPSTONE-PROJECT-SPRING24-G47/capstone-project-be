@@ -1,4 +1,6 @@
-﻿using capstone_project_be.Application.DTOs.Restaurants;
+﻿using capstone_project_be.Application.DTOs.Accommodations;
+using capstone_project_be.Application.DTOs.Restaurants;
+using capstone_project_be.Application.Features.Accommodations.Requests;
 using capstone_project_be.Application.Features.Restaurants.Requests;
 using capstone_project_be.Application.Responses;
 using MediatR;
@@ -45,10 +47,24 @@ namespace capstone_project_be.API.Controllers
             return response;
         }
 
+        [HttpGet("processing")]
+        public async Task<IEnumerable<AccommodationDTO>> GetProcessingRestaurants()
+        {
+            var response = await _mediator.Send(new GetProcessingAccommodationsRequest());
+            return response;
+        }
+
         [HttpDelete("{id}")]
         public async Task<object> DeleteRestaurant(string id)
         {
             var response = await _mediator.Send(new DeleteRestaurantRequest(id));
+            return response;
+        }
+
+        [HttpPost("{id}/approve-request")]
+        public async Task<object> ApproveCreateRestaurantRequest(string id, string action)
+        {
+            var response = await _mediator.Send(new ApproveCreateRestaurantRequest(id, action));
             return response;
         }
     }

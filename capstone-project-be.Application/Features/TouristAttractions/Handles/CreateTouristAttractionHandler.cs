@@ -22,6 +22,21 @@ namespace capstone_project_be.Application.Features.TouristAttractions.Handles
         {
             var touristAttractionData = request.TouristAttractionData;
             var touristAttraction = _mapper.Map<TouristAttraction>(touristAttractionData);
+            var userList = await _unitOfWork.UserRepository.Find(u => u.UserId == touristAttraction.UserId);
+            if (!userList.Any())
+            {
+                return new BaseResponse<TouristAttractionDTO>()
+                {
+                    IsSuccess = false,
+                    Message = $"Không tồn tại User với ID = {touristAttraction.UserId}"
+                };
+            }
+            var user = userList.First();
+            if (user.RoleId == 3)
+            {
+                touristAttraction.Status = "Approved";
+            }
+            else touristAttraction.Status = "Processing";
 
             await _unitOfWork.TouristAttractionRepository.Add(touristAttraction);
             await _unitOfWork.Save();
@@ -29,7 +44,7 @@ namespace capstone_project_be.Application.Features.TouristAttractions.Handles
             return new BaseResponse<TouristAttractionDTO>()
             {
                 IsSuccess = true,
-                Message = "Thêm địa điểm du lịch mới thành công"
+                Message = "Thêm địa điểm giải trí mới thành công"
             };
         }
     }
