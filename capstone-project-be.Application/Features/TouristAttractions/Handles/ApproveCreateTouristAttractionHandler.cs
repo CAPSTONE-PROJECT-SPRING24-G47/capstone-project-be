@@ -42,14 +42,22 @@ namespace capstone_project_be.Application.Features.TouristAttractions.Handles
             if (action.Equals("Approve"))
             {
                 touristAttraction.Status = "Approved";
+                await _unitOfWork.TouristAttractionRepository.Update(touristAttraction);
+                await _unitOfWork.Save();
+
+                return new BaseResponse<TouristAttractionDTO>()
+                {
+                    Message = "Yêu cầu được phê duyệt",
+                    IsSuccess = true
+                };
             }
-            else touristAttraction.Status = "Denied";
+            else touristAttraction.Status = "Rejected";
             await _unitOfWork.TouristAttractionRepository.Update(touristAttraction);
             await _unitOfWork.Save();
 
             return new BaseResponse<TouristAttractionDTO>()
             {
-                Message = "Yêu cầu được phê duyệt",
+                Message = "Yêu cầu bị từ chối",
                 IsSuccess = true
             };
         }

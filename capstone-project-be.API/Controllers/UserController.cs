@@ -27,10 +27,10 @@ namespace capstone_project_be.API.Controllers
             return response;
         }
 
-        [HttpPost("update-profile")]
-        public async Task<object> UpdateProfile([FromBody] UpdateProfileDTO updateProfileData)
+        [HttpPut("{id}/update-profile")]
+        public async Task<object> UpdateProfile(string id, [FromBody] CRUDUserDTO updateProfileData)
         {
-            var response = await _mediator.Send(new UpdateProfileRequest(updateProfileData));
+            var response = await _mediator.Send(new UpdateProfileRequest(id, updateProfileData));
             return response;
         }
 

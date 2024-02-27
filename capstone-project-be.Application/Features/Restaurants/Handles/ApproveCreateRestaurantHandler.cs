@@ -42,14 +42,22 @@ namespace capstone_project_be.Application.Features.Restaurants.Handles
             if (action.Equals("Approve"))
             {
                 restaurant.Status = "Approved";
+                await _unitOfWork.RestaurantRepository.Update(restaurant);
+                await _unitOfWork.Save();
+
+                return new BaseResponse<RestaurantDTO>()
+                {
+                    Message = "Yêu cầu được phê duyệt",
+                    IsSuccess = true
+                };
             }
-            else restaurant.Status = "Denied";
+            else restaurant.Status = "Rejected";
             await _unitOfWork.RestaurantRepository.Update(restaurant);
             await _unitOfWork.Save();
 
             return new BaseResponse<RestaurantDTO>()
             {
-                Message = "Yêu cầu được phê duyệt",
+                Message = "Yêu cầu bị từ chối",
                 IsSuccess = true
             };
         }

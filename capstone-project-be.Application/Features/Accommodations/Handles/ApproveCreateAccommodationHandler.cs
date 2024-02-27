@@ -42,14 +42,22 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
             if (action.Equals("Approve"))
             {
                 accommodation.Status = "Approved";
+                await _unitOfWork.AccommodationRepository.Update(accommodation);
+                await _unitOfWork.Save();
+
+                return new BaseResponse<AccommodationDTO>()
+                {
+                    Message = "Yêu cầu được phê duyệt",
+                    IsSuccess = true
+                };
             }
-            else accommodation.Status = "Denied";
+            else accommodation.Status = "Rejected";
             await _unitOfWork.AccommodationRepository.Update(accommodation);
             await _unitOfWork.Save();
 
             return new BaseResponse<AccommodationDTO>()
             {
-                Message = "Yêu cầu được phê duyệt",
+                Message = "Yêu cầu bị từ chối",
                 IsSuccess = true
             };
         }
