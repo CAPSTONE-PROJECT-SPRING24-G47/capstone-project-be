@@ -14,5 +14,6 @@
         public string RestaurantLocation { get; set; }
         public required DateTime CreatedAt { get; set; }
         public required int UserId { get; set; }
+        public string Status { get; set; }
     }
 }
