@@ -5,6 +5,7 @@ using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Application.Responses;
 using capstone_project_be.Domain.Entities;
 using MediatR;
+using System.Text.RegularExpressions;
 
 namespace capstone_project_be.Application.Features.Auths.Handles
 {
@@ -13,6 +14,9 @@ namespace capstone_project_be.Application.Features.Auths.Handles
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IEmailSender _emailSender;
+        private const string NAME_REGEX = @"^[\p{L} ]{1,20}$";
+        private const string EMAIL_REGEX = @"^(?![0-9])[^@\s]+@[^\s@]+\.[^\s@]+$";
+        private const string PASSWORD_REGEX = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{6,}$";
 
         public SignUpHandler(IUnitOfWork unitOfWork, IMapper mapper, IEmailSender emailSender)
         {
@@ -32,6 +36,19 @@ namespace capstone_project_be.Application.Features.Auths.Handles
             //await _emailSender.SendEmail(email, "Verify Code", $"Your verification code is {verifyCodeGenerated}");
 
             var userList = await _unitOfWork.UserRepository.Find(user => user.Email == data.Email);
+            Regex nameRegex = new Regex(NAME_REGEX);
+            Regex emailRegex = new Regex(EMAIL_REGEX);
+            Regex passwordRegex = new Regex(PASSWORD_REGEX);
+
+            if (!passwordRegex.IsMatch(data.Password) || !nameRegex.IsMatch(data.LastName)
+                || !nameRegex.IsMatch(data.FirstName) || !emailRegex.IsMatch(data.Email))
+            {
+                return new BaseResponse<UserDTO>()
+                {
+                    IsSuccess = false,
+                    Message = "Một hoặc nhiều trường không đáp ứng yêu cầu",
+                };
+            }
 
             if (userList.Any(user => !user.IsVerified))
             {
@@ -80,7 +97,8 @@ namespace capstone_project_be.Application.Features.Auths.Handles
                     IsSuccess = false,
                     Message = "Email này đã được sử dụng ở một tài khoản khác"
                 };
-            
+
+
             var passwordHash = BCrypt.Net.BCrypt.EnhancedHashPassword(data.Password, 13);
             var userMapped = _mapper.Map<User>(data);
             userMapped.Password = passwordHash;

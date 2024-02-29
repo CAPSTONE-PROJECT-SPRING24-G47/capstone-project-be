@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using capstone_project_be.Application.DTOs.Users;
+﻿using capstone_project_be.Application.DTOs.Users;
 using capstone_project_be.Application.Features.Auths.Requests;
 using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Application.Responses;
@@ -11,13 +10,11 @@ namespace capstone_project_be.Application.Features.Auths.Handles
     public class VerifyResetPasswordHandler : IRequestHandler<VerifyResetPasswordRequest, object>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
         private readonly IEmailSender _emailSender;
 
-        public VerifyResetPasswordHandler(IUnitOfWork unitOfWork, IMapper mapper, IEmailSender emailSender)
+        public VerifyResetPasswordHandler(IUnitOfWork unitOfWork, IEmailSender emailSender)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
             _emailSender = emailSender;
         }
         public async Task<object> Handle(VerifyResetPasswordRequest request, CancellationToken cancellationToken)
@@ -63,7 +60,7 @@ namespace capstone_project_be.Application.Features.Auths.Handles
 
             else return new BaseResponse<UserDTO>()
             {
-                IsSuccess= false,
+                IsSuccess = false,
                 Message = "Email không tồn tại!"
             };
         }
