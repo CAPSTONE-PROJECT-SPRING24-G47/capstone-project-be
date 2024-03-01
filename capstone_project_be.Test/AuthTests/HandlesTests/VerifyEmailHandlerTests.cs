@@ -20,10 +20,7 @@ namespace capstone_project_be.Test.AuthTests.HandlesTests
 
             var signUpVerificationData = new SignUpVerificationDTO()
             {
-                LastName = "abc",
-                FirstName = "abc",
                 Email = "test@example.com",
-                Password = "password",
                 VerificationCode = "123",
             };
             var user = new User()
@@ -68,10 +65,7 @@ namespace capstone_project_be.Test.AuthTests.HandlesTests
 
             var signUpVerificationData = new SignUpVerificationDTO()
             {
-                LastName = "abc",
-                FirstName = "abc",
                 Email = "test@example.com",
-                Password = "password",
                 VerificationCode = "123",
             };
             var user = new User()
@@ -124,10 +118,7 @@ namespace capstone_project_be.Test.AuthTests.HandlesTests
 
             var signUpVerificationData = new SignUpVerificationDTO()
             {
-                LastName = "abc",
-                FirstName = "abc",
                 Email = "test@example.com",
-                Password = "password",
                 VerificationCode = "123",
             };
             var user = new User()
@@ -179,10 +170,7 @@ namespace capstone_project_be.Test.AuthTests.HandlesTests
 
             var signUpVerificationData = new SignUpVerificationDTO()
             {
-                LastName = "abc",
-                FirstName = "abc",
                 Email = "test@example.com",
-                Password = "password",
                 VerificationCode = "123",
             };
 

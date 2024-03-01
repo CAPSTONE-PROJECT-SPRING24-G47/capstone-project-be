@@ -54,7 +54,7 @@ namespace capstone_project_be.Test.AuthTests.HandlesTests
             mockUnitOfWork.Setup(vc => vc.VerificationCodeRepository.Find(It.IsAny<Expression<Func<VerificationCode, bool>>>()))
                 .ReturnsAsync(codeList);
 
-            var handler = new VerifyResetPasswordHandler(mockUnitOfWork.Object, mockMapper.Object, mockEmailSender.Object);
+            var handler = new VerifyResetPasswordHandler(mockUnitOfWork.Object, mockEmailSender.Object);
             var request = new VerifyResetPasswordRequest(verifyResetPasswordData);
 
             //Act
@@ -83,7 +83,7 @@ namespace capstone_project_be.Test.AuthTests.HandlesTests
             mockUnitOfWork.Setup(u => u.UserRepository.Find(It.IsAny<Expression<Func<User, bool>>>()))
                 .ReturnsAsync(userList);
 
-            var handler = new VerifyResetPasswordHandler(mockUnitOfWork.Object, mockMapper.Object, mockEmailSender.Object);
+            var handler = new VerifyResetPasswordHandler(mockUnitOfWork.Object, mockEmailSender.Object);
             var request = new VerifyResetPasswordRequest(verifyResetPasswordData);
 
             //Act
