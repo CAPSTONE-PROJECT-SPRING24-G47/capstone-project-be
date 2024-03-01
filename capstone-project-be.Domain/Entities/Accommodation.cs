@@ -5,7 +5,9 @@
         public required int AccommodationId { get; set; }
         public required int CityId { get; set; }
         public required string AccommodationName { get; set; }
-        public float? AccommodationPrice { get; set;}
+        public string? PriceRange { get; set; }
+        public string? PriceLevel { get; set; }
+        public required bool IsChildrenFriendly { get; set; }
         public required string AccommodationAddress { get; set; }
         public required string AccommodationWebsite { get; set; }
         public required string AccommodationPhone { get; set; }

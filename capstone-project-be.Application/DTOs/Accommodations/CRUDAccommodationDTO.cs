@@ -4,7 +4,9 @@
     {
         public int CityId { get; set; }
         public string AccommodationName { get; set; }
-        public float AccommodationPrice { get; set; }
+        public string PriceRange { get; set; }
+        public string PriceLevel { get; set; }
+        public bool IsChildrenFriendly { get; set; }
         public string AccommodationAddress { get; set; }
         public string AccommodationWebsite { get; set; }
         public string AccommodationPhone { get; set; }
