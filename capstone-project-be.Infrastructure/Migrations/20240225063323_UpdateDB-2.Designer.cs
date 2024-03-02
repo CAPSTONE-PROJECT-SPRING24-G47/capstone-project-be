@@ -12,7 +12,7 @@ using capstone_project_be.Infrastructure.Context;
 namespace capstone_project_be.Infrastructure.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    [Migration("20240225155356_UpdateDB2")]
+    [Migration("20240225063323_UpdateDB-2")]
     partial class UpdateDB2
     {
         /// <inheritdoc />

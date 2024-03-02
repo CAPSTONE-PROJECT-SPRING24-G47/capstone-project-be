@@ -31,7 +31,7 @@ namespace capstone_project_be.Test.AuthTests.HandlesTests
             mockUnitOfWork.Setup(u => u.UserRepository.Find(It.IsAny<Expression<Func<User, bool>>>()))
                 .ReturnsAsync(userList);
 
-            var handler = new ResetPasswordHandler(mockUnitOfWork.Object, mockMapper.Object);
+            var handler = new ResetPasswordHandler(mockUnitOfWork.Object);
             var request = new ResetPasswordRequest(resetPasswordData);
 
             //Act
@@ -74,7 +74,7 @@ namespace capstone_project_be.Test.AuthTests.HandlesTests
             mockUnitOfWork.Setup(u => u.UserRepository.Find(It.IsAny<Expression<Func<User, bool>>>()))
                 .ReturnsAsync(userList);
 
-            var handler = new ResetPasswordHandler(mockUnitOfWork.Object, mockMapper.Object);
+            var handler = new ResetPasswordHandler(mockUnitOfWork.Object);
             var request = new ResetPasswordRequest(resetPasswordData);
 
             //Act

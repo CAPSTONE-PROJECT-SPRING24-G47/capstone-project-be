@@ -54,7 +54,7 @@ namespace capstone_project_be.Test.AuthTests.HandlesTests
             mockUnitOfWork.Setup(vc => vc.VerificationCodeRepository.Find(It.IsAny<Expression<Func<VerificationCode, bool>>>()))
                 .ReturnsAsync(codeList);
 
-            var handler = new ResetPasswordCodeHandler(mockUnitOfWork.Object, mockMapper.Object);
+            var handler = new ResetPasswordCodeHandler(mockUnitOfWork.Object);
             var request = new ResetPasswordCodeRequest(resetPasswordCodeData);
 
             //Act
@@ -107,7 +107,7 @@ namespace capstone_project_be.Test.AuthTests.HandlesTests
             mockUnitOfWork.Setup(vc => vc.VerificationCodeRepository.Find(It.IsAny<Expression<Func<VerificationCode, bool>>>()))
                 .ReturnsAsync(codeList);
 
-            var handler = new ResetPasswordCodeHandler(mockUnitOfWork.Object, mockMapper.Object);
+            var handler = new ResetPasswordCodeHandler(mockUnitOfWork.Object);
             var request = new ResetPasswordCodeRequest(resetPasswordCodeData);
 
             //Act
@@ -160,7 +160,7 @@ namespace capstone_project_be.Test.AuthTests.HandlesTests
             mockUnitOfWork.Setup(vc => vc.VerificationCodeRepository.Find(It.IsAny<Expression<Func<VerificationCode, bool>>>()))
                 .ReturnsAsync(codeList);
 
-            var handler = new ResetPasswordCodeHandler(mockUnitOfWork.Object, mockMapper.Object);
+            var handler = new ResetPasswordCodeHandler(mockUnitOfWork.Object);
             var request = new ResetPasswordCodeRequest(resetPasswordCodeData);
 
             //Act
