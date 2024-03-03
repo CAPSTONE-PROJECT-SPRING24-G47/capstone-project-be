@@ -45,6 +45,18 @@ namespace capstone_project_be.Application.Features.TouristAttractions.Handles
                 };
             }
 
+            var tA_TACategoryList = await _unitOfWork.TA_TACategoryRepository.
+                Find(ta => ta.TouristAttractionId == touristAttractionId);
+            await _unitOfWork.TA_TACategoryRepository.DeleteRange(tA_TACategoryList);
+            tA_TACategoryList = touristAttraction.TouristAttraction_TouristAttractionCategories.ToList();
+            await _unitOfWork.TA_TACategoryRepository.AddRange(tA_TACategoryList);
+
+            var touristAttractionPhotoList = await _unitOfWork.TouristAttractionPhotoRepository.
+                Find(ta => ta.TouristAttractionId == touristAttractionId);
+            await _unitOfWork.TouristAttractionPhotoRepository.DeleteRange(touristAttractionPhotoList);
+            touristAttractionPhotoList = touristAttraction.TouristAttractionPhotos.ToList();
+            await _unitOfWork.TouristAttractionPhotoRepository.AddRange(touristAttractionPhotoList);
+
             await _unitOfWork.TouristAttractionRepository.Update(touristAttraction);
             await _unitOfWork.Save();
 

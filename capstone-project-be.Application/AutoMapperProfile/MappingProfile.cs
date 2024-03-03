@@ -1,10 +1,14 @@
 ﻿using AutoMapper;
+using capstone_project_be.Application.DTOs.Accommodation_AccommodationCategories;
+using capstone_project_be.Application.DTOs.AccommodationPhotos;
 using capstone_project_be.Application.DTOs.Accommodations;
 using capstone_project_be.Application.DTOs.Auths;
 using capstone_project_be.Application.DTOs.Cities;
 using capstone_project_be.Application.DTOs.Prefectures;
 using capstone_project_be.Application.DTOs.Regions;
+using capstone_project_be.Application.DTOs.Restaurant_RestaurantCategories;
 using capstone_project_be.Application.DTOs.Restaurants;
+using capstone_project_be.Application.DTOs.TouristAttraction_TouristAttractionCategories;
 using capstone_project_be.Application.DTOs.TouristAttractions;
 using capstone_project_be.Application.DTOs.Users;
 using capstone_project_be.Domain.Entities;
@@ -40,13 +44,29 @@ namespace capstone_project_be.Application.AutoMapperProfile
             CreateMap<AccommodationDTO, Accommodation>().ReverseMap();
             CreateMap<CRUDAccommodationDTO, Accommodation>().ReverseMap();
 
+            //Accommodation_AccommodationCategory
+            CreateMap<Acc_AccCategoryDTO, Accommodation_AccommodationCategory>().ReverseMap();
+            CreateMap<CRUDAcc_AccCategoryDTO, Accommodation_AccommodationCategory>().ReverseMap();
+
+            //AccommodationPhoto
+            CreateMap<AccommodationPhotoDTO, AccommodationPhoto>().ReverseMap();
+            CreateMap<CRUDAccommodationPhotoDTO, AccommodationPhoto>().ReverseMap();
+
             //Restaurant
             CreateMap<RestaurantDTO, Restaurant>().ReverseMap();
             CreateMap<CRUDRestaurantDTO, Restaurant>().ReverseMap();
 
+            //Restaurant_RestaurantCategory
+            CreateMap<Res_ResCategoryDTO, Restaurant_RestaurantCategory>().ReverseMap();
+            CreateMap<CRUDRes_ResCategoryDTO, Restaurant_RestaurantCategory>().ReverseMap();
+
             //TouristAttraction
             CreateMap<TouristAttractionDTO, TouristAttraction>().ReverseMap();
             CreateMap<CRUDTouristAttractionDTO, TouristAttraction>().ReverseMap();
+
+            //TouristAttraction_TouristAttractionCategory
+            CreateMap<TA_TACategoryDTO, TouristAttraction_TouristAttractionCategory>().ReverseMap();
+            CreateMap<CRUDTA_TACategoryDTO, TouristAttraction_TouristAttractionCategory>().ReverseMap();
         }
     }
 }

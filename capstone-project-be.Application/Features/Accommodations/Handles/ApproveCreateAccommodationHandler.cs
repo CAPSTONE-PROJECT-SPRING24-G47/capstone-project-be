@@ -3,6 +3,7 @@ using capstone_project_be.Application.DTOs.Accommodations;
 using capstone_project_be.Application.Features.Accommodations.Requests;
 using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Application.Responses;
+using capstone_project_be.Domain.Entities;
 using MediatR;
 
 namespace capstone_project_be.Application.Features.Accommodations.Handles
@@ -42,6 +43,7 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
             if (action.Equals("Approve"))
             {
                 accommodation.Status = "Approved";
+                accommodation.CreatedAt = DateTime.Now;
                 await _unitOfWork.AccommodationRepository.Update(accommodation);
                 await _unitOfWork.Save();
 

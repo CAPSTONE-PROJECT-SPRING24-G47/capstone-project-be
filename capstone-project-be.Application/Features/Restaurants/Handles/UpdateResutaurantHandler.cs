@@ -33,6 +33,7 @@ namespace capstone_project_be.Application.Features.Restaurants.Handles
 
             var restaurant = _mapper.Map<Restaurant>(request.RestaurantData);
             restaurant.RestaurantId = restaurantId;
+            restaurant.CreatedAt = DateTime.Now;
 
             var cityId = restaurant.CityId;
             var cityList = await _unitOfWork.CityRepository.Find(c => c.CityId == cityId);
@@ -44,6 +45,18 @@ namespace capstone_project_be.Application.Features.Restaurants.Handles
                     Message = $"Không tồn tại thành phố với CityId : {cityId}"
                 };
             }
+
+            var res_ResCategoryList = await _unitOfWork.Res_ResCategoryRepository.
+                Find(res => res.RestaurantId == restaurantId);
+            await _unitOfWork.Res_ResCategoryRepository.DeleteRange(res_ResCategoryList);
+            res_ResCategoryList = restaurant.Restaurant_RestaurantCategories.ToList();
+            await _unitOfWork.Res_ResCategoryRepository.AddRange(res_ResCategoryList);
+
+            var restaurantPhotoList = await _unitOfWork.RestaurantPhotoRepository.
+                Find(rp => rp.RestaurantId == restaurantId);
+            await _unitOfWork.RestaurantPhotoRepository.DeleteRange(restaurantPhotoList);
+            restaurantPhotoList = restaurant.RestaurantPhotos.ToList();
+            await _unitOfWork.RestaurantPhotoRepository.AddRange(restaurantPhotoList);
 
             await _unitOfWork.RestaurantRepository.Update(restaurant);
             await _unitOfWork.Save();

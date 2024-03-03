@@ -1,4 +1,6 @@
-﻿namespace capstone_project_be.Application.DTOs.TouristAttractions
+﻿using capstone_project_be.Domain.Entities;
+
+namespace capstone_project_be.Application.DTOs.TouristAttractions
 {
     public class TouristAttractionDTO
     {
@@ -13,5 +15,10 @@
         public DateTime CreatedAt { get; set; }
         public int UserId { get; set; }
         public required string Status { get; set; }
+
+        public IEnumerable<TouristAttractionPhoto> TouristAttractionPhotos { get; set; }
+        public IEnumerable<TouristAttraction_TouristAttractionCategory>
+            TouristAttraction_TouristAttractionCategories
+        { get; set; }
     }
 }

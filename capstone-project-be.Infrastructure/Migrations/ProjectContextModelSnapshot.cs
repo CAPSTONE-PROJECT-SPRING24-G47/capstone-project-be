@@ -175,12 +175,6 @@ namespace capstone_project_be.Infrastructure.Migrations
                     b.Property<int>("AccommodationId")
                         .HasColumnType("int");
 
-                    b.Property<int>("AccomodationCategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("AccomodationId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AccommodationCategoryId");

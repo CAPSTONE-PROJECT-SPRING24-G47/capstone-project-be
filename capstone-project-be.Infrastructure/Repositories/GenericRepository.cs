@@ -29,6 +29,11 @@ namespace capstone_project_be.Infrastructure.Repositories
             await _dbContext.Set<T>().AddAsync(entity);
         }
 
+        public async Task AddRange(IEnumerable<T> entities)
+        {
+            _dbContext.Set<T>().AddRange(entities);
+        }
+
         public async Task Update(T entity)
         {
             _dbContext.Set<T>().Update(entity);
