@@ -35,6 +35,7 @@ namespace capstone_project_be.Application.Features.Restaurants.Handles
             if (user.RoleId == 3)
             {
                 restaurant.Status = "Approved";
+                restaurant.CreatedAt = DateTime.Now;
             }
             else restaurant.Status = "Processing";
 

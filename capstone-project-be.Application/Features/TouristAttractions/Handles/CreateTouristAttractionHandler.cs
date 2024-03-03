@@ -35,6 +35,7 @@ namespace capstone_project_be.Application.Features.TouristAttractions.Handles
             if (user.RoleId == 3)
             {
                 touristAttraction.Status = "Approved";
+                touristAttraction.CreatedAt = DateTime.Now;
             }
             else touristAttraction.Status = "Processing";
 
