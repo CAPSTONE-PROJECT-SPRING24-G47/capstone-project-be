@@ -3,6 +3,7 @@ using capstone_project_be.Application.DTOs.Restaurants;
 using capstone_project_be.Application.Features.Restaurants.Requests;
 using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Application.Responses;
+using capstone_project_be.Domain.Entities;
 using MediatR;
 
 namespace capstone_project_be.Application.Features.Restaurants.Handles
@@ -42,6 +43,7 @@ namespace capstone_project_be.Application.Features.Restaurants.Handles
             if (action.Equals("Approve"))
             {
                 restaurant.Status = "Approved";
+                restaurant.CreatedAt = DateTime.Now;
                 await _unitOfWork.RestaurantRepository.Update(restaurant);
                 await _unitOfWork.Save();
 

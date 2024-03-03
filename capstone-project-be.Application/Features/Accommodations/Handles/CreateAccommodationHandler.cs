@@ -35,6 +35,7 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
             if (user.RoleId == 3)
             {
                 accommodation.Status = "Approved";
+                accommodation.CreatedAt = DateTime.Now;
             }
             else accommodation.Status = "Processing";
 
