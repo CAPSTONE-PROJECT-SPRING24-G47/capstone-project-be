@@ -41,8 +41,17 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
             }
             else accommodation.Status = "Processing";
             await _unitOfWork.AccommodationRepository.Add(accommodation);
+            await _unitOfWork.Save();
 
-            var accommodationId = accommodation.AccommodationId;
+            var accommodationList = await _unitOfWork.AccommodationRepository.
+                Find(a => a.UserId == accommodation.UserId && a.CreatedAt >= DateTime.Now.AddMinutes(-1));
+            if(!accommodationList.Any())
+                return new BaseResponse<AccommodationDTO>()
+                {
+                    IsSuccess = false,
+                    Message = "Thêm nơi ở mới thất bại"
+                };
+            var accommodationId = accommodationList.First().AccommodationId;
             var acc_AccCategories = accommodationData.Accommodation_AccommodationCategories;
             var acc_AccCategoryList = _mapper.Map<IEnumerable<Accommodation_AccommodationCategory>>(acc_AccCategories);
             foreach (var item in acc_AccCategoryList)
@@ -50,8 +59,6 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
                 item.AccommodationId = accommodationId;
             }
             await _unitOfWork.Acc_AccCategoryRepository.AddRange(acc_AccCategoryList);
-
-            await _unitOfWork.Save();
 
             return new BaseResponse<AccommodationDTO>()
             {
