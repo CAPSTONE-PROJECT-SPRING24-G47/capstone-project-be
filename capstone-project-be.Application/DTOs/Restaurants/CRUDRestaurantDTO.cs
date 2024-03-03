@@ -1,4 +1,6 @@
-﻿namespace capstone_project_be.Application.DTOs.Restaurants
+﻿using capstone_project_be.Domain.Entities;
+
+namespace capstone_project_be.Application.DTOs.Restaurants
 {
     public class CRUDRestaurantDTO
     {
@@ -17,5 +19,9 @@
         public required DateTime CreatedAt { get; set; }
         public required int UserId { get; set; }
         public string Status { get; set; }
+
+        public IEnumerable<RestaurantPhoto> RestaurantPhotos { get; set; }
+        public IEnumerable<RestaurantComment> RestaurantComments { get; set; }
+        public IEnumerable<Restaurant_RestaurantCategory> Restaurant_RestaurantCategories { get; set; }
     }
 }

@@ -1,5 +1,4 @@
-﻿using capstone_project_be.Application.DTOs.Accommodation_AccommodationCategory;
-using capstone_project_be.Application.DTOs.Accommodations;
+﻿using capstone_project_be.Application.DTOs.Accommodation_AccommodationCategories;
 using MediatR;
 
 namespace capstone_project_be.Application.Features.Accommodation_AccommodationCategories.Requests

@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using capstone_project_be.Application.DTOs.Accommodation_AccommodationCategories;
-using capstone_project_be.Application.DTOs.Accommodation_AccommodationCategory;
 using capstone_project_be.Application.DTOs.Accommodations;
 using capstone_project_be.Application.DTOs.Auths;
 using capstone_project_be.Application.DTOs.Cities;

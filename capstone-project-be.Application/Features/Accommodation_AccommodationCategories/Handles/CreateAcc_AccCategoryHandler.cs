@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using capstone_project_be.Application.DTOs.Accommodation_AccommodationCategory;
-using capstone_project_be.Application.DTOs.Accommodations;
+using capstone_project_be.Application.DTOs.Accommodation_AccommodationCategories;
 using capstone_project_be.Application.Features.Accommodation_AccommodationCategories.Requests;
 using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Application.Responses;

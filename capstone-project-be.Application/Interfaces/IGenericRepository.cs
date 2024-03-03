@@ -7,6 +7,7 @@ namespace capstone_project_be.Application.Interfaces
         Task<IEnumerable<T>> GetAll();
         Task<T> GetByID(int id);
         Task Add(T entity);
+        Task AddRange(IEnumerable<T> entities);
         Task Update(T entity);
         Task Delete(T entity);
         Task DeleteRange(IEnumerable<T> entities);

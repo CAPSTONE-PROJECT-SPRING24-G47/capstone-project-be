@@ -5,6 +5,7 @@ using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Application.Responses;
 using capstone_project_be.Domain.Entities;
 using MediatR;
+using System.Xml;
 
 namespace capstone_project_be.Application.Features.Accommodations.Handles
 {
@@ -23,22 +24,32 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
             var accommodationData = request.AccommodationData;
             var accommodation = _mapper.Map<Accommodation>(accommodationData);
             var userList = await _unitOfWork.UserRepository.Find(u => u.UserId == accommodation.UserId);
-            if (!userList.Any()) 
+            if (!userList.Any())
             {
-                return new BaseResponse<AccommodationDTO>() 
+                return new BaseResponse<AccommodationDTO>()
                 {
                     IsSuccess = false,
                     Message = $"Không tồn tại User với ID = {accommodation.UserId}"
                 };
             }
+
             var user = userList.First();
             if (user.RoleId == 3)
             {
                 accommodation.Status = "Approved";
             }
             else accommodation.Status = "Processing";
-
             await _unitOfWork.AccommodationRepository.Add(accommodation);
+
+            var accommodationId = accommodation.AccommodationId;
+            var acc_AccCategories = accommodationData.Accommodation_AccommodationCategories;
+            var acc_AccCategoryList = _mapper.Map<IEnumerable<Accommodation_AccommodationCategory>>(acc_AccCategories);
+            foreach (var item in acc_AccCategoryList)
+            {
+                item.AccommodationId = accommodationId;
+            }
+            await _unitOfWork.Acc_AccCategoryRepository.AddRange(acc_AccCategoryList);
+
             await _unitOfWork.Save();
 
             return new BaseResponse<AccommodationDTO>()
