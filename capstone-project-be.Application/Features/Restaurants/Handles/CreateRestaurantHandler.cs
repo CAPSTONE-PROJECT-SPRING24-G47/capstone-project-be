@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using capstone_project_be.Application.DTOs.Accommodations;
 using capstone_project_be.Application.DTOs.Restaurants;
 using capstone_project_be.Application.Features.Restaurants.Requests;
 using capstone_project_be.Application.Interfaces;
@@ -38,9 +39,34 @@ namespace capstone_project_be.Application.Features.Restaurants.Handles
                 restaurant.CreatedAt = DateTime.Now;
             }
             else restaurant.Status = "Processing";
-
+            restaurant.CreatedAt = DateTime.Now;
             await _unitOfWork.RestaurantRepository.Add(restaurant);
             await _unitOfWork.Save();
+
+            var restaurantList = await _unitOfWork.RestaurantRepository.
+                Find(r => r.UserId == restaurant.UserId && r.CreatedAt >= DateTime.Now.AddMinutes(-1));
+            if (!restaurantList.Any())
+                return new BaseResponse<RestaurantDTO>()
+                {
+                    IsSuccess = false,
+                    Message = "Thêm nhà hàng mới thất bại"
+                };
+            var restaurantId = restaurantList.First().RestaurantId;
+            var res_ResCategories = restaurantData.Restaurant_RestaurantCategories;
+            var res_ResCategoryList = _mapper.Map<IEnumerable<Restaurant_RestaurantCategory>>(res_ResCategories);
+            foreach (var item in res_ResCategoryList)
+            {
+                item.RestaurantId = restaurantId;
+            }
+            await _unitOfWork.Res_ResCategoryRepository.AddRange(res_ResCategoryList);
+
+            var restaurantPhotos = restaurantData.RestaurantPhotos;
+            var restaurantPhotoList = _mapper.Map<IEnumerable<RestaurantPhoto>>(restaurantPhotos);
+            foreach (var item in restaurantPhotos)
+            {
+                item.RestaurantId = restaurantId;
+            }
+            await _unitOfWork.RestaurantPhotoRepository.AddRange(restaurantPhotoList);
 
             return new BaseResponse<RestaurantDTO>()
             {

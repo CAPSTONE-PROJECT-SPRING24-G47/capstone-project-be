@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using capstone_project_be.Application.DTOs.Restaurants;
 using capstone_project_be.Application.DTOs.TouristAttractions;
 using capstone_project_be.Application.Features.TouristAttractions.Requests;
 using capstone_project_be.Application.Interfaces;
@@ -38,9 +39,34 @@ namespace capstone_project_be.Application.Features.TouristAttractions.Handles
                 touristAttraction.CreatedAt = DateTime.Now;
             }
             else touristAttraction.Status = "Processing";
-
+            touristAttraction.CreatedAt = DateTime.Now;
             await _unitOfWork.TouristAttractionRepository.Add(touristAttraction);
             await _unitOfWork.Save();
+
+            var touristAttractionList = await _unitOfWork.TouristAttractionRepository.
+                Find(ta => ta.UserId == touristAttraction.UserId && ta.CreatedAt >= DateTime.Now.AddMinutes(-1));
+            if (!touristAttractionList.Any())
+                return new BaseResponse<TouristAttractionDTO>()
+                {
+                    IsSuccess = false,
+                    Message = "Thêm mới thất bại"
+                };
+            var touristAttractionId = touristAttractionList.First().TouristAttractionId;
+            var ta_TaCategories = touristAttractionData.TouristAttraction_TouristAttractionCategories;
+            var ta_TaCategoryList = _mapper.Map<IEnumerable<TouristAttraction_TouristAttractionCategory>>(ta_TaCategories);
+            foreach (var item in ta_TaCategoryList)
+            {
+                item.TouristAttractionId = touristAttractionId;
+            }
+            await _unitOfWork.TA_TACategoryRepository.AddRange(ta_TaCategoryList);
+
+            var touristAttractionPhotos = touristAttractionData.TouristAttractionPhotos;
+            var touristAttractionPhotoList = _mapper.Map<IEnumerable<TouristAttractionPhoto>>(touristAttractionPhotos);
+            foreach (var item in touristAttractionList)
+            {
+                item.TouristAttractionId = touristAttractionId;
+            }
+            await _unitOfWork.TouristAttractionPhotoRepository.AddRange(touristAttractionPhotoList);
 
             return new BaseResponse<TouristAttractionDTO>()
             {

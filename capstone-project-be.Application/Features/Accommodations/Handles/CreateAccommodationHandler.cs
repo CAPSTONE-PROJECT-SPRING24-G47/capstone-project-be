@@ -37,9 +37,9 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
             if (user.RoleId == 3)
             {
                 accommodation.Status = "Approved";
-                accommodation.CreatedAt = DateTime.Now;
             }
             else accommodation.Status = "Processing";
+            accommodation.CreatedAt = DateTime.Now;
             await _unitOfWork.AccommodationRepository.Add(accommodation);
             await _unitOfWork.Save();
 
@@ -59,6 +59,14 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
                 item.AccommodationId = accommodationId;
             }
             await _unitOfWork.Acc_AccCategoryRepository.AddRange(acc_AccCategoryList);
+
+            var accommodationPhotos = accommodationData.AccommodationPhotos;
+            var accommodationPhotoList = _mapper.Map<IEnumerable<AccommodationPhoto>>(accommodationPhotos);
+            foreach (var item in accommodationPhotos)
+            {
+                item.AccommodationId = accommodationId;
+            }
+            await _unitOfWork.AccommodationPhotoRepository.AddRange(accommodationPhotoList);
 
             return new BaseResponse<AccommodationDTO>()
             {

@@ -32,6 +32,7 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
 
             var accommodation = _mapper.Map<Accommodation>(request.UpdateAccommodationData);
             accommodation.AccommodationId = accommodationId;
+            accommodation.CreatedAt = DateTime.Now;
 
             var cityId = accommodation.CityId;
             var cityList = await _unitOfWork.CityRepository.Find(c => c.CityId == cityId);
@@ -43,6 +44,17 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
                     Message = $"Không tồn tại thành phố với CityId : {cityId}"
                 };
             }
+
+            var acc_AccCategoryList = await _unitOfWork.Acc_AccCategoryRepository.Find(acc => acc.AccommodationId == accommodationId);
+            await _unitOfWork.Acc_AccCategoryRepository.DeleteRange(acc_AccCategoryList);
+            acc_AccCategoryList = accommodation.Accommodation_AccommodationCategories.ToList();
+            await _unitOfWork.Acc_AccCategoryRepository.AddRange(acc_AccCategoryList);
+
+            var accommodationPhotoList = await _unitOfWork.AccommodationPhotoRepository.
+                Find(ap => ap.AccommodationId == accommodationId);
+            await _unitOfWork.AccommodationPhotoRepository.DeleteRange(accommodationPhotoList);
+            accommodationPhotoList = accommodation.AccommodationPhotos.ToList();
+            await _unitOfWork.AccommodationPhotoRepository.AddRange(accommodationPhotoList);
 
             await _unitOfWork.AccommodationRepository.Update(accommodation);
             await _unitOfWork.Save();

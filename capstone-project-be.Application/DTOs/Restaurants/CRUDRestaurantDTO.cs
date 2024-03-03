@@ -1,4 +1,6 @@
-﻿using capstone_project_be.Domain.Entities;
+﻿using capstone_project_be.Application.DTOs.Restaurant_RestaurantCategories;
+using capstone_project_be.Application.DTOs.RestaurantPhotos;
+using capstone_project_be.Domain.Entities;
 
 namespace capstone_project_be.Application.DTOs.Restaurants
 {
@@ -16,12 +18,10 @@ namespace capstone_project_be.Application.DTOs.Restaurants
         public string RestaurantMenu { get; set; }
         public string RestaurantReserveTableUrl { get; set; }
         public string RestaurantLocation { get; set; }
-        public required DateTime CreatedAt { get; set; }
         public required int UserId { get; set; }
         public string Status { get; set; }
 
-        public IEnumerable<RestaurantPhoto> RestaurantPhotos { get; set; }
-        public IEnumerable<RestaurantComment> RestaurantComments { get; set; }
-        public IEnumerable<Restaurant_RestaurantCategory> Restaurant_RestaurantCategories { get; set; }
+        public IEnumerable<CRUDRestaurantPhotoDTO> RestaurantPhotos { get; set; }
+        public IEnumerable<CRUDRes_ResCategoryDTO> Restaurant_RestaurantCategories { get; set; }
     }
 }

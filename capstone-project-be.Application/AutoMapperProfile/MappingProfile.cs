@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using capstone_project_be.Application.DTOs.Accommodation_AccommodationCategories;
+using capstone_project_be.Application.DTOs.AccommodationPhotos;
 using capstone_project_be.Application.DTOs.Accommodations;
 using capstone_project_be.Application.DTOs.Auths;
 using capstone_project_be.Application.DTOs.Cities;
@@ -46,6 +47,10 @@ namespace capstone_project_be.Application.AutoMapperProfile
             //Accommodation_AccommodationCategory
             CreateMap<Acc_AccCategoryDTO, Accommodation_AccommodationCategory>().ReverseMap();
             CreateMap<CRUDAcc_AccCategoryDTO, Accommodation_AccommodationCategory>().ReverseMap();
+
+            //AccommodationPhoto
+            CreateMap<AccommodationPhotoDTO, AccommodationPhoto>().ReverseMap();
+            CreateMap<CRUDAccommodationPhotoDTO, AccommodationPhoto>().ReverseMap();
 
             //Restaurant
             CreateMap<RestaurantDTO, Restaurant>().ReverseMap();
