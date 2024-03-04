@@ -38,7 +38,7 @@ namespace capstone_project_be.Application.Features.Users.Handles
             }
 
             user.IsBanned = false;
-            user.IsGoogleAuth = true;
+            user.IsGoogleAuth = false;
             user.IsVerified = true;
             user.CreatedAt = DateTime.Now;
             user.Password = BCrypt.Net.BCrypt.EnhancedHashPassword("Abc123@", 13);
