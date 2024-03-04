@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using capstone_project_be.Infrastructure.Context;
 
@@ -11,9 +12,11 @@ using capstone_project_be.Infrastructure.Context;
 namespace capstone_project_be.Infrastructure.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    partial class ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20240304051548_UpdateDB-04032024-1")]
+    partial class UpdateDB040320241
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -445,14 +448,12 @@ namespace capstone_project_be.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("RestaurantId");
 
                     b.HasIndex("CityId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Restaurants");
                 });
@@ -616,14 +617,12 @@ namespace capstone_project_be.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("TouristAttractionId");
 
                     b.HasIndex("CityId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("TouristAttractions");
                 });
@@ -1101,13 +1100,7 @@ namespace capstone_project_be.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("capstone_project_be.Domain.Entities.User", "User")
-                        .WithMany("Restaurants")
-                        .HasForeignKey("UserId");
-
                     b.Navigation("City");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("capstone_project_be.Domain.Entities.RestaurantComment", b =>
@@ -1167,13 +1160,7 @@ namespace capstone_project_be.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("capstone_project_be.Domain.Entities.User", "User")
-                        .WithMany("TouristAttractions")
-                        .HasForeignKey("UserId");
-
                     b.Navigation("City");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("capstone_project_be.Domain.Entities.TouristAttractionComment", b =>
@@ -1455,11 +1442,7 @@ namespace capstone_project_be.Infrastructure.Migrations
 
                     b.Navigation("RestaurantComments");
 
-                    b.Navigation("Restaurants");
-
                     b.Navigation("TouristAttractionComments");
-
-                    b.Navigation("TouristAttractions");
 
                     b.Navigation("Trips");
 

@@ -14,11 +14,12 @@
         public required string AccommodationDescription { get; set; }
         public required string AccommodationLocation { get; set; }
         public required DateTime CreatedAt { get; set; }
-        public required int UserId { get; set; }
+        public int? UserId { get; set; }
         public required string Status { get; set; }
 
 
         public City City { get; set; }
+        public User User { get; set; }
         public IEnumerable<AccommodationPhoto> AccommodationPhotos { get; set; }
         public IEnumerable<AccommodationComment> AccommodationComments { get; set; }
         public IEnumerable<Accommodation_AccommodationCategory>

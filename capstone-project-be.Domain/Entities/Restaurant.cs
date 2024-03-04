@@ -16,10 +16,12 @@
         public string? RestaurantReserveTableUrl { get; set; }
         public required string RestaurantLocation { get; set; }
         public required DateTime CreatedAt { get; set; }
-        public required int UserId { get; set; }
+        public int? UserId { get; set; }
         public required string Status { get; set; }
 
         public City City { get; set; }
+        public User User { get; set; }
+
         public IEnumerable<RestaurantPhoto> RestaurantPhotos { get; set; }
         public IEnumerable<RestaurantComment> RestaurantComments { get; set; }
         public IEnumerable<Restaurant_RestaurantCategory> Restaurant_RestaurantCategories { get; set; }

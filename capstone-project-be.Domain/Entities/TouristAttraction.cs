@@ -13,10 +13,12 @@ namespace capstone_project_be.Domain.Entities
         public required string TouristAttractionDescription { get; set;}
         public required string TouristAttractionLocation { get; set;}
         public required DateTime CreatedAt { get; set; }
-        public required int UserId { get; set; }
+        public int? UserId { get; set; }
         public required string Status { get; set; }
 
         public City City { get; set; }
+        public User User { get; set; }
+
         public IEnumerable<TouristAttractionPhoto> TouristAttractionPhotos { get; set; }
         public IEnumerable<TouristAttractionComment> TouristAttractionComments { get; set; }
         public IEnumerable<TouristAttraction_TouristAttractionCategory>
