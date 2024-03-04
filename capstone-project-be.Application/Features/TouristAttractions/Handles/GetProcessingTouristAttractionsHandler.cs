@@ -18,7 +18,7 @@ namespace capstone_project_be.Application.Features.TouristAttractions.Handles
         }
         public async Task<IEnumerable<TouristAttractionDTO>> Handle(GetProcessingTouristAttractionsRequest request, CancellationToken cancellationToken)
         {
-            var touristAttractionList = await _unitOfWork.TouristAttractionRepository.Find(ta => ta.Status == "Processing");
+            var touristAttractionList = await _unitOfWork.TouristAttractionRepository.Find(ta => ta.Status.Trim().ToLower() == "Processing".Trim().ToLower());
 
             return _mapper.Map<IEnumerable<TouristAttractionDTO>>(touristAttractionList);
         }

@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using capstone_project_be.Application.DTOs.Accommodations;
+﻿using capstone_project_be.Application.DTOs.Accommodations;
 using capstone_project_be.Application.Features.Search.Requests;
 using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Application.Responses;
@@ -26,6 +25,9 @@ namespace capstone_project_be.Application.Features.Search.Handles
 
             switch (type)
             {
+                case "Users":
+                    list = await _unitOfWork.UserRepository.FindValueContain(property.Trim(), value.Trim());
+                    break;
                 case "Restaurants":
                     list = await _unitOfWork.RestaurantRepository.FindValueContain(property.Trim(), value.Trim());
                     break;

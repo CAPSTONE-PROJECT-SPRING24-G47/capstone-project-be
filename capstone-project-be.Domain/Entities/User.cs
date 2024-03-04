@@ -23,6 +23,9 @@
         public IEnumerable<TouristAttractionComment> TouristAttractionComments { get; set; }
         public IEnumerable<RestaurantComment> RestaurantComments { get; set; }
         public IEnumerable<AccommodationComment> AccommodationComments { get; set; }
+        public IEnumerable<Accommodation> Accommodations { get; set; }
+        public IEnumerable<Restaurant> Restaurants { get; set; }
+        public IEnumerable<TouristAttraction> TouristAttractions { get; set; }
         public Role Role { get; set; }
         public VerificationCode VerificationCode { get; set; }
     }
