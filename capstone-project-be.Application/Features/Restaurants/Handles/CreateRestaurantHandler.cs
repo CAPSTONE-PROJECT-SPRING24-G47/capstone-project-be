@@ -62,7 +62,7 @@ namespace capstone_project_be.Application.Features.Restaurants.Handles
 
             var restaurantPhotos = restaurantData.RestaurantPhotos;
             var restaurantPhotoList = _mapper.Map<IEnumerable<RestaurantPhoto>>(restaurantPhotos);
-            foreach (var item in restaurantPhotos)
+            foreach (var item in restaurantPhotoList)
             {
                 item.RestaurantId = restaurantId;
             }

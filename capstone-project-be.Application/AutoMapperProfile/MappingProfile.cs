@@ -7,8 +7,10 @@ using capstone_project_be.Application.DTOs.Cities;
 using capstone_project_be.Application.DTOs.Prefectures;
 using capstone_project_be.Application.DTOs.Regions;
 using capstone_project_be.Application.DTOs.Restaurant_RestaurantCategories;
+using capstone_project_be.Application.DTOs.RestaurantPhotos;
 using capstone_project_be.Application.DTOs.Restaurants;
 using capstone_project_be.Application.DTOs.TouristAttraction_TouristAttractionCategories;
+using capstone_project_be.Application.DTOs.TouristAttractionPhotos;
 using capstone_project_be.Application.DTOs.TouristAttractions;
 using capstone_project_be.Application.DTOs.Users;
 using capstone_project_be.Domain.Entities;
@@ -60,6 +62,10 @@ namespace capstone_project_be.Application.AutoMapperProfile
             CreateMap<Res_ResCategoryDTO, Restaurant_RestaurantCategory>().ReverseMap();
             CreateMap<CRUDRes_ResCategoryDTO, Restaurant_RestaurantCategory>().ReverseMap();
 
+            //RestaurantPhoto
+            CreateMap<RestaurantPhotoDTO, RestaurantPhoto>().ReverseMap();
+            CreateMap<CRUDRestaurantPhotoDTO, RestaurantPhoto>().ReverseMap();
+
             //TouristAttraction
             CreateMap<TouristAttractionDTO, TouristAttraction>().ReverseMap();
             CreateMap<CRUDTouristAttractionDTO, TouristAttraction>().ReverseMap();
@@ -67,6 +73,10 @@ namespace capstone_project_be.Application.AutoMapperProfile
             //TouristAttraction_TouristAttractionCategory
             CreateMap<TA_TACategoryDTO, TouristAttraction_TouristAttractionCategory>().ReverseMap();
             CreateMap<CRUDTA_TACategoryDTO, TouristAttraction_TouristAttractionCategory>().ReverseMap();
+
+            //TouristAttractionPhoto
+            CreateMap<TouristAttractionPhotoDTO, TouristAttractionPhoto>().ReverseMap();
+            CreateMap<CRUDTouristAttractionPhotoDTO, TouristAttractionPhoto>().ReverseMap();
         }
     }
 }
