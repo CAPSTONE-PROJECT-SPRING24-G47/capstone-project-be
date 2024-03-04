@@ -2,7 +2,6 @@
 {
     public class CRUDRes_ResCategoryDTO
     {
-        public required int RestaurantId { get; set; }
         public required int RestaurantCategoryId { get; set; }
     }
 }

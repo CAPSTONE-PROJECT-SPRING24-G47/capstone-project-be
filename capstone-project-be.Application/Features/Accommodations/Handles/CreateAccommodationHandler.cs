@@ -62,7 +62,7 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
 
             var accommodationPhotos = accommodationData.AccommodationPhotos;
             var accommodationPhotoList = _mapper.Map<IEnumerable<AccommodationPhoto>>(accommodationPhotos);
-            foreach (var item in accommodationPhotos)
+            foreach (var item in accommodationPhotoList)
             {
                 item.AccommodationId = accommodationId;
             }

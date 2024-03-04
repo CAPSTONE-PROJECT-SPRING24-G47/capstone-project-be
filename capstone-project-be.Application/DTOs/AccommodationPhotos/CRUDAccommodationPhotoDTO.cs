@@ -2,7 +2,6 @@
 {
     public class CRUDAccommodationPhotoDTO
     {
-        public required int AccommodationId { get; set; }
         public required string PhotoURL { get; set; }
     }
 }
