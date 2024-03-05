@@ -13,7 +13,6 @@
         public required string RestaurantWebsite { get; set; }
         public string? RestaurantPhone { get; set; }
         public string? RestaurantMenu { get; set; }
-        public string? RestaurantReserveTableUrl { get; set; }
         public required string RestaurantLocation { get; set; }
         public required DateTime CreatedAt { get; set; }
         public int? UserId { get; set; }
@@ -21,7 +20,6 @@
 
         public City City { get; set; }
         public User User { get; set; }
-
         public IEnumerable<RestaurantPhoto> RestaurantPhotos { get; set; }
         public IEnumerable<RestaurantComment> RestaurantComments { get; set; }
         public IEnumerable<Restaurant_RestaurantCategory> Restaurant_RestaurantCategories { get; set; }

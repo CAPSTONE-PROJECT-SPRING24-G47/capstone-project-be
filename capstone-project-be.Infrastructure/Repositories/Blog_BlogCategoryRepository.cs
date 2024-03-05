@@ -4,14 +4,14 @@ using capstone_project_be.Infrastructure.Context;
 
 namespace capstone_project_be.Infrastructure.Repositories
 {
-    public class AccommodationCategoryRepository : GenericRepository<AccommodationCategory>, IAccommodationCategoryRepository
+    public class Blog_BlogCategoryRepository : GenericRepository<Blog_BlogCategory>, IBlog_BlogCategoryRepository
     {
         private ProjectContext _dbContext;
 
-        public AccommodationCategoryRepository(ProjectContext dbContext) : base(dbContext)
+        public Blog_BlogCategoryRepository(ProjectContext dbContext) : base(dbContext)
         {
             _dbContext = dbContext;
         }
-        
+
     }
 }

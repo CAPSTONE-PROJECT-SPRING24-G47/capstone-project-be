@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using capstone_project_be.Infrastructure.Context;
 
@@ -11,9 +12,11 @@ using capstone_project_be.Infrastructure.Context;
 namespace capstone_project_be.Infrastructure.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    partial class ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20240304142720_UpdateDB-04032024-3")]
+    partial class UpdateDB040320243
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -207,6 +210,9 @@ namespace capstone_project_be.Infrastructure.Migrations
                     b.Property<bool>("IsReported")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime>("LastModifiedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -303,7 +309,7 @@ namespace capstone_project_be.Infrastructure.Migrations
                     b.ToTable("BlogPhotos");
                 });
 
-            modelBuilder.Entity("capstone_project_be.Domain.Entities.Blog_BlogCategory", b =>
+            modelBuilder.Entity("capstone_project_be.Domain.Entities.Blog_BlogCatagory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1065,7 +1071,7 @@ namespace capstone_project_be.Infrastructure.Migrations
                     b.Navigation("Blog");
                 });
 
-            modelBuilder.Entity("capstone_project_be.Domain.Entities.Blog_BlogCategory", b =>
+            modelBuilder.Entity("capstone_project_be.Domain.Entities.Blog_BlogCatagory", b =>
                 {
                     b.HasOne("capstone_project_be.Domain.Entities.BlogCategory", "BlogCategory")
                         .WithMany("Blog_BlogCatagories")
