@@ -1,4 +1,7 @@
-﻿namespace capstone_project_be.Application.DTOs.Restaurants
+﻿using capstone_project_be.Application.DTOs.Restaurant_RestaurantCategories;
+using capstone_project_be.Application.DTOs.RestaurantPhotos;
+
+namespace capstone_project_be.Application.DTOs.Restaurants
 {
     public class RestaurantDTO
     {
@@ -18,5 +21,8 @@
         public required DateTime CreatedAt { get; set; }
         public required int UserId { get; set; }
         public required string Status { get; set; }
+
+        public IEnumerable<CRUDRestaurantPhotoDTO> RestaurantPhotos { get; set; }
+        public IEnumerable<CRUDRes_ResCategoryDTO> Restaurant_RestaurantCategories { get; set; }
     }
 }

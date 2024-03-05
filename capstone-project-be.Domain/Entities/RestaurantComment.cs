@@ -10,6 +10,7 @@
         public required DateTime CreatedAt { get; set; }
         public required DateTime LastModifiedAt { get; set; }
         public required DateTime VisitedAt { get; set; }
+        public bool IsReported { get; set; } = false;
 
         public User User { get; set; }
         public Restaurant Restaurant { get; set; }

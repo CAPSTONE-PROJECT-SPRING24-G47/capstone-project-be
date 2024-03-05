@@ -1,6 +1,6 @@
 ﻿namespace capstone_project_be.Domain.Entities
 {
-    public class Blog_BlogCatagory
+    public class Blog_BlogCategory
     {
         public required int Id { get; set; }
         public required int BlogId { get; set; }

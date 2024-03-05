@@ -31,6 +31,11 @@ namespace capstone_project_be.Infrastructure.Repositories
             TouristAttractionCategoryRepository = new TouristAttractionCategoryRepository(_dbContext);
             TA_TACategoryRepository = new TA_TACategoryRepository(_dbContext);
             TouristAttractionPhotoRepository = new TouristAttractionPhotoRepository(_dbContext);
+
+            BlogRepository = new BlogRepository(_dbContext);
+            BlogCategoryRepository = new BlogCategoryRepository(_dbContext);
+            Blog_BlogCategoryRepository = new Blog_BlogCategoryRepository(_dbContext);
+            BlogPhotoRepository = new BlogPhotoRepository(_dbContext);
         }
 
         public IUserRepository UserRepository { get; set; }
@@ -54,6 +59,11 @@ namespace capstone_project_be.Infrastructure.Repositories
         public ITouristAttractionCategoryRepository TouristAttractionCategoryRepository { get; set; }
         public ITA_TACategoryRepository TA_TACategoryRepository { get; set; }
         public ITouristAttractionPhotoRepository TouristAttractionPhotoRepository { get; set; }
+
+        public IBlogRepository BlogRepository { get; set; }
+        public IBlogCategoryRepository BlogCategoryRepository { get; set; }
+        public IBlog_BlogCategoryRepository Blog_BlogCategoryRepository { get; set; }
+        public IBlogPhotoRepository BlogPhotoRepository { get; set; }
 
         public void Dispose()
         {

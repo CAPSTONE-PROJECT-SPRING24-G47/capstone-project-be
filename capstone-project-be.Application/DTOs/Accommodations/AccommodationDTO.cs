@@ -1,4 +1,7 @@
-﻿namespace capstone_project_be.Application.DTOs.Accommodations
+﻿using capstone_project_be.Application.DTOs.Accommodation_AccommodationCategories;
+using capstone_project_be.Application.DTOs.AccommodationPhotos;
+
+namespace capstone_project_be.Application.DTOs.Accommodations
 {
     public class AccommodationDTO
     {
@@ -16,5 +19,11 @@
         public DateTime CreatedAt { get; set; }
         public int UserId { get; set; }
         public string Status { get; set; }
+
+        public IEnumerable<CRUDAccommodationPhotoDTO> AccommodationPhotos { get; set; }
+
+        public IEnumerable<CRUDAcc_AccCategoryDTO>
+            Accommodation_AccommodationCategories
+        { get; set; }
     }
 }

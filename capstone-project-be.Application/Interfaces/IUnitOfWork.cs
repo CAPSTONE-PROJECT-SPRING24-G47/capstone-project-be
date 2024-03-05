@@ -19,6 +19,10 @@
         ITouristAttractionCategoryRepository TouristAttractionCategoryRepository { get; }
         ITA_TACategoryRepository TA_TACategoryRepository { get; }
         ITouristAttractionPhotoRepository TouristAttractionPhotoRepository { get; }
+        IBlogRepository BlogRepository { get; }
+        IBlogCategoryRepository BlogCategoryRepository { get; }
+        IBlog_BlogCategoryRepository Blog_BlogCategoryRepository { get; }
+        IBlogPhotoRepository BlogPhotoRepository { get; }
         Task<int> Save();
     }
 }

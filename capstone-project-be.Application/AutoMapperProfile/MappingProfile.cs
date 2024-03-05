@@ -3,6 +3,9 @@ using capstone_project_be.Application.DTOs.Accommodation_AccommodationCategories
 using capstone_project_be.Application.DTOs.AccommodationPhotos;
 using capstone_project_be.Application.DTOs.Accommodations;
 using capstone_project_be.Application.DTOs.Auths;
+using capstone_project_be.Application.DTOs.Blog_BlogCategories;
+using capstone_project_be.Application.DTOs.BlogPhotos;
+using capstone_project_be.Application.DTOs.Blogs;
 using capstone_project_be.Application.DTOs.Cities;
 using capstone_project_be.Application.DTOs.Prefectures;
 using capstone_project_be.Application.DTOs.Regions;
@@ -77,6 +80,18 @@ namespace capstone_project_be.Application.AutoMapperProfile
             //TouristAttractionPhoto
             CreateMap<TouristAttractionPhotoDTO, TouristAttractionPhoto>().ReverseMap();
             CreateMap<CRUDTouristAttractionPhotoDTO, TouristAttractionPhoto>().ReverseMap();
+
+            //Blog
+            CreateMap<BlogDTO, Blog>().ReverseMap();
+            CreateMap<CRUDBlogDTO, Blog>().ReverseMap();
+
+            //Blog_BlogCategory
+            CreateMap<Blog_BlogCategoryDTO, Blog_BlogCategory>().ReverseMap();
+            CreateMap<CRUDBlog_BlogCategoryDTO, Blog_BlogCategory>().ReverseMap();
+
+            //BlogPhoto
+            CreateMap<BlogPhotoDTO, BlogPhoto>().ReverseMap();
+            CreateMap<CRUDBlogPhotoDTO, BlogPhoto>().ReverseMap();
         }
     }
 }
