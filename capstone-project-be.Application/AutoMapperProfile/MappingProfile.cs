@@ -1,18 +1,23 @@
 ﻿using AutoMapper;
 using capstone_project_be.Application.DTOs.Accommodation_AccommodationCategories;
+using capstone_project_be.Application.DTOs.AccommodationCategories;
+using capstone_project_be.Application.DTOs.AccommodationComments;
 using capstone_project_be.Application.DTOs.AccommodationPhotos;
 using capstone_project_be.Application.DTOs.Accommodations;
 using capstone_project_be.Application.DTOs.Auths;
 using capstone_project_be.Application.DTOs.Blog_BlogCategories;
+using capstone_project_be.Application.DTOs.BlogCategories;
 using capstone_project_be.Application.DTOs.BlogPhotos;
 using capstone_project_be.Application.DTOs.Blogs;
 using capstone_project_be.Application.DTOs.Cities;
 using capstone_project_be.Application.DTOs.Prefectures;
 using capstone_project_be.Application.DTOs.Regions;
 using capstone_project_be.Application.DTOs.Restaurant_RestaurantCategories;
+using capstone_project_be.Application.DTOs.RestaurantCategories;
 using capstone_project_be.Application.DTOs.RestaurantPhotos;
 using capstone_project_be.Application.DTOs.Restaurants;
 using capstone_project_be.Application.DTOs.TouristAttraction_TouristAttractionCategories;
+using capstone_project_be.Application.DTOs.TouristAttractionCategories;
 using capstone_project_be.Application.DTOs.TouristAttractionPhotos;
 using capstone_project_be.Application.DTOs.TouristAttractions;
 using capstone_project_be.Application.DTOs.Users;
@@ -50,6 +55,9 @@ namespace capstone_project_be.Application.AutoMapperProfile
             CreateMap<CreateAccommodationDTO, Accommodation>().ReverseMap();
             CreateMap<UpdateAccommodationDTO, Accommodation>().ReverseMap();
 
+            //AccommodationCategory
+            CreateMap<AccommodationCategoryDTO, AccommodationCategory>().ReverseMap();
+
             //Accommodation_AccommodationCategory
             CreateMap<Acc_AccCategoryDTO, Accommodation_AccommodationCategory>().ReverseMap();
             CreateMap<CRUDAcc_AccCategoryDTO, Accommodation_AccommodationCategory>().ReverseMap();
@@ -57,6 +65,10 @@ namespace capstone_project_be.Application.AutoMapperProfile
             //AccommodationPhoto
             CreateMap<AccommodationPhotoDTO, AccommodationPhoto>().ReverseMap();
             CreateMap<CRUDAccommodationPhotoDTO, AccommodationPhoto>().ReverseMap();
+
+            //AccommodationComment
+            CreateMap<AccommodationCommentDTO, AccommodationComment>().ReverseMap();
+            CreateMap<CRUDAccommodationCommentDTO, AccommodationComment>().ReverseMap();
 
             //Restaurant
             CreateMap<RestaurantDTO, Restaurant>().ReverseMap();
@@ -71,6 +83,9 @@ namespace capstone_project_be.Application.AutoMapperProfile
             CreateMap<RestaurantPhotoDTO, RestaurantPhoto>().ReverseMap();
             CreateMap<CRUDRestaurantPhotoDTO, RestaurantPhoto>().ReverseMap();
 
+            //RestaurantCategory
+            CreateMap<RestaurantCategoryDTO, RestaurantCategory>().ReverseMap();
+
             //TouristAttraction
             CreateMap<TouristAttractionDTO, TouristAttraction>().ReverseMap();
             CreateMap<CreateTouristAttractionDTO, TouristAttraction>().ReverseMap();
@@ -84,6 +99,9 @@ namespace capstone_project_be.Application.AutoMapperProfile
             CreateMap<TouristAttractionPhotoDTO, TouristAttractionPhoto>().ReverseMap();
             CreateMap<CRUDTouristAttractionPhotoDTO, TouristAttractionPhoto>().ReverseMap();
 
+            //TouristAttractionCategory
+            CreateMap<TouristAttractionCategoryDTO, TouristAttractionCategory>().ReverseMap();
+
             //Blog
             CreateMap<BlogDTO, Blog>().ReverseMap();
             CreateMap<CreateBlogDTO, Blog>().ReverseMap();
@@ -96,6 +114,9 @@ namespace capstone_project_be.Application.AutoMapperProfile
             //BlogPhoto
             CreateMap<BlogPhotoDTO, BlogPhoto>().ReverseMap();
             CreateMap<CRUDBlogPhotoDTO, BlogPhoto>().ReverseMap();
+
+            //BlogCategory
+            CreateMap<BlogCategoryDTO, BlogCategory>().ReverseMap();
         }
     }
 }

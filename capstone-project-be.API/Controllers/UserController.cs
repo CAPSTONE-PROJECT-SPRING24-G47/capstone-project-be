@@ -43,9 +43,9 @@ namespace capstone_project_be.API.Controllers
         }
 
         [HttpPost("{id}/change-password")]
-        public async Task<object> ChangePassword(string id, string newPass)
+        public async Task<object> ChangePassword(string id, [FromBody] ChangePasswordDTO changePasswordData)
         {
-            var response = await _mediator.Send(new ChangePasswordRequest(id, newPass));
+            var response = await _mediator.Send(new ChangePasswordRequest(id, changePasswordData));
             return response;
         }
 
