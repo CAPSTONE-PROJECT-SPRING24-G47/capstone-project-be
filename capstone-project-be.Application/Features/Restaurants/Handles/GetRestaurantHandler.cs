@@ -3,6 +3,7 @@ using capstone_project_be.Application.DTOs.Restaurants;
 using capstone_project_be.Application.Features.Restaurants.Requests;
 using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Application.Responses;
+using capstone_project_be.Domain.Entities;
 using MediatR;
 
 namespace capstone_project_be.Application.Features.Restaurants.Handles
@@ -38,6 +39,13 @@ namespace capstone_project_be.Application.Features.Restaurants.Handles
                     Message = "Không tìm thấy nhà hàng!"
                 };
             }
+
+            var restaurantPhotoList = await _unitOfWork.RestaurantPhotoRepository.
+                Find(rp => rp.RestaurantId == restaurantId);
+            restaurant.RestaurantPhotos = restaurantPhotoList;
+            var res_ResCategoryList = await _unitOfWork.Res_ResCategoryRepository.
+                Find(rrc => rrc.RestaurantId == restaurantId);
+            restaurant.Restaurant_RestaurantCategories = res_ResCategoryList;
 
             return new BaseResponse<RestaurantDTO>()
             {

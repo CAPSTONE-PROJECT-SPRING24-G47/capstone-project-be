@@ -43,14 +43,14 @@ namespace capstone_project_be.API.Controllers
         }
 
         [HttpPost]
-        public async Task<object> CreateTouristAttraction([FromBody] CRUDTouristAttractionDTO touristAttractionData)
+        public async Task<object> CreateTouristAttraction([FromBody] CreateTouristAttractionDTO touristAttractionData)
         {
             var response = await _mediator.Send(new CreateTouristAttractionRequest(touristAttractionData));
             return response;
         }
 
         [HttpPut("{id}")]
-        public async Task<object> UpdateTouristAttraction(string id, [FromBody] CRUDTouristAttractionDTO touristAttractionData)
+        public async Task<object> UpdateTouristAttraction(string id, [FromBody] UpdateTouristAttractionDTO touristAttractionData)
         {
             var response = await _mediator.Send(new UpdateTouristAttractionRequest(id, touristAttractionData));
             return response;

@@ -34,14 +34,14 @@ namespace capstone_project_be.API.Controllers
         }
 
         [HttpPost]
-        public async Task<object> CreateRestaurant([FromBody] CRUDRestaurantDTO restaurantData)
+        public async Task<object> CreateRestaurant([FromBody] CreateRestaurantDTO restaurantData)
         {
             var response = await _mediator.Send(new CreateRestaurantRequest(restaurantData));
             return response;
         }
 
         [HttpPut("{id}")]
-        public async Task<object> UpdateRestaurant(string id, [FromBody] CRUDRestaurantDTO restaurantData)
+        public async Task<object> UpdateRestaurant(string id, [FromBody] UpdateRestaurantDTO restaurantData)
         {
             var response = await _mediator.Send(new UpdateRestaurantRequest(id, restaurantData));
             return response;

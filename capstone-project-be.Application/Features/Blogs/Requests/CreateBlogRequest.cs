@@ -3,8 +3,8 @@ using MediatR;
 
 namespace capstone_project_be.Application.Features.Blogs.Requests
 {
-    public class CreateBlogRequest(CRUDBlogDTO blogData) : IRequest<object>
+    public class CreateBlogRequest(CreateBlogDTO blogData) : IRequest<object>
     {
-        public CRUDBlogDTO BlogData { get; set; } = blogData;
+        public CreateBlogDTO BlogData { get; set; } = blogData;
     }
 }

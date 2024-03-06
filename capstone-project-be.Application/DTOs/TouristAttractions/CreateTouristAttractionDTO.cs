@@ -1,12 +1,10 @@
 ﻿using capstone_project_be.Application.DTOs.TouristAttraction_TouristAttractionCategories;
 using capstone_project_be.Application.DTOs.TouristAttractionPhotos;
-using capstone_project_be.Domain.Entities;
 
 namespace capstone_project_be.Application.DTOs.TouristAttractions
 {
-    public class TouristAttractionDTO
+    public class CreateTouristAttractionDTO
     {
-        public int TouristAttractionId { get; set; }
         public int CityId { get; set; }
         public string TouristAttractionName { get; set; }
         public float TouristAttractionPrice { get; set; }
@@ -14,9 +12,7 @@ namespace capstone_project_be.Application.DTOs.TouristAttractions
         public string TouristAttractionWebsite { get; set; }
         public string TouristAttractionDescription { get; set; }
         public string TouristAttractionLocation { get; set; }
-        public DateTime CreatedAt { get; set; }
         public int UserId { get; set; }
-        public required string Status { get; set; }
 
         public IEnumerable<CRUDTouristAttractionPhotoDTO> TouristAttractionPhotos { get; set; }
         public IEnumerable<CRUDTA_TACategoryDTO>

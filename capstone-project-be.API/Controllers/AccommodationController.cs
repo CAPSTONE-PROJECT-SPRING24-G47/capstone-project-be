@@ -40,14 +40,14 @@ namespace capstone_project_be.API.Controllers
         }
 
         [HttpPost]
-        public async Task<object> CreateAccommodation([FromBody] CRUDAccommodationDTO accommodationData)
+        public async Task<object> CreateAccommodation([FromBody] CreateAccommodationDTO accommodationData)
         {
             var response = await _mediator.Send(new CreateAccommodationRequest( accommodationData));
             return response;
         }
 
         [HttpPut("{id}")]
-        public async Task<object> UpdateAccommodation(string id, [FromBody] CRUDAccommodationDTO updateAccommodationData)
+        public async Task<object> UpdateAccommodation(string id, [FromBody] UpdateAccommodationDTO updateAccommodationData)
         {
             var response = await _mediator.Send(new UpdateAccommodationRequest(id, updateAccommodationData));
             return response;

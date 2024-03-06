@@ -30,6 +30,7 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
             }
 
             var accommodation = await _unitOfWork.AccommodationRepository.GetByID(accommodationId);
+            
             if (accommodation == null)
             {
                 return new BaseResponse<AccommodationDTO>()
@@ -38,6 +39,13 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
                     Message = "Không tìm thấy nơi ở!"
                 };
             }
+
+            var accommodationPhotoList = await _unitOfWork.AccommodationPhotoRepository.
+                Find(ap => ap.AccommodationId == accommodationId);
+            accommodation.AccommodationPhotos = accommodationPhotoList;
+            var acc_accCategoryList = await _unitOfWork.Acc_AccCategoryRepository.
+                Find(acc => acc.AccommodationId == accommodationId);
+            accommodation.Accommodation_AccommodationCategories = acc_accCategoryList;
 
             return new BaseResponse<AccommodationDTO>()
             {
