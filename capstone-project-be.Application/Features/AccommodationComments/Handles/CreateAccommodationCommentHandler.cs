@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using capstone_project_be.Application.DTOs.AccommodationComments;
-using capstone_project_be.Application.DTOs.Cities;
 using capstone_project_be.Application.Features.AccommodationComments.Requests;
-using capstone_project_be.Application.Features.Cities.Requests;
 using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Application.Responses;
 using capstone_project_be.Domain.Entities;

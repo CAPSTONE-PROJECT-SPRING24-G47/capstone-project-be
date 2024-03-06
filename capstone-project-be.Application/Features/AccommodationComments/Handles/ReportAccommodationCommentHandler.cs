@@ -7,7 +7,7 @@ using MediatR;
 
 namespace capstone_project_be.Application.Features.AccommodationComments.Handles
 {
-    internal class ReportAccommodationCommentHandler : IRequestHandler<ReportAccommodationCommentRequest, object>
+    public class ReportAccommodationCommentHandler : IRequestHandler<ReportAccommodationCommentRequest, object>
     {
         private readonly IUnitOfWork _unitOfWork;
 

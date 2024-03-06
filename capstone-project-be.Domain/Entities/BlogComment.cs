@@ -8,7 +8,6 @@
         public required float Stars { get; set; }
         public required string CommentContent {  get; set; }
         public required DateTime CreatedAt { get; set; }
-        public required DateTime LastModifiedAt { get; set; }
         public bool IsReported { get; set; } = false;
 
         public User User { get; set; }
