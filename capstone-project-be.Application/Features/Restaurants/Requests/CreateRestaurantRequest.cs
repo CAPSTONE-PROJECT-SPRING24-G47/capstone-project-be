@@ -3,8 +3,8 @@ using MediatR;
 
 namespace capstone_project_be.Application.Features.Restaurants.Requests
 {
-    public class CreateRestaurantRequest(CRUDRestaurantDTO restaurantData) : IRequest<object>
+    public class CreateRestaurantRequest(CreateRestaurantDTO restaurantData) : IRequest<object>
     {
-        public CRUDRestaurantDTO RestaurantData { get; set; } = restaurantData;
+        public CreateRestaurantDTO RestaurantData { get; set; } = restaurantData;
     }
 }

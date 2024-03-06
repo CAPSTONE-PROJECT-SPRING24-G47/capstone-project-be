@@ -47,7 +47,8 @@ namespace capstone_project_be.Application.AutoMapperProfile
 
             //Accommodation
             CreateMap<AccommodationDTO, Accommodation>().ReverseMap();
-            CreateMap<CRUDAccommodationDTO, Accommodation>().ReverseMap();
+            CreateMap<CreateAccommodationDTO, Accommodation>().ReverseMap();
+            CreateMap<UpdateAccommodationDTO, Accommodation>().ReverseMap();
 
             //Accommodation_AccommodationCategory
             CreateMap<Acc_AccCategoryDTO, Accommodation_AccommodationCategory>().ReverseMap();
@@ -59,7 +60,8 @@ namespace capstone_project_be.Application.AutoMapperProfile
 
             //Restaurant
             CreateMap<RestaurantDTO, Restaurant>().ReverseMap();
-            CreateMap<CRUDRestaurantDTO, Restaurant>().ReverseMap();
+            CreateMap<CreateRestaurantDTO, Restaurant>().ReverseMap();
+            CreateMap<UpdateRestaurantDTO, Restaurant>().ReverseMap();
 
             //Restaurant_RestaurantCategory
             CreateMap<Res_ResCategoryDTO, Restaurant_RestaurantCategory>().ReverseMap();
@@ -71,7 +73,8 @@ namespace capstone_project_be.Application.AutoMapperProfile
 
             //TouristAttraction
             CreateMap<TouristAttractionDTO, TouristAttraction>().ReverseMap();
-            CreateMap<CRUDTouristAttractionDTO, TouristAttraction>().ReverseMap();
+            CreateMap<CreateTouristAttractionDTO, TouristAttraction>().ReverseMap();
+            CreateMap<UpdateTouristAttractionDTO, TouristAttraction>().ReverseMap();
 
             //TouristAttraction_TouristAttractionCategory
             CreateMap<TA_TACategoryDTO, TouristAttraction_TouristAttractionCategory>().ReverseMap();
@@ -83,7 +86,8 @@ namespace capstone_project_be.Application.AutoMapperProfile
 
             //Blog
             CreateMap<BlogDTO, Blog>().ReverseMap();
-            CreateMap<CRUDBlogDTO, Blog>().ReverseMap();
+            CreateMap<CreateBlogDTO, Blog>().ReverseMap();
+            CreateMap<UpdateBlogDTO, Blog>().ReverseMap();
 
             //Blog_BlogCategory
             CreateMap<Blog_BlogCategoryDTO, Blog_BlogCategory>().ReverseMap();

@@ -41,6 +41,7 @@ namespace capstone_project_be.Application.Features.Blogs.Handles
             }
             else blog.Status = "Processing";
             blog.CreatedAt = DateTime.Now;
+            blog.IsReported = false;
             await _unitOfWork.BlogRepository.Add(blog);
             await _unitOfWork.Save();
 

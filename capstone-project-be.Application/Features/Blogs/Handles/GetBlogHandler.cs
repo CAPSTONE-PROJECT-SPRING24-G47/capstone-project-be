@@ -5,6 +5,7 @@ using capstone_project_be.Application.Features.Accommodations.Requests;
 using capstone_project_be.Application.Features.Blogs.Requests;
 using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Application.Responses;
+using capstone_project_be.Domain.Entities;
 using MediatR;
 
 namespace capstone_project_be.Application.Features.Blogs.Handles
@@ -40,6 +41,13 @@ namespace capstone_project_be.Application.Features.Blogs.Handles
                     Message = "Không tìm thấy blog!"
                 };
             }
+
+            var blogPhotoList = await _unitOfWork.BlogPhotoRepository.
+                Find(bp => bp.BlogId == blogId);
+            blog.BlogPhotos = blogPhotoList;
+            var blog_BlogCategoryList = await _unitOfWork.Blog_BlogCategoryRepository.
+                Find(bbc => bbc.BlogId == blogId);
+            blog.Blog_BlogCatagories = blog_BlogCategoryList;
 
             return new BaseResponse<BlogDTO>()
             {

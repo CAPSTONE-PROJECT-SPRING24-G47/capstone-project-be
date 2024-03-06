@@ -41,14 +41,14 @@ namespace capstone_project_be.API.Controllers
         }
 
         [HttpPost]
-        public async Task<object> CreateBlog([FromBody] CRUDBlogDTO blogData)
+        public async Task<object> CreateBlog([FromBody] CreateBlogDTO blogData)
         {
             var response = await _mediator.Send(new CreateBlogRequest(blogData));
             return response;
         }
 
         [HttpPut("{id}")]
-        public async Task<object> UpdateBlog(string id, [FromBody] CRUDBlogDTO updateBlogData)
+        public async Task<object> UpdateBlog(string id, [FromBody] UpdateBlogDTO updateBlogData)
         {
             var response = await _mediator.Send(new UpdateBlogRequest(id, updateBlogData));
             return response;

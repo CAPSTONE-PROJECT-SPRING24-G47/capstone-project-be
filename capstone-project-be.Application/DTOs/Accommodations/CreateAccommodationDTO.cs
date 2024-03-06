@@ -4,7 +4,7 @@ using capstone_project_be.Domain.Entities;
 
 namespace capstone_project_be.Application.DTOs.Accommodations
 {
-    public class CRUDAccommodationDTO
+    public class CreateAccommodationDTO
     {
         public int CityId { get; set; }
         public string AccommodationName { get; set; }
@@ -17,7 +17,6 @@ namespace capstone_project_be.Application.DTOs.Accommodations
         public string AccommodationDescription { get; set; }
         public string AccommodationLocation { get; set; }
         public int UserId { get; set; }
-        public string Status { get; set; }
 
         public IEnumerable<CRUDAccommodationPhotoDTO> AccommodationPhotos { get; set; }
 

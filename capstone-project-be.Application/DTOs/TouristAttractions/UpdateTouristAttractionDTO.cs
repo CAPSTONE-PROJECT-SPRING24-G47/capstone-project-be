@@ -4,7 +4,7 @@ using capstone_project_be.Domain.Entities;
 
 namespace capstone_project_be.Application.DTOs.TouristAttractions
 {
-    public class CRUDTouristAttractionDTO
+    public class UpdateTouristAttractionDTO
     {
         public int CityId { get; set; }
         public string TouristAttractionName { get; set; }

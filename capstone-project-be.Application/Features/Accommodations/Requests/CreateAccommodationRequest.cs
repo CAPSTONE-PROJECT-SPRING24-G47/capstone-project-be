@@ -3,8 +3,8 @@ using MediatR;
 
 namespace capstone_project_be.Application.Features.Accommodations.Requests
 {
-    public class CreateAccommodationRequest( CRUDAccommodationDTO accommodationData) : IRequest<object>
+    public class CreateAccommodationRequest( CreateAccommodationDTO accommodationData) : IRequest<object>
     {
-        public CRUDAccommodationDTO AccommodationData { get; set; } = accommodationData;
+        public CreateAccommodationDTO AccommodationData { get; set; } = accommodationData;
     }
 }

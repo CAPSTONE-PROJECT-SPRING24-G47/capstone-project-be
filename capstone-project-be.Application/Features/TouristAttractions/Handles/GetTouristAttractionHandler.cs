@@ -3,6 +3,7 @@ using capstone_project_be.Application.DTOs.TouristAttractions;
 using capstone_project_be.Application.Features.TouristAttractions.Requests;
 using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Application.Responses;
+using capstone_project_be.Domain.Entities;
 using MediatR;
 
 namespace capstone_project_be.Application.Features.TouristAttractions.Handles
@@ -38,6 +39,13 @@ namespace capstone_project_be.Application.Features.TouristAttractions.Handles
                     Message = "Không tìm thấy địa điểm giải trí!"
                 };
             }
+
+            var touristAttractionPhotoList = await _unitOfWork.TouristAttractionPhotoRepository.
+                Find(tap => tap.TouristAttractionId == touristAttractionId);
+            touristAttraction.TouristAttractionPhotos = touristAttractionPhotoList;
+            var tA_TACategoryList = await _unitOfWork.TA_TACategoryRepository.
+                Find(tac => tac.TouristAttractionId == touristAttractionId);
+            touristAttraction.TouristAttraction_TouristAttractionCategories = tA_TACategoryList;
 
             return new BaseResponse<TouristAttractionDTO>()
             {
