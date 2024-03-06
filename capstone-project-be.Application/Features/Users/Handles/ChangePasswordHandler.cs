@@ -3,7 +3,6 @@ using capstone_project_be.Application.DTOs.Users;
 using capstone_project_be.Application.Features.Users.Requests;
 using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Application.Responses;
-using capstone_project_be.Domain.Entities;
 using MediatR;
 
 namespace capstone_project_be.Application.Features.Users.Handles
@@ -30,18 +29,24 @@ namespace capstone_project_be.Application.Features.Users.Handles
                 };
             }
 
-            var users = await _unitOfWork.UserRepository.Find(user => user.UserId == userId);
-            User user;
+            var userList = await _unitOfWork.UserRepository.Find(user => user.UserId == userId);
 
-            if (!users.Any()) return new BaseResponse<UserDTO>()
+            if (!userList.Any()) return new BaseResponse<UserDTO>()
             {
                 Message = "Không tìm thấy người dùng",
                 IsSuccess = false
             };
+            var user = userList.First();
+            bool isPasswordMatch = BCrypt.Net.BCrypt.EnhancedVerify(request.ChangePasswordData.OldPassword, user.Password);
+            if (!isPasswordMatch)
+                return new BaseResponse<UserDTO>()
+                {
+                    Message = "Mật khẩu không đúng",
+                    IsSuccess = false
+                };
 
-            var newPass = request.Password;
-            user = users.First();
-            user.Password = BCrypt.Net.BCrypt.EnhancedHashPassword(newPass, 13);
+            var newPassword = request.ChangePasswordData.NewPassword;
+            user.Password = BCrypt.Net.BCrypt.EnhancedHashPassword(newPassword, 13);
             await _unitOfWork.UserRepository.Update(user);
             await _unitOfWork.Save();
 
