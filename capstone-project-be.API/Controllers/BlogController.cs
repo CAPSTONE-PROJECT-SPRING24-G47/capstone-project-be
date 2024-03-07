@@ -67,5 +67,12 @@ namespace capstone_project_be.API.Controllers
             var response = await _mediator.Send(new ApproveCreateBlogRequest(id, action));
             return response;
         }
+
+        [HttpPost("{id}/report")]
+        public async Task<object> ReportBlogRequest(string id)
+        {
+            var response = await _mediator.Send(new ReportBlogRequest(id));
+            return response;
+        }
     }
 }

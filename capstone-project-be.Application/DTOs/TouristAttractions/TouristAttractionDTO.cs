@@ -17,6 +17,7 @@ namespace capstone_project_be.Application.DTOs.TouristAttractions
         public DateTime CreatedAt { get; set; }
         public int UserId { get; set; }
         public required string Status { get; set; }
+        public bool IsReported { get; set; }
 
         public IEnumerable<CRUDTouristAttractionPhotoDTO> TouristAttractionPhotos { get; set; }
         public IEnumerable<CRUDTA_TACategoryDTO>

@@ -1,4 +1,5 @@
 ﻿using capstone_project_be.Application.DTOs.Accommodations;
+using capstone_project_be.Application.Features.AccommodationComments.Requests;
 using capstone_project_be.Application.Features.Accommodations.Requests;
 using capstone_project_be.Application.Responses;
 using MediatR;
@@ -63,6 +64,13 @@ namespace capstone_project_be.API.Controllers
         public async Task<object> ApproveCreateAccommodationRequest(string id, string action)
         {
             var response = await _mediator.Send(new ApproveCreateAccommodationRequest(id,action));
+            return response;
+        }
+
+        [HttpPost("{id}/report")]
+        public async Task<object> ReportAccommodationRequest(string id)
+        {
+            var response = await _mediator.Send(new ReportAccommodationRequest(id));
             return response;
         }
     }

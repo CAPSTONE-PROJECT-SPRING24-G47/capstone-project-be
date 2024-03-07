@@ -54,7 +54,7 @@ namespace capstone_project_be.API.Controllers
         }
 
         [HttpPost("{id}/report")]
-        public async Task<object> ReportAccommodationRequest(string id)
+        public async Task<object> ReportAccommodationCommentRequest(string id)
         {
             var response = await _mediator.Send(new ReportAccommodationCommentRequest(id));
             return response;
