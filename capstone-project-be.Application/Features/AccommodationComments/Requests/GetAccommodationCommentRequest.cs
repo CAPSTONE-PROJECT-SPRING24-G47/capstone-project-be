@@ -1,5 +1,4 @@
 ﻿using capstone_project_be.Application.DTOs.AccommodationComments;
-using capstone_project_be.Application.DTOs.Accommodations;
 using capstone_project_be.Application.Responses;
 using MediatR;
 
