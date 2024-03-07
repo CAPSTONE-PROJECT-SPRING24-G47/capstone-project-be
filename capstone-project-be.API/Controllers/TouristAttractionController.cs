@@ -70,5 +70,12 @@ namespace capstone_project_be.API.Controllers
             var response = await _mediator.Send(new ApproveCreateTouristAttractionRequest(id, action));
             return response;
         }
+
+        [HttpPost("{id}/report")]
+        public async Task<object> ReportTouristAttractionRequest(string id)
+        {
+            var response = await _mediator.Send(new ReportTouristAttractionRequest(id));
+            return response;
+        }
     }
 }

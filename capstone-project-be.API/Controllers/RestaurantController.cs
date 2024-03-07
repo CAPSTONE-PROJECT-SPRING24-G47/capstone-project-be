@@ -67,5 +67,12 @@ namespace capstone_project_be.API.Controllers
             var response = await _mediator.Send(new ApproveCreateRestaurantRequest(id, action));
             return response;
         }
+
+        [HttpPost("{id}/report")]
+        public async Task<object> ReportRestaurantRequest(string id)
+        {
+            var response = await _mediator.Send(new ReportRestaurantRequest(id));
+            return response;
+        }
     }
 }

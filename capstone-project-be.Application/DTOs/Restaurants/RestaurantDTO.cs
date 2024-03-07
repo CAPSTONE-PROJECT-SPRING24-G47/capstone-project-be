@@ -21,6 +21,7 @@ namespace capstone_project_be.Application.DTOs.Restaurants
         public required DateTime CreatedAt { get; set; }
         public required int UserId { get; set; }
         public required string Status { get; set; }
+        public bool IsReported { get; set; }
 
         public IEnumerable<CRUDRestaurantPhotoDTO> RestaurantPhotos { get; set; }
         public IEnumerable<CRUDRes_ResCategoryDTO> Restaurant_RestaurantCategories { get; set; }

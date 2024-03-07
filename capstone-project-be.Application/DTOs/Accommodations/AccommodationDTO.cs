@@ -19,6 +19,7 @@ namespace capstone_project_be.Application.DTOs.Accommodations
         public DateTime CreatedAt { get; set; }
         public int UserId { get; set; }
         public string Status { get; set; }
+        public bool IsReported { get; set; }
 
         public IEnumerable<CRUDAccommodationPhotoDTO> AccommodationPhotos { get; set; }
 
