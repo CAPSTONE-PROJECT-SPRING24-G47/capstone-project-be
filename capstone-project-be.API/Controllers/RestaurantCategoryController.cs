@@ -1,6 +1,4 @@
-﻿using capstone_project_be.Application.DTOs.AccommodationCategories;
-using capstone_project_be.Application.DTOs.RestaurantCategories;
-using capstone_project_be.Application.Features.AccommodationCategories.Requests;
+﻿using capstone_project_be.Application.DTOs.RestaurantCategories;
 using capstone_project_be.Application.Features.RestaurantCategories.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

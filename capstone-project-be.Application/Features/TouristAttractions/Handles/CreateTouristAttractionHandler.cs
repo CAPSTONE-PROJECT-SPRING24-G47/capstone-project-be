@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using capstone_project_be.Application.DTOs.Restaurants;
 using capstone_project_be.Application.DTOs.TouristAttractions;
 using capstone_project_be.Application.Features.TouristAttractions.Requests;
 using capstone_project_be.Application.Interfaces;

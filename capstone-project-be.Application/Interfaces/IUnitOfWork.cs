@@ -34,6 +34,11 @@
         IBlogPhotoRepository BlogPhotoRepository { get; }
         IBlogCommentRepository BlogCommentRepository { get; }
 
+        ITripRepository TripRepository { get; }
+        ITrip_AccommodationRepository Trip_AccommodationRepository { get; }
+        ITrip_RestaurantRepository Trip_RestaurantRepository { get; }
+        ITrip_TouristAttractionRepository Trip_TouristAttractionRepository { get; }
+
         Task<int> Save();
     }
 }

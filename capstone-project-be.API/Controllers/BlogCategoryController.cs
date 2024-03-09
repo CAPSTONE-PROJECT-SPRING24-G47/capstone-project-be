@@ -1,7 +1,4 @@
-﻿using capstone_project_be.Application.DTOs.AccommodationCategories;
-using capstone_project_be.Application.DTOs.Blog_BlogCategories;
-using capstone_project_be.Application.DTOs.BlogCategories;
-using capstone_project_be.Application.Features.AccommodationCategories.Requests;
+﻿using capstone_project_be.Application.DTOs.BlogCategories;
 using capstone_project_be.Application.Features.BlogCategories.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

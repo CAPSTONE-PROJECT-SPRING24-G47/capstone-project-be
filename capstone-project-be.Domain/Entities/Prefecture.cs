@@ -8,6 +8,6 @@
         public  required string PrefectureDescription { get; set;}
 
         public Region Region { get; set;}
-        public IEnumerable<Trip_Location> Trip_Locations { get; set; }
+        public IEnumerable<City> Cities { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace capstone_project_be.Application.DTOs.Prefectures
+﻿using capstone_project_be.Domain.Entities;
+
+namespace capstone_project_be.Application.DTOs.Prefectures
 {
     public class PrefectureDTO
     {
@@ -6,5 +8,7 @@
         public int RegionId { get; set; }
         public string PrefectureName { get; set; }
         public string PrefectureDescription { get; set; }
+
+        public IEnumerable<City> Cities { get; set; }
     }
 }

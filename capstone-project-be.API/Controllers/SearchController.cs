@@ -1,5 +1,4 @@
-﻿using capstone_project_be.Application.DTOs.Restaurants;
-using capstone_project_be.Application.DTOs.Search;
+﻿using capstone_project_be.Application.DTOs.Search;
 using capstone_project_be.Application.Features.Search.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
