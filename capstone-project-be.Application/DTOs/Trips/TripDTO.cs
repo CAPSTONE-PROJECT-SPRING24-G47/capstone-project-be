@@ -1,5 +1,4 @@
 ﻿using capstone_project_be.Application.DTOs.Trip_Accommodations;
-using capstone_project_be.Application.DTOs.Trip_Locations;
 using capstone_project_be.Application.DTOs.Trip_Restaurants;
 using capstone_project_be.Application.DTOs.Trip_TouristAttractions;
 using capstone_project_be.Domain.Entities;

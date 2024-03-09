@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
 using capstone_project_be.Application.DTOs.Prefectures;
 using capstone_project_be.Application.DTOs.Regions;
-using capstone_project_be.Application.DTOs.TouristAttractions;
 using capstone_project_be.Application.DTOs.Trip_Accommodations;
 using capstone_project_be.Application.DTOs.Trip_Restaurants;
 using capstone_project_be.Application.DTOs.Trip_TouristAttractions;
 using capstone_project_be.Application.DTOs.Trips;
-using capstone_project_be.Application.Features.TouristAttractions.Requests;
 using capstone_project_be.Application.Features.Trips.Requests;
 using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Application.Responses;
@@ -27,10 +25,13 @@ namespace capstone_project_be.Application.Features.Trips.Handles
         }
         public async Task<object> Handle(CreateTripRequest request, CancellationToken cancellationToken)
         {
+            //Call out Trip Data
             var tripData = request.TripData;
             var trip = _mapper.Map<Trip>(tripData);
             trip.CreatedAt = DateTime.Now;
             trip.IsPublic = false;
+
+            //Check userId exist
             var userList = await _unitOfWork.UserRepository.Find(u => u.UserId == trip.UserId);
             if (!userList.Any())
             {
@@ -41,38 +42,37 @@ namespace capstone_project_be.Application.Features.Trips.Handles
                 };
             }
 
-            await _unitOfWork.TripRepository.Add(trip);
-            await _unitOfWork.Save();
-
-            var tripList = await _unitOfWork.TripRepository.
-                Find(t => t.UserId == trip.UserId && t.CreatedAt >= DateTime.Now.AddMinutes(-1));
-            if (!tripList.Any())
-                return new BaseResponse<TripDTO>()
-                {
-                    IsSuccess = false,
-                    Message = "Thêm mới thất bại"
-                };
-            var tripId = tripList.First().TripId;
-            var regionId = tripList.First().RegionId;
-            var prefectureId = tripList.First().PrefectureId;
-            var cityId = tripList.First().CityId;
-
-            if (regionId == null) return new BaseResponse<TripDTO>()
+            //Check regionId != null
+            if (trip.RegionId == null) return new BaseResponse<TripDTO>()
             {
                 IsSuccess = false,
                 Message = "Chưa có thông tin về địa điểm muốn đi"
             };
 
+            //Check regionId exist
             var regionData = await _unitOfWork.RegionRepository.
-                    Find(r => r.RegionId == regionId);
+                    Find(r => r.RegionId == trip.RegionId);
             if (!regionData.Any())
             {
                 return new BaseResponse<TripDTO>()
                 {
                     IsSuccess = false,
-                    Message = $"Không tồn tại vùng với Id : {regionId}"
+                    Message = $"Không tồn tại vùng với Id : {trip.RegionId}"
                 };
             }
+
+            //Add trip
+            await _unitOfWork.TripRepository.Add(trip);
+            await _unitOfWork.Save();
+
+            //Call out recently added trip
+            var tripList = await _unitOfWork.TripRepository.
+                Find(t => t.UserId == trip.UserId && t.CreatedAt >= DateTime.Now.AddMinutes(-1));
+            var tripId = tripList.First().TripId;
+            var regionId = tripList.First().RegionId;
+            var prefectureId = tripList.First().PrefectureId;
+            var cityId = tripList.First().CityId;
+
             var region = _mapper.Map<IEnumerable<RegionDTO>>(regionData).First();
 
             //Find list CityId suitable
@@ -99,15 +99,22 @@ namespace capstone_project_be.Application.Features.Trips.Handles
             }
             else
             {
-                var prefectures = await _unitOfWork.PrefectureRepository.
-                    Find(p => p.PrefectureId == prefectureId);
-                var prefectureList = _mapper.Map<IEnumerable<PrefectureDTO>>(prefectures);
-                foreach (var prefecture in prefectureList)
+                if (cityId != null)
                 {
-                    var citys = prefecture.Cities;
-                    foreach (var city in citys)
+                    cityIds.Add(cityId.Value);
+                }
+                else
+                {
+                    var prefectures = await _unitOfWork.PrefectureRepository.
+                        Find(p => p.PrefectureId == prefectureId);
+                    var prefectureList = _mapper.Map<IEnumerable<PrefectureDTO>>(prefectures);
+                    foreach (var prefecture in prefectureList)
                     {
-                        cityIds.Add(city.CityId);
+                        var citys = prefecture.Cities;
+                        foreach (var city in citys)
+                        {
+                            cityIds.Add(city.CityId);
+                        }
                     }
                 }
             }
@@ -187,11 +194,14 @@ namespace capstone_project_be.Application.Features.Trips.Handles
                 trip_TouristAttractions.Add(new CRUDTrip_TouristAttractionDTO
                 {
                     TripId = tripId,
-                    TouristAttrationId = ta.TouristAttractionId
+                    TouristAttractionId = ta.TouristAttractionId
                 });
             }
             var suggestTrip_TouristAttractions = _mapper.Map<IEnumerable<Trip_TouristAttraction>>(trip_TouristAttractions);
             await _unitOfWork.Trip_TouristAttractionRepository.AddRange(suggestTrip_TouristAttractions);
+            await _unitOfWork.Save();
+
+
 
             return new BaseResponse<TripDTO>()
             {

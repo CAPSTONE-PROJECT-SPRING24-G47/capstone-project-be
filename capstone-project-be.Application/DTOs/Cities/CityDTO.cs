@@ -9,9 +9,5 @@ namespace capstone_project_be.Application.DTOs.Cities
         public string CityName { get; set; }
         public string CityDescription { get; set; }
 
-        public IEnumerable<TouristAttraction> TouristAttractions { get; set; }
-        public IEnumerable<Restaurant> Restaurants { get; set; }
-        public IEnumerable<Accommodation> Accommodations { get; set; }
-
     }
 }

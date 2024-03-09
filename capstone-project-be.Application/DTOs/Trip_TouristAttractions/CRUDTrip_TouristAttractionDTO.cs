@@ -3,6 +3,6 @@
     public class CRUDTrip_TouristAttractionDTO
     {
         public required int TripId { get; set; }
-        public required int TouristAttrationId { get; set; }
+        public required int TouristAttractionId { get; set; }
     }
 }
