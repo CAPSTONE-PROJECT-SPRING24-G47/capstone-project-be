@@ -22,5 +22,12 @@ namespace capstone_project_be.API.Controllers
             var response = await _mediator.Send(new GetRestaurantCategoriesRequest());
             return response;
         }
+
+        [HttpGet("{id}")]
+        public async Task<object> GetRestaurantDetailCategories(string id)
+        {
+            var response = await _mediator.Send(new GetRestaurantDetailCategoriesRequest(id));
+            return response;
+        }
     }
 }

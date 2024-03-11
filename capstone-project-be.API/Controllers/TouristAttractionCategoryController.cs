@@ -1,4 +1,8 @@
-﻿using capstone_project_be.Application.DTOs.TouristAttractionCategories;
+using capstone_project_be.Application.DTOs.TouristAttractionCategories;
+using capstone_project_be.Application.DTOs.BlogCategories;
+using capstone_project_be.Application.DTOs.TouristAttractionCategories;
+using capstone_project_be.Application.Features.BlogCategories.Requests;
+using capstone_project_be.Application.Features.RestaurantCategories.Requests;
 using capstone_project_be.Application.Features.TouristAttractionCategories.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +24,13 @@ namespace capstone_project_be.API.Controllers
         public async Task<IEnumerable<TouristAttractionCategoryDTO>> GetTouristAttractionCategories()
         {
             var response = await _mediator.Send(new GetTouristAttractionCategoriesRequest());
+            return response;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<object> GetTouristAttractionDetailCategories(string id)
+        {
+            var response = await _mediator.Send(new GetTADetailCategoriesRequest(id));
             return response;
         }
     }
