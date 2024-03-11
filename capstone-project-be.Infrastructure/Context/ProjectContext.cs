@@ -36,7 +36,6 @@ namespace capstone_project_be.Infrastructure.Context
         public DbSet<TouristAttractionPhoto> TouristAttractionPhotos { get; set; }
         public DbSet<Trip> Trips { get; set; }
         public DbSet<Trip_Accommodation> Trip_Accommodations { get; set; }
-        public DbSet<Trip_Location> Trip_Locations { get; set; }
         public DbSet<Trip_Restaurant> Trip_Restaurants { get; set; }
         public DbSet<Trip_TouristAttraction> Trip_TouristAttractions { get; set; }
         public DbSet<User> Users { get; set; }

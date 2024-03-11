@@ -6,7 +6,6 @@
         public required string RegionName { get; set; }
         public required string RegionDescription { get; set;}
 
-        public IEnumerable<Trip_Location> Trip_Locations { get; set; }
         public IEnumerable<Prefecture> Prefectures { get; set; }
     }
 }

@@ -1,6 +1,4 @@
-﻿using capstone_project_be.Application.DTOs.Prefectures;
-using capstone_project_be.Application.DTOs.Users;
-using capstone_project_be.Application.Features.Prefectures.Requests;
+﻿using capstone_project_be.Application.DTOs.Users;
 using capstone_project_be.Application.Features.Users.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

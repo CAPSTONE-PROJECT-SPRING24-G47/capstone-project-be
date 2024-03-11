@@ -1,4 +1,6 @@
-﻿namespace capstone_project_be.Application.DTOs.Cities
+﻿using capstone_project_be.Domain.Entities;
+
+namespace capstone_project_be.Application.DTOs.Cities
 {
     public class CityDTO
     {

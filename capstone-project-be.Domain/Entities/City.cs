@@ -8,7 +8,6 @@
         public required string CityDescription { get; set; }
 
         public Prefecture Prefecture { get; set; }
-        public IEnumerable<Trip_Location> Trip_Locations { get; set; }
         public IEnumerable<TouristAttraction> TouristAttractions { get; set; }
         public IEnumerable<Restaurant> Restaurants { get; set; }
         public IEnumerable<Accommodation> Accommodations { get; set; }

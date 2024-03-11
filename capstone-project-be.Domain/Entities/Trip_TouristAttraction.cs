@@ -4,7 +4,7 @@
     {
         public required int Id { get; set; }
         public required int TripId { get; set; }
-        public required int TouristAttrationId { get; set; }
+        public required int TouristAttractionId { get; set; }
 
         public Trip Trip { get; set; }
         public TouristAttraction TouristAttraction { get; set; }
