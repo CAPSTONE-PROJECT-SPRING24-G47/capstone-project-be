@@ -10,7 +10,6 @@ namespace capstone_project_be.Application.DTOs.Restaurants
         public string RestaurantDescription { get; set; }
         public string PriceRange { get; set; }
         public string PriceLevel { get; set; }
-        public bool IsChildrenFriendly { get; set; }
         public string RestaurantAddress { get; set; }
         public string RestaurantWebsite { get; set; }
         public string RestaurantPhone { get; set; }

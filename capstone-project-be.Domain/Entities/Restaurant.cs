@@ -8,7 +8,6 @@
         public required string RestaurantDescription { get; set; }
         public string? PriceRange { get; set; }
         public string? PriceLevel { get; set; }
-        public required bool IsChildrenFriendly { get; set; }
         public required string RestaurantAddress { get; set; }
         public required string RestaurantWebsite { get; set; }
         public string? RestaurantPhone { get; set; }

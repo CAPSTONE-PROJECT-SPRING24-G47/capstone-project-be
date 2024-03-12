@@ -42,82 +42,76 @@ namespace capstone_project_be.Application.Features.Trips.Handles
                 };
             }
 
-            //Check regionId != null
-            if (trip.RegionId == null) return new BaseResponse<TripDTO>()
-            {
-                IsSuccess = false,
-                Message = "Chưa có thông tin về địa điểm muốn đi"
-            };
-
-            //Check regionId exist
-            var regionData = await _unitOfWork.RegionRepository.
-                    Find(r => r.RegionId == trip.RegionId);
-            if (!regionData.Any())
-            {
-                return new BaseResponse<TripDTO>()
-                {
-                    IsSuccess = false,
-                    Message = $"Không tồn tại vùng với Id : {trip.RegionId}"
-                };
-            }
-
-            //Add trip
+            //Add trip temporarily
             await _unitOfWork.TripRepository.Add(trip);
             await _unitOfWork.Save();
 
             //Call out recently added trip
             var tripList = await _unitOfWork.TripRepository.
                 Find(t => t.UserId == trip.UserId && t.CreatedAt >= DateTime.Now.AddMinutes(-1));
+
+            //Find list City Suitable + Add Trip_location
             var tripId = tripList.First().TripId;
-            var regionId = tripList.First().RegionId;
-            var prefectureId = tripList.First().PrefectureId;
-            var cityId = tripList.First().CityId;
-
-            var region = _mapper.Map<IEnumerable<RegionDTO>>(regionData).First();
-
-            //Find list CityId suitable
+            var trip_Locations = _mapper.Map<IEnumerable<Trip_Location>>(tripData.Trip_Locations);
             var cityIds = new List<int>();
+            foreach (var locations in trip_Locations)
+            {
+                //Add Trip_Location
+                locations.TripId = tripId;
+                await _unitOfWork.Trip_LocationRepository.Add(locations);
 
-            if (prefectureId == null)
-            {
-                if (cityId != null)
+                var regionId = locations.RegionId;
+                var prefectureId = locations.PrefectureId;
+                var cityId = locations.CityId;
+
+                var regionData = await _unitOfWork.RegionRepository.Find(r => r.RegionId == regionId);
+
+                var region = _mapper.Map<IEnumerable<RegionDTO>>(regionData).First();
+
+                //Find list CityId suitable
+
+                if (prefectureId == null)
                 {
-                    cityIds.Add(cityId.Value);
+                    if (cityId != null)
+                    {
+                        cityIds.Add(cityId.Value);
+                    }
+                    else
+                    {
+                        var prefectures = _mapper.Map<IEnumerable<PrefectureDTO>>(region.Prefectures);
+                        foreach (var prefecture in prefectures)
+                        {
+                            var citys = prefecture.Cities;
+                            foreach (var city in citys)
+                            {
+                                cityIds.Add(city.CityId);
+                            }
+                        }
+                    }
                 }
                 else
                 {
-                    var prefectures = _mapper.Map<IEnumerable<PrefectureDTO>>(region.Prefectures);
-                    foreach (var prefecture in prefectures)
+                    if (cityId != null)
                     {
-                        var citys = prefecture.Cities;
-                        foreach (var city in citys)
+                        cityIds.Add(cityId.Value);
+                    }
+                    else
+                    {
+                        var prefectures = await _unitOfWork.PrefectureRepository.
+                            Find(p => p.PrefectureId == prefectureId);
+                        var prefectureList = _mapper.Map<IEnumerable<PrefectureDTO>>(prefectures);
+                        foreach (var prefecture in prefectureList)
                         {
-                            cityIds.Add(city.CityId);
+                            var citys = prefecture.Cities;
+                            foreach (var city in citys)
+                            {
+                                cityIds.Add(city.CityId);
+                            }
                         }
                     }
                 }
             }
-            else
-            {
-                if (cityId != null)
-                {
-                    cityIds.Add(cityId.Value);
-                }
-                else
-                {
-                    var prefectures = await _unitOfWork.PrefectureRepository.
-                        Find(p => p.PrefectureId == prefectureId);
-                    var prefectureList = _mapper.Map<IEnumerable<PrefectureDTO>>(prefectures);
-                    foreach (var prefecture in prefectureList)
-                    {
-                        var citys = prefecture.Cities;
-                        foreach (var city in citys)
-                        {
-                            cityIds.Add(city.CityId);
-                        }
-                    }
-                }
-            }
+            
 
             //Find list AccommodationId match with AccommodationCategory
             var accommodationCategoyIds = tripData.AccommodationCategories;

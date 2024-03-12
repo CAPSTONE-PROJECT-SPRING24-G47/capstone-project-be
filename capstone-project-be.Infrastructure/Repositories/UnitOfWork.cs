@@ -45,6 +45,7 @@ namespace capstone_project_be.Infrastructure.Repositories
             Trip_AccommodationRepository = new Trip_AccommodationRepository(_dbContext);
             Trip_RestaurantRepository = new Trip_RestaurantRepository(_dbContext);
             Trip_TouristAttractionRepository = new Trip_TouristAttractionRepository(_dbContext);
+            Trip_LocationRepository = new Trip_LocationRepository(_dbContext);
         }
 
         public IUserRepository UserRepository { get; set; }
@@ -82,6 +83,7 @@ namespace capstone_project_be.Infrastructure.Repositories
         public ITrip_AccommodationRepository Trip_AccommodationRepository { get; set; }
         public ITrip_RestaurantRepository Trip_RestaurantRepository { get; set; }
         public ITrip_TouristAttractionRepository Trip_TouristAttractionRepository { get; set; }
+        public ITrip_LocationRepository Trip_LocationRepository { get; set; }
 
         public void Dispose()
         {

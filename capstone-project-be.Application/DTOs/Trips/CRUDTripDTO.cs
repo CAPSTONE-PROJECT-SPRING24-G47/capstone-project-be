@@ -17,7 +17,6 @@ namespace capstone_project_be.Application.DTOs.Trips
         public required float MaxBudget { get; set; }
         public required float MinBudget { get; set; }
         public required bool IsPublic { get; set; }
-        public required bool HasChildren { get; set; }
 
         public int? RegionId { get; set; }
         public int? PrefectureId { get; set; }

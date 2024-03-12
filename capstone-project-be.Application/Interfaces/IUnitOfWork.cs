@@ -38,6 +38,7 @@
         ITrip_AccommodationRepository Trip_AccommodationRepository { get; }
         ITrip_RestaurantRepository Trip_RestaurantRepository { get; }
         ITrip_TouristAttractionRepository Trip_TouristAttractionRepository { get; }
+        ITrip_LocationRepository Trip_LocationRepository { get; }
 
         Task<int> Save();
     }

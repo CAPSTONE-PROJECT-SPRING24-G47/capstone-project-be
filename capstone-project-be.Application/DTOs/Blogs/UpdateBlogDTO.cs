@@ -1,6 +1,5 @@
 ﻿using capstone_project_be.Application.DTOs.Blog_BlogCategories;
 using capstone_project_be.Application.DTOs.BlogPhotos;
-using capstone_project_be.Domain.Entities;
 
 namespace capstone_project_be.Application.DTOs.Blogs
 {
