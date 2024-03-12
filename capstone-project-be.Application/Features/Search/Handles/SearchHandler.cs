@@ -1,4 +1,6 @@
-﻿using capstone_project_be.Application.DTOs.Accommodations;
+﻿using AutoMapper;
+using capstone_project_be.Application.DTOs.Accommodations;
+using capstone_project_be.Application.DTOs.Regions;
 using capstone_project_be.Application.Features.Search.Requests;
 using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Application.Responses;
@@ -27,6 +29,15 @@ namespace capstone_project_be.Application.Features.Search.Handles
             {
                 case "Users":
                     list = await _unitOfWork.UserRepository.FindValueContain(property.Trim(), value.Trim());
+                    break;
+                case "Regions":
+                    list = await _unitOfWork.RegionRepository.FindValueContain(property.Trim(), value.Trim());
+                    break;
+                case "Prefectures":
+                    list = await _unitOfWork.PrefectureRepository.FindValueContain(property.Trim(), value.Trim());
+                    break;
+                case "Cities":
+                    list = await _unitOfWork.CityRepository.FindValueContain(property.Trim(), value.Trim());
                     break;
                 case "Restaurants":
                     list = await _unitOfWork.RestaurantRepository.FindValueContain(property.Trim(), value.Trim());
