@@ -24,7 +24,7 @@ namespace capstone_project_be.Infrastructure.Repositories
                                          select new TouristAttractionCategoriesDTO()
                                          {
                                              TouristAttractionCategoryId = tc.TouristAttractionCategoryId,
-                                             TouristAttractionCategoryName = tc.TouristAttactionCategoryName
+                                             TouristAttractionCategoryName = tc.TouristAttractionCategoryName
                                          }
                                               ).ToArrayAsync();
 
