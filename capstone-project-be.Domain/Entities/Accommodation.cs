@@ -7,7 +7,6 @@
         public required string AccommodationName { get; set; }
         public string? PriceRange { get; set; }
         public string? PriceLevel { get; set; }
-        public required bool IsChildrenFriendly { get; set; }
         public required string AccommodationAddress { get; set; }
         public required string AccommodationWebsite { get; set; }
         public required string AccommodationPhone { get; set; }
