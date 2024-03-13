@@ -8,7 +8,6 @@ namespace capstone_project_be.Application.DTOs.Blogs
         public required int UserId { get; set; }
         public required string Title { get; set; }
         public required string BlogContent { get; set; }
-        public required DateTime CreatedAt { get; set; }
 
         public IEnumerable<CRUDBlogPhotoDTO> BlogPhotos { get; set; }
         public IEnumerable<CRUDBlog_BlogCategoryDTO> Blog_BlogCatagories { get; set; }
