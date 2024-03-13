@@ -1,4 +1,6 @@
-﻿using capstone_project_be.Application.DTOs.Trips;
+﻿using capstone_project_be.Application.DTOs.Accommodations;
+using capstone_project_be.Application.DTOs.Trips;
+using capstone_project_be.Application.Features.Accommodations.Requests;
 using capstone_project_be.Application.Features.Trips.Requests;
 using capstone_project_be.Application.Responses;
 using MediatR;
@@ -15,6 +17,13 @@ namespace capstone_project_be.API.Controllers
         public TripController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<TripDTO>> GetTrips()
+        {
+            var response = await _mediator.Send(new GetTripsRequest());
+            return response;
         }
 
 
@@ -34,7 +43,7 @@ namespace capstone_project_be.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<object> UpdateTrip(string id, [FromBody] CRUDTripDTO tripData)
+        public async Task<object> UpdateTrip(string id, [FromBody] CreateTripDataDTO tripData)
         {
             var response = await _mediator.Send(new UpdateTripRequest(id, tripData));
             return response;

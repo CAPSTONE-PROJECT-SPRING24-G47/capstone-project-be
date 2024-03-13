@@ -157,7 +157,8 @@ namespace capstone_project_be.Application.AutoMapperProfile
 
             //Trip_Location
             CreateMap<Trip_LocationDTO, Trip_Location>().ReverseMap();
-            CreateMap<CreateTrip_LocationDTO, Trip_Location>().ReverseMap();
+            CreateMap<CRUDTrip_LocationDTO, Trip_Location>().ReverseMap();
+
         }
     }
 }
