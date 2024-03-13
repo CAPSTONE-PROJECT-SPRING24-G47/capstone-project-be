@@ -7,7 +7,6 @@ namespace capstone_project_be.Domain.Entities
         public required int TouristAttractionId { get; set; }
         public required int CityId { get; set; }
         public required string TouristAttractionName { get; set;}
-        public float? TouristAttractionPrice { get; set;}
         public required string TouristAttractionAddress { get; set;}
         public required string TouristAttractionWebsite { get; set;}
         public required string TouristAttractionDescription { get; set;}
