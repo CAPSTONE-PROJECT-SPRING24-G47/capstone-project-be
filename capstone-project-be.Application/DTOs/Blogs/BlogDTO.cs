@@ -15,6 +15,6 @@ namespace capstone_project_be.Application.DTOs.Blogs
         public bool IsReported { get; set; } 
 
         public IEnumerable<BlogPhotoDTO> BlogPhotos { get; set; }
-        public IEnumerable<Blog_BlogCategoryDTO> Blog_BlogCatagories { get; set; }
+        public IEnumerable<ReadBlog_BlogCategoryDTO> Blog_BlogCatagories { get; set; }
     }
 }
