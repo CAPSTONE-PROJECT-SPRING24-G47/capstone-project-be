@@ -1,5 +1,4 @@
 ﻿using capstone_project_be.Application.DTOs.Accommodation_AccommodationCategories;
-using capstone_project_be.Application.DTOs.Restaurant_RestaurantCategories;
 using capstone_project_be.Application.Features.AccommodationCategories.Requests;
 using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Application.Responses;
