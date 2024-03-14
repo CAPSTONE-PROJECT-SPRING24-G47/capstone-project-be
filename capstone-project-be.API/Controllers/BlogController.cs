@@ -31,6 +31,13 @@ namespace capstone_project_be.API.Controllers
             return response;
         }
 
+        [HttpGet("{id}/get-blog-by-userId")]
+        public async Task<BaseResponse<BlogDTO>> GetBlogByUserId(string id)
+        {
+            var response = await _mediator.Send(new GetBlogByUserIdRequest(id));
+            return response;
+        }
+
         [HttpGet("processing")]
         public async Task<IEnumerable<BlogDTO>> GetProcessingBlogs()
         {
