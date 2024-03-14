@@ -1,9 +1,14 @@
 ﻿using AutoMapper;
 using capstone_project_be.Application.DTOs.TouristAttractions;
+using capstone_project_be.Application.DTOs.Trip_Accommodations;
+using capstone_project_be.Application.DTOs.Trip_Locations;
+using capstone_project_be.Application.DTOs.Trip_Restaurants;
+using capstone_project_be.Application.DTOs.Trip_TouristAttractions;
 using capstone_project_be.Application.DTOs.Trips;
 using capstone_project_be.Application.Features.TouristAttractions.Requests;
 using capstone_project_be.Application.Features.Trips.Requests;
 using capstone_project_be.Application.Interfaces;
+using capstone_project_be.Domain.Entities;
 using MediatR;
 
 namespace capstone_project_be.Application.Features.Trips.Handles
@@ -21,28 +26,30 @@ namespace capstone_project_be.Application.Features.Trips.Handles
 
         public async Task<IEnumerable<TripDTO>> Handle(GetTripsRequest request, CancellationToken cancellationToken)
         {
-            var trips = await _unitOfWork.TripRepository.GetAll();
+            var tripList = await _unitOfWork.TripRepository.GetAll();
+            var trips = _mapper.Map<IEnumerable<TripDTO>>(tripList);
 
             foreach (var item in trips)
             {
                 var tripId = item.TripId;
+
                 var trip_LocationList = await _unitOfWork.Trip_LocationRepository.
                 Find(tl => tl.TripId == tripId);
-                item.Trip_Locations = trip_LocationList;
+                item.Trip_Locations = _mapper.Map<IEnumerable<CRUDTrip_LocationDTO>>(trip_LocationList);
 
                 var trip_AccommodationList = await _unitOfWork.Trip_AccommodationRepository.
-                Find(ta => ta.TripId == tripId);
-                item.Trip_Accommodations = trip_AccommodationList;
+                GetAccommodationsByTripId(tripId);
+                item.Trip_Accommodations = _mapper.Map<IEnumerable<CRUDTrip_AccommodationDTO>>(trip_AccommodationList);
 
                 var trip_RestaurantList = await _unitOfWork.Trip_RestaurantRepository.
-                Find(tr => tr.TripId == tripId);
-                item.Trip_Restaurants = trip_RestaurantList;
+                GetRestaurantsByTripId(tripId);
+                item.Trip_Restaurants = _mapper.Map<IEnumerable<CRUDTrip_RestaurantDTO>>(trip_RestaurantList);
 
-                var trip_TouristAttractionList = await _unitOfWork.Trip_TouristAttractionRepository.
-                Find(tta => tta.TripId == tripId);
-                item.Trip_TouristAttractions = trip_TouristAttractionList;
+                var trip_touristAttractionList = await _unitOfWork.Trip_TouristAttractionRepository.
+                    GetTouristAttractionsByTripId(tripId);
+                item.Trip_TouristAttractions = _mapper.Map<IEnumerable<CRUDTrip_TouristAttractionDTO>>(trip_touristAttractionList);
             }
-            return _mapper.Map<IEnumerable<TripDTO>>(trips);
+            return trips;
         }
 
     }
