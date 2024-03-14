@@ -1,5 +1,8 @@
-﻿using capstone_project_be.Application.DTOs.Users;
+﻿using capstone_project_be.Application.DTOs.Trips;
+using capstone_project_be.Application.DTOs.Users;
+using capstone_project_be.Application.Features.Trips.Requests;
 using capstone_project_be.Application.Features.Users.Requests;
+using capstone_project_be.Application.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -51,6 +54,13 @@ namespace capstone_project_be.API.Controllers
         public async Task<IEnumerable<UserDTO>> GetUsers()
         {
             return await _mediator.Send(new GetUsersRequest());
+        }
+
+        [HttpGet("{id}")]
+        public async Task<BaseResponse<UserDTO>> GetUser(string id)
+        {
+            var response = await _mediator.Send(new GetUserRequest(id));
+            return response;
         }
 
         [HttpGet("week")]
