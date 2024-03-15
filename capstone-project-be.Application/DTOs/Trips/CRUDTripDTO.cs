@@ -10,8 +10,6 @@ namespace capstone_project_be.Application.DTOs.Trips
         public required DateTime StartDate { get; set; }
         public required DateTime EndDate { get; set; }
         public required int Duration { get; set; }
-        public required float MinBudget { get; set; }
-        public required float MaxBudget { get; set; }
         public required bool IsPublic { get; set; }
         public string AccommodationPriceLevel { get; set; }
         public string RestaurantPriceLevel { get; set; }

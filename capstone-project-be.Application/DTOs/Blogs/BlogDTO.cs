@@ -1,5 +1,6 @@
 ﻿using capstone_project_be.Application.DTOs.Blog_BlogCategories;
 using capstone_project_be.Application.DTOs.BlogPhotos;
+using capstone_project_be.Application.DTOs.Users;
 using capstone_project_be.Domain.Entities;
 
 namespace capstone_project_be.Application.DTOs.Blogs
@@ -14,6 +15,7 @@ namespace capstone_project_be.Application.DTOs.Blogs
         public required string Status { get; set; }
         public bool IsReported { get; set; } 
 
+        public CRUDUserDTO User { get; set; }
         public IEnumerable<BlogPhotoDTO> BlogPhotos { get; set; }
         public IEnumerable<ReadBlog_BlogCategoryDTO> Blog_BlogCatagories { get; set; }
     }
