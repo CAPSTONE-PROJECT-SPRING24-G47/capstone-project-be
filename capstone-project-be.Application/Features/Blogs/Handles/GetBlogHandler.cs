@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using capstone_project_be.Application.DTOs.Accommodations;
+using capstone_project_be.Application.DTOs.Blog_BlogCategories;
+using capstone_project_be.Application.DTOs.BlogPhotos;
 using capstone_project_be.Application.DTOs.Blogs;
+using capstone_project_be.Application.DTOs.Users;
 using capstone_project_be.Application.Features.Accommodations.Requests;
 using capstone_project_be.Application.Features.Blogs.Requests;
 using capstone_project_be.Application.Interfaces;
@@ -32,8 +35,8 @@ namespace capstone_project_be.Application.Features.Blogs.Handles
                 };
             }
 
-            var blog = await _unitOfWork.BlogRepository.GetByID(blogId);
-            if (blog == null)
+            var blogData = await _unitOfWork.BlogRepository.GetByID(blogId);
+            if (blogData == null)
             {
                 return new BaseResponse<BlogDTO>()
                 {
@@ -42,12 +45,17 @@ namespace capstone_project_be.Application.Features.Blogs.Handles
                 };
             }
 
+            var blog = _mapper.Map<BlogDTO>(blogData);
             var blogPhotoList = await _unitOfWork.BlogPhotoRepository.
                 Find(bp => bp.BlogId == blogId);
-            blog.BlogPhotos = blogPhotoList;
+            blog.BlogPhotos = _mapper.Map<IEnumerable<BlogPhotoDTO>>(blogPhotoList);
+
             var blog_BlogCategoryList = await _unitOfWork.Blog_BlogCategoryRepository.
-                Find(bbc => bbc.BlogId == blogId);
-            blog.Blog_BlogCatagories = blog_BlogCategoryList;
+                    GetBlogDetailCategories(blogId);
+            blog.Blog_BlogCatagories = _mapper.Map<IEnumerable<ReadBlog_BlogCategoryDTO>>(blog_BlogCategoryList);
+
+            var user = await _unitOfWork.UserRepository.GetByID(blog.UserId);
+            blog.User = _mapper.Map<CRUDUserDTO>(user);
 
             return new BaseResponse<BlogDTO>()
             {

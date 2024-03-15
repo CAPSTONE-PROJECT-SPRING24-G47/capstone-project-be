@@ -9,8 +9,6 @@
         public required DateTime StartDate { get; set; }
         public required DateTime EndDate { get; set; }
         public required int Duration { get; set; }
-        public required float MinBudget { get; set; }
-        public required float MaxBudget { get; set; }
         public required bool IsPublic { get; set; } = false;
         public required DateTime CreatedAt { get; set; }
 
