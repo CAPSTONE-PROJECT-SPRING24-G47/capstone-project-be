@@ -36,8 +36,8 @@ namespace capstone_project_be.Application.Features.Trips.Handles
                 };
             }
 
-            var tripData = await _unitOfWork.TripRepository.GetByID(tripId);
-            if (tripData == null)
+            var tripData = await _unitOfWork.TripRepository.Find(t => t.TripId == tripId);
+            if (!tripData.Any())
             {
                 return new BaseResponse<TripDTO>()
                 {
@@ -46,7 +46,7 @@ namespace capstone_project_be.Application.Features.Trips.Handles
                 };
             }
 
-            var trip = _mapper.Map<TripDTO>(tripData);
+            var trip = _mapper.Map<TripDTO>(tripData.First());
 
             var trip_LocationList = await _unitOfWork.Trip_LocationRepository.
                 Find(tl => tl.TripId == tripId);
@@ -67,7 +67,7 @@ namespace capstone_project_be.Application.Features.Trips.Handles
             return new BaseResponse<TripDTO>()
             {
                 IsSuccess = true,
-                Data = new List<TripDTO> { _mapper.Map<TripDTO>(trip) }
+                Data = new List<TripDTO> { trip }
             };
         }
     }

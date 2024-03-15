@@ -38,6 +38,18 @@ namespace capstone_project_be.Application.Features.Trips.Handles
 
             var trip = tripList.First();
 
+            var trip_Locations = await _unitOfWork.Trip_LocationRepository.Find(tl => tl.TripId == tripId);
+            await _unitOfWork.Trip_LocationRepository.DeleteRange(trip_Locations);
+
+            var trip_Accommodations = await _unitOfWork.Trip_AccommodationRepository.Find(ta => ta.TripId == tripId);
+            await _unitOfWork.Trip_AccommodationRepository.DeleteRange(trip_Accommodations);
+
+            var trip_Restaurants = await _unitOfWork.Trip_RestaurantRepository.Find(tr => tr.TripId == tripId);
+            await _unitOfWork.Trip_RestaurantRepository.DeleteRange(trip_Restaurants);
+
+            var trip_TouristAttractions = await _unitOfWork.Trip_TouristAttractionRepository.Find(tta => tta.TripId == tripId);
+            await _unitOfWork.Trip_TouristAttractionRepository.DeleteRange(trip_TouristAttractions);
+
             await _unitOfWork.TripRepository.Delete(trip);
             await _unitOfWork.Save();
 

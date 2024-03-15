@@ -36,14 +36,14 @@ namespace capstone_project_be.API.Controllers
 
         
         [HttpPost]
-        public async Task<object> CreateTrip([FromBody] CreateTripDataDTO tripData)
+        public async Task<object> CreateTrip([FromBody] CRUDTripDTO tripData)
         {
             var response = await _mediator.Send(new CreateTripRequest(tripData));
             return response;
         }
 
         [HttpPut("{id}")]
-        public async Task<object> UpdateTrip(string id, [FromBody] CreateTripDataDTO tripData)
+        public async Task<object> UpdateTrip(string id, [FromBody] CRUDTripDTO tripData)
         {
             var response = await _mediator.Send(new UpdateTripRequest(id, tripData));
             return response;

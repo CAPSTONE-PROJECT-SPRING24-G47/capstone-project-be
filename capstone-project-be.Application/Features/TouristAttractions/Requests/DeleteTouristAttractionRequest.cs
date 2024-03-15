@@ -1,5 +1,4 @@
-﻿using capstone_project_be.Domain.Entities;
-using MediatR;
+﻿using MediatR;
 
 namespace capstone_project_be.Application.Features.TouristAttractions.Requests
 {

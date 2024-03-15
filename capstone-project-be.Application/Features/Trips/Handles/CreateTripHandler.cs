@@ -50,7 +50,7 @@ namespace capstone_project_be.Application.Features.Trips.Handles
             var tripList = await _unitOfWork.TripRepository.
                 Find(t => t.UserId == trip.UserId && t.CreatedAt >= DateTime.Now.AddMinutes(-1));
 
-            //Find list City Suitable + Add Trip_location
+            //Find list City Suitable
             var tripId = tripList.First().TripId;
             var trip_Locations = _mapper.Map<IEnumerable<Trip_Location>>(tripData.Trip_Locations);
             var cityIds = new List<int>();
@@ -117,7 +117,7 @@ namespace capstone_project_be.Application.Features.Trips.Handles
                 (await _unitOfWork.AccommodationRepository.Find(acc =>
                 cityIds.Contains(acc.CityId)
                 && accommodationIds.Contains(acc.AccommodationId)
-                && acc.PriceLevel == tripData.AccommodationPriceLevel))
+                && acc.PriceLevel.Trim() == tripData.AccommodationPriceLevel.Trim()))
                 .Take(trip.Duration);
             //Add list Trip_Accommodation
             var trip_Accommodations = new List<CRUDTrip_AccommodationDTO>();
@@ -132,6 +132,7 @@ namespace capstone_project_be.Application.Features.Trips.Handles
             if (!suggestTrip_Accommodations.Any())
             {
                 await _unitOfWork.TripRepository.Delete(trip);
+                await _unitOfWork.Save();
                 return new BaseResponse<TripDTO>()
                 {
                     IsSuccess = false,
@@ -158,7 +159,7 @@ namespace capstone_project_be.Application.Features.Trips.Handles
                 (await _unitOfWork.RestaurantRepository.
                 Find(res => cityIds.Contains(res.CityId)
                 && restaurantIds.Contains(res.RestaurantId)
-                && res.PriceLevel == tripData.RestaurantPriceLevel)).
+                && res.PriceLevel.Trim() == tripData.RestaurantPriceLevel.Trim())).
                 Take(trip.Duration * 2);
             //Add list Trip_Restaurant
             var trip_Restaurants = new List<CRUDTrip_RestaurantDTO>();
@@ -173,6 +174,7 @@ namespace capstone_project_be.Application.Features.Trips.Handles
             if (!suggestTrip_Restaurants.Any())
             {
                 await _unitOfWork.TripRepository.Delete(trip);
+                await _unitOfWork.Save();
                 return new BaseResponse<TripDTO>()
                 {
                     IsSuccess = false,
@@ -211,6 +213,7 @@ namespace capstone_project_be.Application.Features.Trips.Handles
             if (!suggestTrip_TouristAttractions.Any())
             {
                 await _unitOfWork.TripRepository.Delete(trip);
+                await _unitOfWork.Save();
                 return new BaseResponse<TripDTO>()
                 {
                     IsSuccess = false,

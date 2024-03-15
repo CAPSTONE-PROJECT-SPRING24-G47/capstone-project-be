@@ -1,10 +1,4 @@
-﻿using capstone_project_be.Application.DTOs.AccommodationCategories;
-using capstone_project_be.Application.DTOs.RestaurantCategories;
-using capstone_project_be.Application.DTOs.TouristAttractionCategories;
-using capstone_project_be.Application.DTOs.Trip_Accommodations;
-using capstone_project_be.Application.DTOs.Trip_Locations;
-using capstone_project_be.Application.DTOs.Trip_Restaurants;
-using capstone_project_be.Application.DTOs.Trip_TouristAttractions;
+﻿using capstone_project_be.Application.DTOs.Trip_Locations;
 
 namespace capstone_project_be.Application.DTOs.Trips
 {
@@ -16,14 +10,16 @@ namespace capstone_project_be.Application.DTOs.Trips
         public required DateTime StartDate { get; set; }
         public required DateTime EndDate { get; set; }
         public required int Duration { get; set; }
-        public required float MaxBudget { get; set; }
         public required float MinBudget { get; set; }
+        public required float MaxBudget { get; set; }
         public required bool IsPublic { get; set; }
-
+        public string AccommodationPriceLevel { get; set; }
+        public string RestaurantPriceLevel { get; set; }
 
         public IEnumerable<CRUDTrip_LocationDTO> Trip_Locations { get; set; }
-        public IEnumerable<CRUDTrip_TouristAttractionDTO> Trip_TouristAttractions { get; set; }
-        public IEnumerable<CRUDTrip_RestaurantDTO> Trip_Restaurants { get; set; }
-        public IEnumerable<CRUDTrip_AccommodationDTO> Trip_Accommodations { get; set; }
+        public IEnumerable<int> AccommodationCategories { get; set; }
+        public IEnumerable<int> RestaurantCategories { get; set; }
+        public IEnumerable<int> TouristAttractionCategories { get; set; }
+
     }
 }
