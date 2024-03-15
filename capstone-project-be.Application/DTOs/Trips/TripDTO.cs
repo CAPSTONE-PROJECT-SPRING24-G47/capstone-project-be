@@ -16,6 +16,8 @@ namespace capstone_project_be.Application.DTOs.Trips
         public required int Duration { get; set; }
         public required bool IsPublic { get; set; }
         public required DateTime CreatedAt { get; set; }
+        public string AccommodationPriceLevel { get; set; }
+        public string RestaurantPriceLevel { get; set; }
 
         public IEnumerable<CRUDTrip_LocationDTO> Trip_Locations { get; set; }
         public IEnumerable<CRUDTrip_TouristAttractionDTO> Trip_TouristAttractions { get; set; }

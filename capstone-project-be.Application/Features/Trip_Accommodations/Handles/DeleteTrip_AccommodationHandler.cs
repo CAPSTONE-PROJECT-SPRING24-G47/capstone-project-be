@@ -1,6 +1,4 @@
-﻿using capstone_project_be.Application.DTOs.Cities;
-using capstone_project_be.Application.DTOs.Trip_Accommodations;
-using capstone_project_be.Application.Features.Cities.Requests;
+﻿using capstone_project_be.Application.DTOs.Trip_Accommodations;
 using capstone_project_be.Application.Features.Trip_Accommodations.Requests;
 using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Application.Responses;

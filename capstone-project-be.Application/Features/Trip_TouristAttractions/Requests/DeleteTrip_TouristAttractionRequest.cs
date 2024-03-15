@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediatR;
 
 namespace capstone_project_be.Application.Features.Trip_TouristAttractions.Requests
 {
-    internal class DeleteTrip_TouristAttractionRequest
+    public class DeleteTrip_TouristAttractionRequest(string Id) : IRequest<object>
     {
+        public string Id { get; set; } = Id;
     }
 }

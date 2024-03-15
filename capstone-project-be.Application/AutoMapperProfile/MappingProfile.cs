@@ -146,16 +146,19 @@ namespace capstone_project_be.Application.AutoMapperProfile
             //Trip_Accommodation
             CreateMap<Trip_AccommodationDTO, Trip_Accommodation>().ReverseMap();
             CreateMap<CRUDTrip_AccommodationDTO, Trip_Accommodation>().ReverseMap();
+            CreateMap<CRUDTrip_AccommodationDTO, Accommodation>().ReverseMap();
             CreateMap<CreateTrip_AccommodationDTO, Trip_Accommodation>().ReverseMap();
 
             //Trip_Restaurant
             CreateMap<Trip_RestaurantDTO, Trip_Restaurant>().ReverseMap();
             CreateMap<CRUDTrip_RestaurantDTO, Trip_Restaurant>().ReverseMap();
+            CreateMap<CRUDTrip_RestaurantDTO, Restaurant>().ReverseMap();
             CreateMap<CreateTrip_RestaurantDTO, Trip_Restaurant>().ReverseMap();
 
             //Trip_TouristAttraction
             CreateMap<Trip_TouristAttractionDTO, Trip_TouristAttraction>().ReverseMap();
             CreateMap<CRUDTrip_TouristAttractionDTO, Trip_TouristAttraction>().ReverseMap();
+            CreateMap<CRUDTrip_TouristAttractionDTO, TouristAttraction>().ReverseMap();
             CreateMap<CreateTrip_TouristAttractionDTO, Trip_TouristAttraction>().ReverseMap();
 
             //Trip_Location

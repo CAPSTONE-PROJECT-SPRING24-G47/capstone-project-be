@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using capstone_project_be.Application.DTOs.Cities;
 using capstone_project_be.Application.DTOs.Trip_Accommodations;
-using capstone_project_be.Application.Features.Cities.Requests;
 using capstone_project_be.Application.Features.Trip_Accommodations.Requests;
 using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Application.Responses;
@@ -38,8 +36,8 @@ namespace capstone_project_be.Application.Features.Trip_Accommodations.Handles
             }
 
             var accommodationList = await _unitOfWork.AccommodationRepository.
-                Find(a => a.AccommodationId ==  trip_AccommodationData.AccommodationId);
-            if(!accommodationList.Any()) 
+                Find(a => a.AccommodationId == trip_AccommodationData.AccommodationId);
+            if (!accommodationList.Any())
             {
                 return new BaseResponse<Trip_AccommodationDTO>()
                 {
@@ -49,6 +47,15 @@ namespace capstone_project_be.Application.Features.Trip_Accommodations.Handles
             }
 
             var trip_Accommodation = _mapper.Map<Trip_Accommodation>(trip_AccommodationData);
+
+            var trip_AccommodationList = await _unitOfWork.Trip_AccommodationRepository.
+            Find(ta => ta.AccommodationId == trip_Accommodation.AccommodationId);
+
+            if (trip_AccommodationList.Any()) return new BaseResponse<Trip_AccommodationDTO>()
+            {
+                IsSuccess = false,
+                Message = "Nơi ở đã tồn tại trong chuyến đi"
+            };
 
             await _unitOfWork.Trip_AccommodationRepository.Add(trip_Accommodation);
             await _unitOfWork.Save();
