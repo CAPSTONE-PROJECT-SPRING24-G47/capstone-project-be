@@ -2,6 +2,7 @@
 {
     public class CRUDTrip_RestaurantDTO
     {
+        public int Id { get; set; }
         public required int RestaurantId { get; set; }
         public int CityId { get; set; }
         public string RestaurantName { get; set; } 

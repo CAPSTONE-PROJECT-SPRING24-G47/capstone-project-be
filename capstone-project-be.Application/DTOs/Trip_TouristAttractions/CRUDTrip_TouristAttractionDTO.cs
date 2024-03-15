@@ -5,6 +5,7 @@ namespace capstone_project_be.Application.DTOs.Trip_TouristAttractions
 {
     public class CRUDTrip_TouristAttractionDTO
     {
+        public int Id { get; set; }
         public required int TouristAttractionId { get; set; }
         public int CityId { get; set; }
         public string TouristAttractionName { get; set; }

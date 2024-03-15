@@ -11,6 +11,9 @@
         public required int Duration { get; set; }
         public required bool IsPublic { get; set; } = false;
         public required DateTime CreatedAt { get; set; }
+        public string AccommodationPriceLevel { get; set; }
+        public string RestaurantPriceLevel { get; set; }
+
 
         //Set quan hệ với các bảng khác ở đây
         public User User { get; set; }
