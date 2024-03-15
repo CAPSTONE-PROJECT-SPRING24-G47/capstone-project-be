@@ -126,6 +126,7 @@ namespace capstone_project_be.Application.AutoMapperProfile
             //Blog_BlogCategory
             CreateMap<Blog_BlogCategoryDTO, Blog_BlogCategory>().ReverseMap();
             CreateMap<CRUDBlog_BlogCategoryDTO, Blog_BlogCategory>().ReverseMap();
+            CreateMap<ReadBlog_BlogCategoryDTO, Blog_BlogCategory>().ReverseMap();
 
             //BlogPhoto
             CreateMap<BlogPhotoDTO, BlogPhoto>().ReverseMap();
