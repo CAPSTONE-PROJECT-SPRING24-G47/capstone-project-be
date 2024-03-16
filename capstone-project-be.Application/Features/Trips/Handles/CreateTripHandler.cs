@@ -2,6 +2,7 @@
 using capstone_project_be.Application.DTOs.Prefectures;
 using capstone_project_be.Application.DTOs.Regions;
 using capstone_project_be.Application.DTOs.Trip_Accommodations;
+using capstone_project_be.Application.DTOs.Trip_Locations;
 using capstone_project_be.Application.DTOs.Trip_Restaurants;
 using capstone_project_be.Application.DTOs.Trip_TouristAttractions;
 using capstone_project_be.Application.DTOs.Trips;
@@ -230,11 +231,31 @@ namespace capstone_project_be.Application.Features.Trips.Handles
             //Add Trip_Location
             await _unitOfWork.Trip_LocationRepository.AddRange(trip_Locations);
 
+            var resultData = await _unitOfWork.TripRepository.Find(t => t.TripId == tripId);
+            var result = _mapper.Map<TripDTO>(resultData.First());
+
+            var trip_LocationList = await _unitOfWork.Trip_LocationRepository.
+                Find(tl => tl.TripId == tripId);
+            result.Trip_Locations = _mapper.Map<IEnumerable<CRUDTrip_LocationDTO>>(trip_LocationList);
+
+            var trip_AccommodationList = await _unitOfWork.Trip_AccommodationRepository.
+                GetAccommodationsByTripId(tripId);
+            result.Trip_Accommodations = _mapper.Map<IEnumerable<CRUDTrip_AccommodationDTO>>(trip_AccommodationList);
+
+            var trip_RestaurantList = await _unitOfWork.Trip_RestaurantRepository.
+                GetRestaurantsByTripId(tripId);
+            result.Trip_Restaurants = _mapper.Map<IEnumerable<CRUDTrip_RestaurantDTO>>(trip_RestaurantList);
+
+            var trip_touristAttractionList = await _unitOfWork.Trip_TouristAttractionRepository.
+                GetTouristAttractionsByTripId(tripId);
+            result.Trip_TouristAttractions = _mapper.Map<IEnumerable<CRUDTrip_TouristAttractionDTO>>(trip_touristAttractionList);
+
 
             return new BaseResponse<TripDTO>()
             {
                 IsSuccess = true,
-                Message = "Thêm chuyến đi thành công"
+                Message = "Thêm chuyến đi thành công",
+                Data = new List<TripDTO> { result }
             };
         }
     }
