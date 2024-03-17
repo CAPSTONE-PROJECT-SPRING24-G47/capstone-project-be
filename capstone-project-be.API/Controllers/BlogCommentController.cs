@@ -1,5 +1,7 @@
 ﻿using capstone_project_be.Application.DTOs.BlogComments;
+using capstone_project_be.Application.DTOs.Trip_Accommodations;
 using capstone_project_be.Application.Features.BlogComments.Requests;
+using capstone_project_be.Application.Features.Trip_Accommodations.Requests;
 using capstone_project_be.Application.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -28,6 +30,13 @@ namespace capstone_project_be.API.Controllers
         public async Task<BaseResponse<BlogCommentDTO>> GetBlogComment(string id)
         {
             var response = await _mediator.Send(new GetBlogCommentRequest(id));
+            return response;
+        }
+
+        [HttpGet("{id}/get-comment-by-blogId")]
+        public async Task<BaseResponse<BlogCommentDTO>> GetCommentsByBlogId(string id)
+        {
+            var response = await _mediator.Send(new GetCommentsByBlogIdRequest(id));
             return response;
         }
 
