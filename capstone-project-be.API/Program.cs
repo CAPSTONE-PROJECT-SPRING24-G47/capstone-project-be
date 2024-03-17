@@ -1,3 +1,5 @@
+using capstone_project_be.API.Services;
+using capstone_project_be.API.Utils.ConfigOptions;
 using capstone_project_be.Application;
 using capstone_project_be.Infrastructure;
 using capstone_project_be.Infrastructure.Context;
@@ -19,6 +21,9 @@ builder.Services.AddDbContext<ProjectContext>(options =>
 
 builder.Services.ConfigureApplicationServices();
 builder.Services.ConfigureInfrastructureServices();
+
+builder.Services.Configure<GCSConfigOptions>(builder.Configuration);
+builder.Services.AddSingleton<ICloudStorageService, CloudStorageService>();
 
 var app = builder.Build();
 app.UseCors("Policy");

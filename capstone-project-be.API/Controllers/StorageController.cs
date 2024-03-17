@@ -1,7 +1,9 @@
 ﻿using Google.Cloud.Storage.V1;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
+using Microsoft.Identity.Client.Extensions.Msal;
 using System.IO;
+using System.Security.AccessControl;
 
 namespace capstone_project_be.API.Controllers
 {
@@ -20,23 +22,14 @@ namespace capstone_project_be.API.Controllers
         public async Task<IActionResult> GetFile(string filename)
         {
             var client = StorageClient.Create();
+            var imageUrl = client.GetObjectAsync("capstone-project-storage", filename);
+
             var stream = new MemoryStream();
             var obj = await client.
                 DownloadObjectAsync("capstone-project-storage", filename, stream);
             stream.Position = 0;
 
             return File(stream, obj.ContentType, obj.Name);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> AddFile([FromBody] FileUpload fileUpload)
-        {
-            var client = StorageClient.Create();
-            var obj = await client.
-                UploadObjectAsync("capstone-project-storage", fileUpload.Name, fileUpload.Type,
-                new MemoryStream(fileUpload.File));
-
-            return Ok(); 
         }
 
         public class FileUpload
