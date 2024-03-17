@@ -1,39 +1,26 @@
-﻿using capstone_project_be.API.Utils.ConfigOptions;
+﻿using capstone_project_be.Application.Interfaces;
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Storage.V1;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace capstone_project_be.API.Services
+namespace capstone_project_be.Infrastructure.Repositories
 {
-    public interface ICloudStorageService
-    {
-        Task<string> GetSignedUrlAsync(string fileNameToRead, int timeOutInMinutes = 30);
-        Task<string> UpLoadFileAsync(IFormFile fileToUpload, string fileNameToSave);
-        Task DeleteFileAsync(string fileNameToDelete);
-    }
-    public class CloudStorageService : ICloudStorageService
+    public class StorageRepository : IStorageRepository
     {
         private readonly GCSConfigOptions _options;
-        private readonly ILogger<CloudStorageService> _logger;
+        private readonly ILogger<BlogPhotoRepository> _logger;
         private readonly GoogleCredential _googleCredential;
 
-        public CloudStorageService(IOptions<GCSConfigOptions> options, ILogger<CloudStorageService> logger)
+        public StorageRepository(IOptions<GCSConfigOptions> options, ILogger<BlogPhotoRepository> logger)
         {
             _options = options.Value;
             _logger = logger;
 
             try
             {
-                var environment = Environment.GetEnvironmentVariable("CAPSTONEPROJECT_ENVIRONMENT");
-                if (environment == Environments.Production)
-                {
-                    //store json file in secrets
-                    _googleCredential = GoogleCredential.FromJson(_options.GCPStorageAuthFile);
-                }
-                else
-                {
-                    _googleCredential = GoogleCredential.FromFile(_options.GCPStorageAuthFile);
-                }
+                _googleCredential = GoogleCredential.FromFile(_options.GCPStorageAuthFile);
             }
             catch (Exception ex)
             {
@@ -41,6 +28,7 @@ namespace capstone_project_be.API.Services
                 throw;
             }
         }
+
         public async Task DeleteFileAsync(string fileNameToDelete)
         {
             try
@@ -99,6 +87,13 @@ namespace capstone_project_be.API.Services
                 _logger.LogError($"Error while uploading file {fileNameToSave}: {ex.Message}");
                 throw;
             }
+        }
+
+        public class GCSConfigOptions
+        {
+            //Download key in GGCloud/IAM & Admin/Service Account
+            public string? GCPStorageAuthFile { get; set; } = "C:\\Users\\DELL\\Downloads\\capstone-project-417405-b2b33810ff84.json";
+            public string? GoogleCloudStorageBucketName { get; set; } = "capstone-project-storage";
         }
     }
 }

@@ -2,19 +2,20 @@
 using capstone_project_be.Application.DTOs.BlogPhotos;
 using capstone_project_be.Application.Features.BlogPhotos.Requests;
 using capstone_project_be.Application.Interfaces;
+using MediatR;
 
 namespace capstone_project_be.Application.Features.BlogPhotos.Handles
 {
-    public class GetBlogPhotosHandler
+    public class GetBlogPhotosHandler : IRequestHandler<GetBlogPhotosRequest, IEnumerable<BlogPhotoDTO>>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IBlogPhotoStorageRepository _blogPhotoStorageRepository;
+        private readonly IStorageRepository _storageRepository;
         private readonly IMapper _mapper;
 
-        public GetBlogPhotosHandler(IUnitOfWork unitOfWork, IBlogPhotoStorageRepository blogPhotoStorageRepository, IMapper mapper)
+        public GetBlogPhotosHandler(IUnitOfWork unitOfWork, IStorageRepository blogPhotoStorageRepository, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
-            _blogPhotoStorageRepository = blogPhotoStorageRepository;
+            _storageRepository = blogPhotoStorageRepository;
             _mapper = mapper;
         }
 
@@ -25,7 +26,7 @@ namespace capstone_project_be.Application.Features.BlogPhotos.Handles
             {
                 if (!string.IsNullOrWhiteSpace(blogPhoto.SavedFileName))
                 {
-                    blogPhoto.SignedUrl = await _blogPhotoStorageRepository.GetSignedUrlAsync(blogPhoto.SavedFileName);
+                    blogPhoto.SignedUrl = await _storageRepository.GetSignedUrlAsync(blogPhoto.SavedFileName);
                 }
 
             }
