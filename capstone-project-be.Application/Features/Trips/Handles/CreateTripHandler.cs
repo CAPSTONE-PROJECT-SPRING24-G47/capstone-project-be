@@ -94,7 +94,8 @@ namespace capstone_project_be.Application.Features.Trips.Handles
                         var prefectureList = _mapper.Map<IEnumerable<PrefectureDTO>>(prefectures);
                         foreach (var prefecture in prefectureList)
                         {
-                            var citys = prefecture.Cities;
+                            prefectureId = prefecture.PrefectureId;
+                            var citys = await _unitOfWork.CityRepository.Find(c=> c.PrefectureId == prefectureId);
                             foreach (var city in citys)
                             {
                                 cityIds.Add(city.CityId);
