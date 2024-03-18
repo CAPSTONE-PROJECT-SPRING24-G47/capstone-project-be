@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
+using capstone_project_be.Application.DTOs.Accommodations;
 using capstone_project_be.Application.DTOs.Prefectures;
 using capstone_project_be.Application.DTOs.Regions;
+using capstone_project_be.Application.DTOs.Restaurants;
+using capstone_project_be.Application.DTOs.TouristAttractions;
 using capstone_project_be.Application.DTOs.Trip_Accommodations;
 using capstone_project_be.Application.DTOs.Trip_Locations;
 using capstone_project_be.Application.DTOs.Trip_Restaurants;
@@ -95,7 +98,7 @@ namespace capstone_project_be.Application.Features.Trips.Handles
                         foreach (var prefecture in prefectures)
                         {
                             prefectureId = prefecture.PrefectureId;
-                            var citys = await _unitOfWork.CityRepository.Find(c=> c.PrefectureId == prefectureId);
+                            var citys = await _unitOfWork.CityRepository.Find(c => c.PrefectureId == prefectureId);
                             foreach (var city in citys)
                             {
                                 cityIds.Add(city.CityId);
@@ -106,10 +109,10 @@ namespace capstone_project_be.Application.Features.Trips.Handles
             }
 
             //Find list Accommodations which have categories match with the categories the user enter
-            var accommodationCategoyIds = tripData.AccommodationCategories; 
+            var accommodationCategoyIds = tripData.AccommodationCategories;
             var acc_accCategories = await _unitOfWork.Acc_AccCategoryRepository.
-                Find(acc => accommodationCategoyIds.Contains(acc.AccommodationCategoryId)); 
-            var accommodationIds = new List<int>(); 
+                Find(acc => accommodationCategoyIds.Contains(acc.AccommodationCategoryId));
+            var accommodationIds = new List<int>();
             foreach (var acc_accCat in acc_accCategories)
             {
                 accommodationIds.Add(acc_accCat.AccommodationId);
@@ -119,8 +122,30 @@ namespace capstone_project_be.Application.Features.Trips.Handles
                 (await _unitOfWork.AccommodationRepository.Find(acc =>
                 cityIds.Contains(acc.CityId)
                 && accommodationIds.Contains(acc.AccommodationId)
-                && acc.PriceLevel.Trim() == tripData.AccommodationPriceLevel.Trim()))
-                .Take(trip.Duration);
+                && acc.PriceLevel.Trim() == tripData.AccommodationPriceLevel.Trim()));
+            var suggestAccommodationList = _mapper.Map<IEnumerable<SuggestedAccommodationDTO>>(suggestAccommodations);
+            foreach (var sa in suggestAccommodationList)
+            {
+                var accommodationId = sa.AccommodationId;
+                var accommodationComments = await _unitOfWork.AccommodationCommentRepository.
+                    Find(ac => ac.AccommodationId == accommodationId);
+                var numberOfComment = accommodationComments.Count();
+                sa.NumberOfComment = numberOfComment;
+                if (numberOfComment == 0) sa.Star = 0;
+                else
+                {
+                    float sumOfStar = 0;
+                    foreach (var ac in accommodationComments)
+                    {
+                        sumOfStar += ac.Stars;
+                    }
+                    sa.Star = sumOfStar / numberOfComment;
+                }
+            }
+            suggestAccommodationList = suggestAccommodationList.Where(sa => sa.Star >= 4).
+                OrderBy(sa => sa.NumberOfComment).Take(10);
+            suggestAccommodations = _mapper.Map<IEnumerable<Accommodation>>(suggestAccommodationList);
+
             //Add list Trip_Accommodation
             var trip_Accommodations = new List<CRUDTrip_AccommodationDTO>();
             foreach (var acc in suggestAccommodations)
@@ -157,12 +182,33 @@ namespace capstone_project_be.Application.Features.Trips.Handles
                 restaurantIds.Add(res_resCat.RestaurantId);
             }
             //Find list Suggest Restaurant
-            var suggestRestaurants = 
+            var suggestRestaurants =
                 (await _unitOfWork.RestaurantRepository.
                 Find(res => cityIds.Contains(res.CityId)
                 && restaurantIds.Contains(res.RestaurantId)
-                && res.PriceLevel.Trim() == tripData.RestaurantPriceLevel.Trim())).
-                Take(trip.Duration * 2);
+                && res.PriceLevel.Trim() == tripData.RestaurantPriceLevel.Trim()));
+            var suggestRestaurantList = _mapper.Map<IEnumerable<SuggestedRestaurantDTO>>(suggestRestaurants);
+            foreach (var sr in suggestRestaurantList)
+            {
+                var restaurantId = sr.RestaurantId;
+                var restaurantComments = await _unitOfWork.RestaurantCommentRepository.
+                    Find(rc => rc.RestaurantId == restaurantId);
+                var numberOfComment = restaurantComments.Count();
+                sr.NumberOfComment = numberOfComment;
+                if (numberOfComment == 0) sr.Star = 0;
+                else
+                {
+                    float sumOfStar = 0;
+                    foreach (var rc in restaurantComments)
+                    {
+                        sumOfStar += rc.Stars;
+                    }
+                    sr.Star = sumOfStar / numberOfComment;
+                }
+            }
+            suggestRestaurantList = suggestRestaurantList.Where(sr => sr.Star >= 4).
+                OrderBy(sr => sr.NumberOfComment).Take(trip.Duration * 2);
+            suggestRestaurants = _mapper.Map<IEnumerable<Restaurant>>(suggestRestaurantList);
             //Add list Trip_Restaurant
             var trip_Restaurants = new List<CRUDTrip_RestaurantDTO>();
             foreach (var res in suggestRestaurants)
@@ -200,8 +246,30 @@ namespace capstone_project_be.Application.Features.Trips.Handles
             }
             //Find list Suggest Tourist Attraction
             var suggestTouristAttractions = (await _unitOfWork.TouristAttractionRepository.
-                Find(ta => cityIds.Contains(ta.CityId) 
-                && touristAttractionIds.Contains(ta.TouristAttractionId))).Take(trip.Duration * 3);
+                Find(ta => cityIds.Contains(ta.CityId)
+                && touristAttractionIds.Contains(ta.TouristAttractionId)));
+            var suggestTouristAttractionList = _mapper.Map<IEnumerable<SuggestedTouristAttractonDTO>>(suggestTouristAttractions);
+            foreach (var sta in suggestTouristAttractionList)
+            {
+                var touristAttractionId = sta.TouristAttractionId;
+                var touristAttractionComments = await _unitOfWork.TouristAttractionCommentRepository.
+                    Find(tac => tac.TouristAttractionId == touristAttractionId);
+                var numberOfComment = touristAttractionComments.Count();
+                sta.NumberOfComment = numberOfComment;
+                if (numberOfComment == 0) sta.Star = 0;
+                else
+                {
+                    float sumOfStar = 0;
+                    foreach (var tac in touristAttractionComments)
+                    {
+                        sumOfStar += tac.Stars;
+                    }
+                    sta.Star = sumOfStar / numberOfComment;
+                }
+            }
+            suggestTouristAttractionList = suggestTouristAttractionList.Where(sta => sta.Star >= 4).
+                OrderBy(sta => sta.NumberOfComment).Take(trip.Duration * 3);
+            suggestTouristAttractions = _mapper.Map<IEnumerable<TouristAttraction>>(suggestTouristAttractionList);
             //Add list Trip_TouristAttraction
             var trip_TouristAttractions = new List<CRUDTrip_TouristAttractionDTO>();
             foreach (var ta in suggestTouristAttractions)
@@ -241,14 +309,35 @@ namespace capstone_project_be.Application.Features.Trips.Handles
 
             var trip_AccommodationList = await _unitOfWork.Trip_AccommodationRepository.
                 GetAccommodationsByTripId(tripId);
+            foreach (var tripAcc in trip_AccommodationList)
+            {
+                var trip_Accommodation = await _unitOfWork.Trip_AccommodationRepository.
+                    Find(ta => ta.TripId == tripId && ta.AccommodationId == tripAcc.AccommodationId);
+                var Id = trip_Accommodation.First().Id;
+                tripAcc.Id = Id;
+            }
             result.Trip_Accommodations = _mapper.Map<IEnumerable<CRUDTrip_AccommodationDTO>>(trip_AccommodationList);
 
             var trip_RestaurantList = await _unitOfWork.Trip_RestaurantRepository.
-                GetRestaurantsByTripId(tripId);
+            GetRestaurantsByTripId(tripId);
+            foreach (var tripRes in trip_RestaurantList)
+            {
+                var trip_Restaurant = await _unitOfWork.Trip_RestaurantRepository.
+                    Find(tr => tr.TripId == tripId && tr.RestaurantId == tripRes.RestaurantId);
+                var Id = trip_Restaurant.First().Id;
+                tripRes.Id = Id;
+            }
             result.Trip_Restaurants = _mapper.Map<IEnumerable<CRUDTrip_RestaurantDTO>>(trip_RestaurantList);
 
             var trip_touristAttractionList = await _unitOfWork.Trip_TouristAttractionRepository.
                 GetTouristAttractionsByTripId(tripId);
+            foreach (var tripTa in trip_touristAttractionList)
+            {
+                var trip_TouristAttraction = await _unitOfWork.Trip_TouristAttractionRepository.
+                    Find(tta => tta.TripId == tripId && tta.TouristAttractionId == tripTa.TouristAttractionId);
+                var Id = trip_TouristAttraction.First().Id;
+                tripTa.Id = Id;
+            }
             result.Trip_TouristAttractions = _mapper.Map<IEnumerable<CRUDTrip_TouristAttractionDTO>>(trip_touristAttractionList);
 
 
