@@ -71,10 +71,11 @@ namespace capstone_project_be.Application.Features.Trips.Handles
 
                 if (prefectureId == null)
                 {
-                    var prefectures = _mapper.Map<IEnumerable<PrefectureDTO>>(region.Prefectures);
+                    var prefectures = await _unitOfWork.PrefectureRepository.Find(p => p.RegionId == regionId);
                     foreach (var prefecture in prefectures)
                     {
-                        var citys = prefecture.Cities;
+                        prefectureId = prefecture.PrefectureId;
+                        var citys = await _unitOfWork.CityRepository.Find(c => c.PrefectureId == prefectureId);
                         foreach (var city in citys)
                         {
                             cityIds.Add(city.CityId);
@@ -91,8 +92,7 @@ namespace capstone_project_be.Application.Features.Trips.Handles
                     {
                         var prefectures = await _unitOfWork.PrefectureRepository.
                             Find(p => p.PrefectureId == prefectureId);
-                        var prefectureList = _mapper.Map<IEnumerable<PrefectureDTO>>(prefectures);
-                        foreach (var prefecture in prefectureList)
+                        foreach (var prefecture in prefectures)
                         {
                             prefectureId = prefecture.PrefectureId;
                             var citys = await _unitOfWork.CityRepository.Find(c=> c.PrefectureId == prefectureId);

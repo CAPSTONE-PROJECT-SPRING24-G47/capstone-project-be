@@ -7,6 +7,5 @@ namespace capstone_project_be.Application.DTOs.Regions
         public int RegionId { get; set; }
         public string RegionName { get; set; }
         public string RegionDescription { get; set; }
-        public IEnumerable<Prefecture> Prefectures { get; set; }
     }
 }
