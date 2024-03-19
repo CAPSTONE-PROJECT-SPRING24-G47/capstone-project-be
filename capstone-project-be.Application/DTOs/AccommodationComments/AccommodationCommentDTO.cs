@@ -3,7 +3,7 @@
     public class AccommodationCommentDTO
     {
         public required int AccommodationCommentId { get; set; }
-        public required int UserID { get; set; }
+        public required int UserId { get; set; }
         public required int AccommodationId { get; set; }
         public required float Stars { get; set; }
         public required string CommentContent { get; set; }

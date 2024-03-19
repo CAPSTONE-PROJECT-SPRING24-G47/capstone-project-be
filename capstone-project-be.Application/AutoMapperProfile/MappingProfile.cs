@@ -62,6 +62,7 @@ namespace capstone_project_be.Application.AutoMapperProfile
             CreateMap<AccommodationDTO, Accommodation>().ReverseMap();
             CreateMap<CreateAccommodationDTO, Accommodation>().ReverseMap();
             CreateMap<UpdateAccommodationDTO, Accommodation>().ReverseMap();
+            CreateMap<SuggestedAccommodationDTO, Accommodation>().ReverseMap();
 
             //AccommodationCategory
             CreateMap<AccommodationCategoryDTO, AccommodationCategory>().ReverseMap();
@@ -82,6 +83,7 @@ namespace capstone_project_be.Application.AutoMapperProfile
             CreateMap<RestaurantDTO, Restaurant>().ReverseMap();
             CreateMap<CreateRestaurantDTO, Restaurant>().ReverseMap();
             CreateMap<UpdateRestaurantDTO, Restaurant>().ReverseMap();
+            CreateMap<SuggestedRestaurantDTO, Restaurant>().ReverseMap();
 
             //Restaurant_RestaurantCategory
             CreateMap<Res_ResCategoryDTO, Restaurant_RestaurantCategory>().ReverseMap();
@@ -102,6 +104,7 @@ namespace capstone_project_be.Application.AutoMapperProfile
             CreateMap<TouristAttractionDTO, TouristAttraction>().ReverseMap();
             CreateMap<CreateTouristAttractionDTO, TouristAttraction>().ReverseMap();
             CreateMap<UpdateTouristAttractionDTO, TouristAttraction>().ReverseMap();
+            CreateMap<SuggestedTouristAttractonDTO, TouristAttraction>().ReverseMap();
 
             //TouristAttraction_TouristAttractionCategory
             CreateMap<TA_TACategoryDTO, TouristAttraction_TouristAttractionCategory>().ReverseMap();

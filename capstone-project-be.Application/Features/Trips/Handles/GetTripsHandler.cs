@@ -35,7 +35,7 @@ namespace capstone_project_be.Application.Features.Trips.Handles
 
                 var trip_LocationList = await _unitOfWork.Trip_LocationRepository.
                 Find(tl => tl.TripId == tripId);
-                item.Trip_Locations = _mapper.Map<IEnumerable<CRUDTrip_LocationDTO>>(trip_LocationList);
+                item.Trip_Locations = _mapper.Map<IEnumerable<Trip_LocationDTO>>(trip_LocationList);
 
                 var trip_AccommodationList = await _unitOfWork.Trip_AccommodationRepository.
                 GetAccommodationsByTripId(tripId);

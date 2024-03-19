@@ -3,7 +3,7 @@ using capstone_project_be.Application.DTOs.TouristAttractionPhotos;
 
 namespace capstone_project_be.Application.DTOs.TouristAttractions
 {
-    public class TouristAttractionDTO
+    public class SuggestedTouristAttractonDTO
     {
         public int TouristAttractionId { get; set; }
         public int CityId { get; set; }
@@ -16,6 +16,8 @@ namespace capstone_project_be.Application.DTOs.TouristAttractions
         public int UserId { get; set; }
         public required string Status { get; set; }
         public bool IsReported { get; set; }
+        public int NumberOfComment { get; set; }
+        public float Star { get; set; }
 
         public IEnumerable<CRUDTouristAttractionPhotoDTO> TouristAttractionPhotos { get; set; }
         public IEnumerable<CRUDTA_TACategoryDTO>

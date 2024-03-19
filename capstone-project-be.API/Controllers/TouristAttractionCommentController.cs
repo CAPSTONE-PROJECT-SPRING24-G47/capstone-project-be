@@ -1,4 +1,6 @@
-﻿using capstone_project_be.Application.DTOs.TouristAttractionComments;
+﻿using capstone_project_be.Application.DTOs.RestaurantComments;
+using capstone_project_be.Application.DTOs.TouristAttractionComments;
+using capstone_project_be.Application.Features.RestaurantComments.Requests;
 using capstone_project_be.Application.Features.TouristAttractionComments.Requests;
 using capstone_project_be.Application.Responses;
 using MediatR;
@@ -31,6 +33,12 @@ namespace capstone_project_be.API.Controllers
             return response;
         }
 
+        [HttpGet("{id}/get-comment-by-touristAttractionId")]
+        public async Task<BaseResponse<TouristAttractionCommentDTO>> GetCommentsByTouristAttractionId(string id)
+        {
+            var response = await _mediator.Send(new GetCommentsByTouristAttractionIdRequest(id));
+            return response;
+        }
 
         [HttpPost]
         public async Task<object> CreateTouristAttractionComment([FromBody] CRUDTouristAttractionCommentDTO touristAttractionCommentData)

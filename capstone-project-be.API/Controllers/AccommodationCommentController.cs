@@ -1,5 +1,7 @@
 ﻿using capstone_project_be.Application.DTOs.AccommodationComments;
+using capstone_project_be.Application.DTOs.RestaurantComments;
 using capstone_project_be.Application.Features.AccommodationComments.Requests;
+using capstone_project_be.Application.Features.RestaurantComments.Requests;
 using capstone_project_be.Application.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -28,6 +30,13 @@ namespace capstone_project_be.API.Controllers
         public async Task<BaseResponse<AccommodationCommentDTO>> GetAccommodationComment(string id)
         {
             var response = await _mediator.Send(new GetAccommodationCommentRequest(id));
+            return response;
+        }
+
+        [HttpGet("{id}/get-comment-by-accommodationId")]
+        public async Task<BaseResponse<AccommodationCommentDTO>> GetCommentsByAccommodationId(string id)
+        {
+            var response = await _mediator.Send(new GetCommentsByAccommodationIdRequest(id));
             return response;
         }
 
