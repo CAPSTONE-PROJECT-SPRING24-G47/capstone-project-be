@@ -34,6 +34,9 @@ namespace capstone_project_be.Application.Features.Trips.Handles
             var trip = _mapper.Map<Trip>(tripData);
             trip.CreatedAt = DateTime.Now;
             trip.IsPublic = false;
+            trip.AccommodationCategories = string.Join(",", tripData.AccommodationCategories);
+            trip.RestaurantCategories = string.Join(",", tripData.RestaurantCategories);
+            trip.TouristAttractionCategories = string.Join(",", tripData.TouristAttractionCategories);
 
             //Check userId exist
             var userList = await _unitOfWork.UserRepository.Find(u => u.UserId == trip.UserId);
@@ -46,19 +49,45 @@ namespace capstone_project_be.Application.Features.Trips.Handles
                 };
             }
 
-            //Add trip temporarily
-            await _unitOfWork.TripRepository.Add(trip);
-            await _unitOfWork.Save();
-
             //Check locations null
             if (trip.Trip_Locations == null)
             {
+                //Add trip temporarily
+                await _unitOfWork.TripRepository.Add(trip);
+                await _unitOfWork.Save();
                 return new BaseResponse<TripDTO>()
                 {
                     IsSuccess = true,
                     Message = "Tự tạo chuyến đi thành công",
                     Data = new List<TripDTO> { _mapper.Map<TripDTO>(trip) }
                 };
+            }
+            else
+            {
+                foreach (var location in trip.Trip_Locations)
+                {
+                    if (location.PrefectureId == null)
+                    {
+                        location.LocationName = "Vùng " + (await _unitOfWork.RegionRepository.
+                            Find(r => r.RegionId == location.RegionId)).First().RegionName;
+                    }
+                    else
+                    {
+                        if (location.CityId == null)
+                        {
+                            location.LocationName = "Tỉnh " + (await _unitOfWork.PrefectureRepository.
+                            Find(p => p.PrefectureId == location.PrefectureId)).First().PrefectureName;
+                        }
+                        else
+                        {
+                            location.LocationName = "Thành phố " + (await _unitOfWork.CityRepository.
+                            Find(c => c.CityId == location.CityId)).First().CityName;
+                        }
+                    }
+                }
+                //Add trip temporarily
+                await _unitOfWork.TripRepository.Add(trip);
+                await _unitOfWork.Save();
             }
 
             //Call out recently added trip
@@ -333,12 +362,13 @@ namespace capstone_project_be.Application.Features.Trips.Handles
             //Add Trip_Location
             await _unitOfWork.Trip_LocationRepository.AddRange(trip_Locations);
 
+            //Return recently added trip
             var resultData = await _unitOfWork.TripRepository.Find(t => t.TripId == tripId);
             var result = _mapper.Map<TripDTO>(resultData.First());
 
             var trip_LocationList = await _unitOfWork.Trip_LocationRepository.
                 Find(tl => tl.TripId == tripId);
-            result.Trip_Locations = _mapper.Map<IEnumerable<CRUDTrip_LocationDTO>>(trip_LocationList);
+            result.Trip_Locations = _mapper.Map<IEnumerable<Trip_LocationDTO>>(trip_LocationList);
 
             var trip_AccommodationList = await _unitOfWork.Trip_AccommodationRepository.
                 GetAccommodationsByTripId(tripId);

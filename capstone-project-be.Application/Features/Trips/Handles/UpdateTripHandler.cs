@@ -40,8 +40,33 @@ namespace capstone_project_be.Application.Features.Trips.Handles
             var tripData = request.TripData;
             var trip = _mapper.Map<Trip>(tripData);
             trip.CreatedAt = DateTime.Now;
+            trip.AccommodationCategories = string.Join(",", tripData.AccommodationCategories);
+            trip.RestaurantCategories = string.Join(",", tripData.RestaurantCategories);
+            trip.TouristAttractionCategories = string.Join(",", tripData.TouristAttractionCategories);
             trip.TripId = tripId;
 
+            //Update Trip Location Name
+            foreach (var location in trip.Trip_Locations)
+            {
+                if (location.PrefectureId == null)
+                {
+                    location.LocationName = "Vùng " + (await _unitOfWork.RegionRepository.
+                        Find(r => r.RegionId == location.RegionId)).First().RegionName;
+                }
+                else
+                {
+                    if (location.CityId == null)
+                    {
+                        location.LocationName = "Tỉnh " + (await _unitOfWork.PrefectureRepository.
+                        Find(p => p.PrefectureId == location.PrefectureId)).First().PrefectureName;
+                    }
+                    else
+                    {
+                        location.LocationName = "Thành phố " + (await _unitOfWork.CityRepository.
+                        Find(c => c.CityId == location.CityId)).First().CityName;
+                    }
+                }
+            }
 
             //Update trip 
             await _unitOfWork.TripRepository.Update(trip);
