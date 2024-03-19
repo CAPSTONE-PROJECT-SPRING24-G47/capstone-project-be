@@ -271,6 +271,7 @@ namespace capstone_project_be.Application.Features.Trips.Handles
             suggestRestaurantList = suggestRestaurantList.Where(sr => sr.Star >= 4).
                 OrderBy(sr => sr.NumberOfComment).Take(trip.Duration * 2);
             suggestRestaurants = _mapper.Map<IEnumerable<Restaurant>>(suggestRestaurantList);
+
             //Add list Trip_Restaurant
             var trip_Restaurants = new List<CRUDTrip_RestaurantDTO>();
             foreach (var res in suggestRestaurants)
