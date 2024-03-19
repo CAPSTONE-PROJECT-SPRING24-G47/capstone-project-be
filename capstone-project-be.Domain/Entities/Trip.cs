@@ -9,10 +9,10 @@
         public required DateTime StartDate { get; set; }
         public required DateTime EndDate { get; set; }
         public required int Duration { get; set; }
-        public required bool IsPublic { get; set; } = false;
+        public bool IsPublic { get; set; } = false;
         public required DateTime CreatedAt { get; set; }
-        public string AccommodationPriceLevel { get; set; }
-        public string RestaurantPriceLevel { get; set; }
+        public string? AccommodationPriceLevel { get; set; }
+        public string? RestaurantPriceLevel { get; set; }
 
 
         //Set quan hệ với các bảng khác ở đây

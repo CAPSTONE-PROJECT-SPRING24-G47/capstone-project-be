@@ -50,6 +50,17 @@ namespace capstone_project_be.Application.Features.Trips.Handles
             await _unitOfWork.TripRepository.Add(trip);
             await _unitOfWork.Save();
 
+            //Check locations null
+            if (trip.Trip_Locations == null)
+            {
+                return new BaseResponse<TripDTO>()
+                {
+                    IsSuccess = true,
+                    Message = "Tự tạo chuyến đi thành công",
+                    Data = new List<TripDTO> { _mapper.Map<TripDTO>(trip) }
+                };
+            }
+
             //Call out recently added trip
             var tripList = await _unitOfWork.TripRepository.
                 Find(t => t.UserId == trip.UserId && t.CreatedAt >= DateTime.Now.AddMinutes(-1));
@@ -106,6 +117,17 @@ namespace capstone_project_be.Application.Features.Trips.Handles
                         }
                     }
                 }
+            }
+
+            //Check accommodation categories null
+            if (trip.AccommodationPriceLevel == null)
+            {
+                return new BaseResponse<TripDTO>()
+                {
+                    IsSuccess = true,
+                    Message = "Tự tạo chuyến đi thành công",
+                    Data = new List<TripDTO> { _mapper.Map<TripDTO>(trip) }
+                };
             }
 
             //Find list Accommodations which have categories match with the categories the user enter
@@ -171,6 +193,17 @@ namespace capstone_project_be.Application.Features.Trips.Handles
                 item.TripId = tripId;
             }
             await _unitOfWork.Trip_AccommodationRepository.AddRange(suggestTrip_Accommodations);
+
+            //Check restaurants null
+            if (trip.RestaurantPriceLevel == null)
+            {
+                return new BaseResponse<TripDTO>()
+                {
+                    IsSuccess = true,
+                    Message = "Tự tạo chuyến đi thành công",
+                    Data = new List<TripDTO> { _mapper.Map<TripDTO>(trip) }
+                };
+            }
 
             //Find list Restaurants which have categories match with the categories the user enter
             var restaurantCategoyIds = tripData.RestaurantCategories;
@@ -344,7 +377,7 @@ namespace capstone_project_be.Application.Features.Trips.Handles
             return new BaseResponse<TripDTO>()
             {
                 IsSuccess = true,
-                Message = "Thêm chuyến đi thành công",
+                Message = "Chuyến đi đã được tạo tự động",
                 Data = new List<TripDTO> { result }
             };
         }
