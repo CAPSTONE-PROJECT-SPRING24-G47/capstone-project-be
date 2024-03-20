@@ -29,7 +29,7 @@ namespace capstone_project_be.API.Controllers
         }
 
         [HttpPut("{id}/update-profile")]
-        public async Task<object> UpdateProfile(string id, [FromBody] UpdateUserDTO updateProfileData)
+        public async Task<object> UpdateProfile(string id, [FromForm] UpdateUserDTO updateProfileData)
         {
             var response = await _mediator.Send(new UpdateProfileRequest(id, updateProfileData));
             return response;
