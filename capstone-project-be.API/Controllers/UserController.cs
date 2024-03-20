@@ -29,14 +29,8 @@ namespace capstone_project_be.API.Controllers
         }
 
         [HttpPut("{id}/update-profile")]
-        public async Task<object> UpdateProfile(string id, [FromBody] CRUDUserDTO data, IFormFile photo)
+        public async Task<object> UpdateProfile(string id, [FromForm] CRUDUserDTO updateProfileData)
         {
-            var updateProfileData = new CRUDUserDTO
-            {
-                Email = data.Email,
-                RoleId = data.RoleId,
-
-            }
             var response = await _mediator.Send(new UpdateProfileRequest(id, updateProfileData));
             return response;
         }

@@ -8,6 +8,6 @@ namespace capstone_project_be.Application.DTOs.Users
         public required string LastName { get; set; }
         public required string FirstName { get; set; }
         public required string Email { get; set; }
-        public required IFormFile? Photo { get; set; }
+        public IFormFile? Photo { get; set; }
     }
 }
