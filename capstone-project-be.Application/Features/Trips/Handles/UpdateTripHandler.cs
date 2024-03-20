@@ -52,6 +52,8 @@ namespace capstone_project_be.Application.Features.Trips.Handles
             existedTrip.Title = trip.Title;
             existedTrip.Description = trip.Description;
             existedTrip.IsPublic = trip.IsPublic;
+            existedTrip.StartDate = trip.StartDate;
+            existedTrip.EndDate = trip.EndDate;
 
             if (existedTrip.AccommodationCategories == trip.AccommodationCategories
                 && existedTrip.RestaurantCategories == trip.RestaurantCategories
