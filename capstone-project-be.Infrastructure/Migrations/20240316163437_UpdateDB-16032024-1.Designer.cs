@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using capstone_project_be.Infrastructure.Context;
 
@@ -11,9 +12,11 @@ using capstone_project_be.Infrastructure.Context;
 namespace capstone_project_be.Infrastructure.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    partial class ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20240316163437_UpdateDB-16032024-1")]
+    partial class UpdateDB160320241
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -285,6 +288,9 @@ namespace capstone_project_be.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SavedFileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SavedUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("BlogPhotoId");
@@ -729,10 +735,8 @@ namespace capstone_project_be.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TripId"));
 
-                    b.Property<string>("AccommodationCategories")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("AccommodationPriceLevel")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
@@ -750,10 +754,8 @@ namespace capstone_project_be.Infrastructure.Migrations
                     b.Property<bool>("IsPublic")
                         .HasColumnType("bit");
 
-                    b.Property<string>("RestaurantCategories")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("RestaurantPriceLevel")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("StartDate")
@@ -761,9 +763,6 @@ namespace capstone_project_be.Infrastructure.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TouristAttractionCategories")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
@@ -809,9 +808,6 @@ namespace capstone_project_be.Infrastructure.Migrations
 
                     b.Property<int?>("CityId")
                         .HasColumnType("int");
-
-                    b.Property<string>("LocationName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("PrefectureId")
                         .HasColumnType("int");
@@ -922,9 +918,6 @@ namespace capstone_project_be.Infrastructure.Migrations
 
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
-
-                    b.Property<string>("SavedFileName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId");
 

@@ -12,5 +12,6 @@ namespace capstone_project_be.Infrastructure.Repositories
         {
             _dbContext = dbContext;
         }
+
     }
 }
