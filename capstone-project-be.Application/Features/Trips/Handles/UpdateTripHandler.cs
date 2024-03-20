@@ -60,7 +60,8 @@ namespace capstone_project_be.Application.Features.Trips.Handles
                 && existedTrip.TouristAttractionCategories == trip.TouristAttractionCategories
                 && existedTrip.AccommodationPriceLevel == trip.AccommodationPriceLevel
                 && existedTrip.RestaurantPriceLevel == trip.RestaurantPriceLevel
-                && existedTrip.Duration == trip.Duration)
+                && existedTrip.Duration == trip.Duration
+                && existedTrip.Trip_Locations == trip.Trip_Locations)
             {
                 await _unitOfWork.TripRepository.Update(existedTrip);
                 await _unitOfWork.Save();
