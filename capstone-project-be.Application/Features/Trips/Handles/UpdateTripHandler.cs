@@ -48,8 +48,11 @@ namespace capstone_project_be.Application.Features.Trips.Handles
             trip.TouristAttractionCategories = string.Join(",", tripData.TouristAttractionCategories);
             trip.TripId = tripId;
 
-
             var existedTrip = await _unitOfWork.TripRepository.GetByID(tripId);
+            existedTrip.Title = trip.Title;
+            existedTrip.Description = trip.Description;
+            existedTrip.IsPublic = trip.IsPublic;
+
             if (existedTrip.AccommodationCategories == trip.AccommodationCategories
                 && existedTrip.RestaurantCategories == trip.RestaurantCategories
                 && existedTrip.TouristAttractionCategories == trip.TouristAttractionCategories
@@ -57,7 +60,7 @@ namespace capstone_project_be.Application.Features.Trips.Handles
                 && existedTrip.RestaurantPriceLevel == trip.RestaurantPriceLevel
                 && existedTrip.Duration == trip.Duration)
             {
-                await _unitOfWork.TripRepository.Update(trip);
+                await _unitOfWork.TripRepository.Update(existedTrip);
                 await _unitOfWork.Save();
                 return new BaseResponse<TripDTO>()
                 {
@@ -66,8 +69,26 @@ namespace capstone_project_be.Application.Features.Trips.Handles
                 };
             }
 
+            existedTrip.AccommodationCategories = trip.AccommodationCategories;
+            existedTrip.RestaurantCategories = trip.RestaurantCategories;
+            existedTrip.TouristAttractionCategories = trip.TouristAttractionCategories;
+            existedTrip.AccommodationPriceLevel = trip.AccommodationPriceLevel;
+            existedTrip.RestaurantPriceLevel = trip.RestaurantPriceLevel;
+            existedTrip.Duration = trip.Duration;
+
+            //Update trip 
+            await _unitOfWork.TripRepository.Update(existedTrip);
+            await _unitOfWork.Save();
+
+            //Call out recently updated trip
+            var tripList = await _unitOfWork.TripRepository.
+                Find(t => t.UserId == trip.UserId && t.CreatedAt >= DateTime.Now.AddMinutes(-1));
+
+            //Find new list City Suitable
+            var trip_Locations = _mapper.Map<IEnumerable<Trip_Location>>(tripData.Trip_Locations);
+
             //Update Trip Location Name
-            foreach (var location in trip.Trip_Locations)
+            foreach (var location in trip_Locations)
             {
                 if (location.PrefectureId == null)
                 {
@@ -89,16 +110,6 @@ namespace capstone_project_be.Application.Features.Trips.Handles
                 }
             }
 
-            //Update trip 
-            await _unitOfWork.TripRepository.Update(trip);
-            await _unitOfWork.Save();
-
-            //Call out recently updated trip
-            var tripList = await _unitOfWork.TripRepository.
-                Find(t => t.UserId == trip.UserId && t.CreatedAt >= DateTime.Now.AddMinutes(-1));
-
-            //Find new list City Suitable
-            var trip_Locations = _mapper.Map<IEnumerable<Trip_Location>>(tripData.Trip_Locations);
             var cityIds = new List<int>();
             foreach (var location in trip_Locations)
             {
@@ -366,12 +377,12 @@ namespace capstone_project_be.Application.Features.Trips.Handles
 
             //Add Trip_Location
             await _unitOfWork.Trip_LocationRepository.AddRange(trip_Locations);
-
+            await _unitOfWork.Save();
 
             return new BaseResponse<TripDTO>()
             {
                 IsSuccess = true,
-                Message = "Cập nhật chuyến đi thành công"
+                Message = "Tự động cập nhật chuyến đi thành công"
             };
         }
     }
