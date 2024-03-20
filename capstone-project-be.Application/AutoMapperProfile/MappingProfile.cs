@@ -44,7 +44,8 @@ namespace capstone_project_be.Application.AutoMapperProfile
             CreateMap<ResetPasswordDTO, User>().ReverseMap();
             CreateMap<GoogleAuthDTO, User>().ReverseMap();
             CreateMap<UserDTO, User>().ReverseMap();
-            CreateMap<CRUDUserDTO, User>().ReverseMap();
+            CreateMap<CreateUserDTO, User>().ReverseMap();
+            CreateMap<UpdateUserDTO, User>().ReverseMap();
 
             //Region
             CreateMap<RegionDTO, Region>().ReverseMap();

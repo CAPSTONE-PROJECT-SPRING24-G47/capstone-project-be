@@ -3,7 +3,6 @@ using capstone_project_be.Application.DTOs.Users;
 using capstone_project_be.Application.Features.Users.Requests;
 using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Application.Responses;
-using capstone_project_be.Domain.Entities;
 using MediatR;
 
 namespace capstone_project_be.Application.Features.Users.Handles
@@ -38,7 +37,6 @@ namespace capstone_project_be.Application.Features.Users.Handles
             userToUpdate.RoleId = data.RoleId;
             userToUpdate.LastName = data.LastName;
             userToUpdate.FirstName = data.FirstName;
-            userToUpdate.Email = data.Email;
             userToUpdate.SavedFileName = GenerateFileNameToSave(data.Photo.FileName);
             userToUpdate.PictureProfile = await _storageRepository.UpLoadFileAsync(data.Photo, userToUpdate.SavedFileName);
             await _unitOfWork.UserRepository.Update(userToUpdate);
