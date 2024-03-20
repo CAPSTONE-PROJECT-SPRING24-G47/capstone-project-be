@@ -15,7 +15,7 @@ namespace capstone_project_be.Application.DTOs.Blogs
         public required string Status { get; set; }
         public bool IsReported { get; set; } 
 
-        public CRUDUserDTO User { get; set; }
+        public CreateUserDTO User { get; set; }
         public IEnumerable<BlogPhotoDTO> BlogPhotos { get; set; }
         public IEnumerable<ReadBlog_BlogCategoryDTO> Blog_BlogCatagories { get; set; }
     }

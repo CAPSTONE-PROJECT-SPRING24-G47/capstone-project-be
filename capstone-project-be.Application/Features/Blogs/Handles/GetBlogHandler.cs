@@ -55,7 +55,7 @@ namespace capstone_project_be.Application.Features.Blogs.Handles
             blog.Blog_BlogCatagories = _mapper.Map<IEnumerable<ReadBlog_BlogCategoryDTO>>(blog_BlogCategoryList);
 
             var user = await _unitOfWork.UserRepository.GetByID(blog.UserId);
-            blog.User = _mapper.Map<CRUDUserDTO>(user);
+            blog.User = _mapper.Map<CreateUserDTO>(user);
 
             return new BaseResponse<BlogDTO>()
             {
