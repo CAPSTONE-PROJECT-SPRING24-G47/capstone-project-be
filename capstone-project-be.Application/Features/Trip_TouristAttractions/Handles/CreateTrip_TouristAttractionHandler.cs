@@ -51,7 +51,8 @@ namespace capstone_project_be.Application.Features.Trip_TouristAttractions.Handl
             var trip_TouristAttraction = _mapper.Map<Trip_TouristAttraction>(trip_TouristAttractionData);
 
             var trip_TouristAttractionList = await _unitOfWork.Trip_TouristAttractionRepository.
-            Find(ta => ta.TouristAttractionId == trip_TouristAttraction.TouristAttractionId);
+            Find(ta => ta.TouristAttractionId == trip_TouristAttraction.TouristAttractionId 
+                && ta.TripId == trip_TouristAttraction.TripId);
 
             if (trip_TouristAttractionList.Any()) return new BaseResponse<Trip_TouristAttractionDTO>()
             {

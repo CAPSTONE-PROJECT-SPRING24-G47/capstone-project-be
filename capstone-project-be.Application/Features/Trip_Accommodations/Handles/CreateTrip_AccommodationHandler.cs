@@ -49,7 +49,7 @@ namespace capstone_project_be.Application.Features.Trip_Accommodations.Handles
             var trip_Accommodation = _mapper.Map<Trip_Accommodation>(trip_AccommodationData);
 
             var trip_AccommodationList = await _unitOfWork.Trip_AccommodationRepository.
-            Find(ta => ta.AccommodationId == trip_Accommodation.AccommodationId);
+            Find(ta => ta.AccommodationId == trip_Accommodation.AccommodationId && ta.TripId == trip_Accommodation.TripId);
 
             if (trip_AccommodationList.Any()) return new BaseResponse<Trip_AccommodationDTO>()
             {
