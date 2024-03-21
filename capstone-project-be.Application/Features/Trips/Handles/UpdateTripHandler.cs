@@ -374,6 +374,7 @@ namespace capstone_project_be.Application.Features.Trips.Handles
                 item.TripId = tripId;
             }
             await _unitOfWork.Trip_TouristAttractionRepository.AddRange(suggestTrip_TouristAttractions);
+            await _unitOfWork.Save();
 
             //Call out recently added trip_res and trip_ta
             var addedTrip_RestaurantList = await _unitOfWork.Trip_RestaurantRepository.
@@ -518,7 +519,7 @@ namespace capstone_project_be.Application.Features.Trips.Handles
                         closest2.SuggestedDay = suggestedDay;
                         await _unitOfWork.Trip_TouristAttractionRepository.Update(closest2);
                     }
-                    await _unitOfWork.Save();
+                    
                     suggestedDay++;
                 }
             }
