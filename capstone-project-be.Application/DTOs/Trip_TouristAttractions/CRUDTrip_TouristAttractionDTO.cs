@@ -13,6 +13,7 @@ namespace capstone_project_be.Application.DTOs.Trip_TouristAttractions
         public string TouristAttractionWebsite { get; set; }
         public string TouristAttractionDescription { get; set; }
         public string TouristAttractionLocation { get; set; }
+        public int SuggestedDay { get; set; }
 
         public string TouristAttractionPhotos { get; set; }
         public string TouristAttractionCategories { get; set; }
