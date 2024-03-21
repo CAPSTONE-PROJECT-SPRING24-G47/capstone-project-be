@@ -92,7 +92,7 @@ namespace capstone_project_be.Infrastructure.Repositories
         public class GCSConfigOptions
         {
             //Download key in GGCloud/IAM & Admin/Service Account
-            public string? GCPStorageAuthFile { get; set; } = "C:\\Users\\Admin\\Downloads\\capstone-project-417405-b2b33810ff84.json";
+            public string? GCPStorageAuthFile { get; set; } = "C:\\Users\\Dell\\Downloads\\capstone-project-417405-b2b33810ff84.json";
             public string? GoogleCloudStorageBucketName { get; set; } = "capstone-project-storage";
         }
     }
