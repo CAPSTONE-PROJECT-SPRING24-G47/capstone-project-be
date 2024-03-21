@@ -19,6 +19,7 @@ namespace capstone_project_be.Test.AuthTests.HandlesTests
             //Arrange
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             var mockMapper = new Mock<IMapper>();
+            var mockStorageRepository = new Mock<IStorageRepository>();
 
             var userSignInData = new UserSignInDTO()
             {
@@ -44,7 +45,7 @@ namespace capstone_project_be.Test.AuthTests.HandlesTests
             mockUnitOfWork.Setup(u => u.UserRepository.Find(It.IsAny<Expression<Func<User, bool>>>()))
                 .ReturnsAsync(userList);
 
-            var handler = new SignInHandler(mockUnitOfWork.Object, mockMapper.Object);
+            var handler = new SignInHandler(mockUnitOfWork.Object, mockStorageRepository.Object, mockMapper.Object);
             var request = new SignInRequest(userSignInData);
 
             //Act
@@ -62,6 +63,7 @@ namespace capstone_project_be.Test.AuthTests.HandlesTests
             //Arrange
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             var mockMapper = new Mock<IMapper>();
+            var mockStorageRepository = new Mock<IStorageRepository>();
 
             var userSignInData = new UserSignInDTO()
             {
@@ -87,7 +89,7 @@ namespace capstone_project_be.Test.AuthTests.HandlesTests
             mockUnitOfWork.Setup(u => u.UserRepository.Find(It.IsAny<Expression<Func<User, bool>>>()))
                 .ReturnsAsync(userList);
 
-            var handler = new SignInHandler(mockUnitOfWork.Object, mockMapper.Object);
+            var handler = new SignInHandler(mockUnitOfWork.Object, mockStorageRepository.Object, mockMapper.Object);
             var request = new SignInRequest(userSignInData);
 
             //Act
