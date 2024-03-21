@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace capstone_project_be.Application.DTOs.Users
+﻿namespace capstone_project_be.Application.DTOs.Users
 {
     public class UserDTO
     {
@@ -14,6 +12,7 @@ namespace capstone_project_be.Application.DTOs.Users
         public bool IsVerified { get; set; } = false;
         public bool IsBanned { get; set; } = false;
         public DateTime CreatedAt { get; set; }
+        public string? SignedUrl { get; set; }
         public string? SavedFileName { get; set; }
 
     }
