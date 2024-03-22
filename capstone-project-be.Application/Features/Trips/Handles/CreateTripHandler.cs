@@ -50,7 +50,7 @@ namespace capstone_project_be.Application.Features.Trips.Handles
             }
 
             //Check locations null
-            if (trip.Trip_Locations == null)
+            if (!trip.Trip_Locations.Any())
             {
                 //Add trip temporarily
                 await _unitOfWork.TripRepository.Add(trip);
