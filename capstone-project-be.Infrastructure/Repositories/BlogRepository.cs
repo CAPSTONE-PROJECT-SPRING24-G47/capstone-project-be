@@ -70,7 +70,7 @@ namespace capstone_project_be.Infrastructure.Repositories
                 case "BlogCategoryName":
                     var query3 = (from b in _dbContext.Blogs
                                   join u in _dbContext.Users on b.UserId equals u.UserId
-                                  join bbc in _dbContext.Blog_BlogCatagories on b.BlogId equals bbc.BlogId
+                                  join bbc in _dbContext.Blog_BlogCategories on b.BlogId equals bbc.BlogId
                                   join bc in _dbContext.BlogCategories on bbc.BlogCategoryId equals bc.BlogCategoryId
                                   into gj
                                   from subrp in gj.DefaultIfEmpty()

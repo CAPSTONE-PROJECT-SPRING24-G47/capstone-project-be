@@ -9,7 +9,7 @@ using MediatR;
 
 namespace capstone_project_be.Application.Features.Blogs.Handles
 {
-    internal class GetBlogsHandler : IRequestHandler<GetBlogsRequest, IEnumerable<BlogDTO>>
+    public class GetBlogsHandler : IRequestHandler<GetBlogsRequest, IEnumerable<BlogDTO>>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
