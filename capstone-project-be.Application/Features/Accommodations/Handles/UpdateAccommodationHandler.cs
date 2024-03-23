@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using capstone_project_be.Application.DTOs.Accommodation_AccommodationCategories;
+using capstone_project_be.Application.DTOs.AccommodationPhotos;
 using capstone_project_be.Application.DTOs.Accommodations;
 using capstone_project_be.Application.Features.Accommodations.Requests;
 using capstone_project_be.Application.Interfaces;
@@ -11,11 +13,13 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
     public class UpdateAccommodationHandler : IRequestHandler<UpdateAccommodationRequest, object>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IStorageRepository _storageRepository;
         private readonly IMapper _mapper;
 
-        public UpdateAccommodationHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public UpdateAccommodationHandler(IUnitOfWork unitOfWork, IStorageRepository storageRepository, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _storageRepository = storageRepository;
             _mapper = mapper;
         }
 
@@ -30,7 +34,8 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
                 };
             }
 
-            var accommodation = _mapper.Map<Accommodation>(request.UpdateAccommodationData);
+            var accommodationData = request.UpdateAccommodationData;
+            var accommodation = _mapper.Map<Accommodation>(accommodationData);
             accommodation.AccommodationId = accommodationId;
             accommodation.CreatedAt = DateTime.Now;
 
@@ -47,13 +52,46 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
 
             var acc_AccCategoryList = await _unitOfWork.Acc_AccCategoryRepository.Find(acc => acc.AccommodationId == accommodationId);
             await _unitOfWork.Acc_AccCategoryRepository.DeleteRange(acc_AccCategoryList);
-            acc_AccCategoryList = accommodation.Accommodation_AccommodationCategories.ToList();
+            var acc_AccCategoryData = accommodationData.Acc_AccCategories;
+            string[] parts = acc_AccCategoryData.Split(',');
+            var acc_AccCategories = new List<CRUDAcc_AccCategoryDTO>();
+            foreach (string part in parts)
+            {
+                acc_AccCategories.Add(
+                    new CRUDAcc_AccCategoryDTO
+                    {
+                        AccommodationId = accommodationId,
+                        AccommodationCategoryId = int.Parse(part)
+                    });
+            }
+            acc_AccCategoryList = _mapper.Map<IEnumerable<Accommodation_AccommodationCategory>>(acc_AccCategories.Distinct());
             await _unitOfWork.Acc_AccCategoryRepository.AddRange(acc_AccCategoryList);
 
             var accommodationPhotoList = await _unitOfWork.AccommodationPhotoRepository.
                 Find(ap => ap.AccommodationId == accommodationId);
+            foreach (var ac in accommodationPhotoList)
+            {
+                await _storageRepository.DeleteFileAsync(ac.SavedFileName);
+            }
             await _unitOfWork.AccommodationPhotoRepository.DeleteRange(accommodationPhotoList);
-            accommodationPhotoList = accommodation.AccommodationPhotos.ToList();
+            var photoData = accommodationData.Photos;
+            var accommodationPhotos = new List<CRUDAccommodationPhotoDTO>();
+            foreach (var photo in photoData)
+            {
+                if (photo != null)
+                {
+                    var savedFileName = GenerateFileNameToSave(photo.FileName);
+                    accommodationPhotos.Add(
+                        new CRUDAccommodationPhotoDTO
+                        {
+                            AccommodationId = accommodationId,
+                            PhotoURL = await _storageRepository.UpLoadFileAsync(photo, savedFileName),
+                            SavedFileName = savedFileName
+                        }
+                        );
+                }
+            }
+            accommodationPhotoList = _mapper.Map<IEnumerable<AccommodationPhoto>>(accommodationPhotos);
             await _unitOfWork.AccommodationPhotoRepository.AddRange(accommodationPhotoList);
 
             await _unitOfWork.AccommodationRepository.Update(accommodation);
@@ -64,6 +102,13 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
                 IsSuccess = true,
                 Message = "Update nơi ở thành công"
             };
+        }
+
+        private string? GenerateFileNameToSave(string incomingFileName)
+        {
+            var fileName = Path.GetFileNameWithoutExtension(incomingFileName);
+            var extension = Path.GetExtension(incomingFileName);
+            return $"{fileName}-{DateTime.Now.ToString("yyyyMMddHHmmss")}{extension}";
         }
     }
 }

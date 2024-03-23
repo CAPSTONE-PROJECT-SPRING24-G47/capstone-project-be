@@ -75,6 +75,7 @@ namespace capstone_project_be.Application.AutoMapperProfile
             //AccommodationPhoto
             CreateMap<AccommodationPhotoDTO, AccommodationPhoto>().ReverseMap();
             CreateMap<CRUDAccommodationPhotoDTO, AccommodationPhoto>().ReverseMap();
+            CreateMap<CreateAccommodationPhotoDTO, AccommodationPhoto>().ReverseMap();
 
             //AccommodationComment
             CreateMap<AccommodationCommentDTO, AccommodationComment>().ReverseMap();

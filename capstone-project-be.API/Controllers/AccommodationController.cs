@@ -1,4 +1,5 @@
-﻿using capstone_project_be.Application.DTOs.Accommodations;
+﻿using capstone_project_be.Application.DTOs.AccommodationPhotos;
+using capstone_project_be.Application.DTOs.Accommodations;
 using capstone_project_be.Application.Features.Accommodations.Requests;
 using capstone_project_be.Application.Responses;
 using MediatR;
@@ -39,14 +40,14 @@ namespace capstone_project_be.API.Controllers
         }
 
         [HttpPost]
-        public async Task<object> CreateAccommodation([FromBody] CreateAccommodationDTO accommodationData)
+        public async Task<object> CreateAccommodation([FromForm] CreateAccommodationDTO accommodationData)
         {
             var response = await _mediator.Send(new CreateAccommodationRequest( accommodationData));
             return response;
         }
 
         [HttpPut("{id}")]
-        public async Task<object> UpdateAccommodation(string id, [FromBody] UpdateAccommodationDTO updateAccommodationData)
+        public async Task<object> UpdateAccommodation(string id, [FromForm] UpdateAccommodationDTO updateAccommodationData)
         {
             var response = await _mediator.Send(new UpdateAccommodationRequest(id, updateAccommodationData));
             return response;
