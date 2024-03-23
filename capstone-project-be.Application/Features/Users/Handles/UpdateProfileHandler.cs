@@ -37,8 +37,16 @@ namespace capstone_project_be.Application.Features.Users.Handles
             userToUpdate.RoleId = data.RoleId;
             userToUpdate.LastName = data.LastName;
             userToUpdate.FirstName = data.FirstName;
-            userToUpdate.SavedFileName = GenerateFileNameToSave(data.Photo.FileName);
-            userToUpdate.PictureProfile = await _storageRepository.UpLoadFileAsync(data.Photo, userToUpdate.SavedFileName);
+            if (data.Photo != null)
+            {
+                //replace the file 
+                if (!string.IsNullOrEmpty(userToUpdate.SavedFileName))
+                {
+                    await _storageRepository.DeleteFileAsync(userToUpdate.SavedFileName);
+                }
+                userToUpdate.SavedFileName = GenerateFileNameToSave(data.Photo.FileName);
+                userToUpdate.PictureProfile = await _storageRepository.UpLoadFileAsync(data.Photo, userToUpdate.SavedFileName);
+            }
             await _unitOfWork.UserRepository.Update(userToUpdate);
             await _unitOfWork.Save();
 

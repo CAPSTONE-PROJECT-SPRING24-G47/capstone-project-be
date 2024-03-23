@@ -13,7 +13,8 @@
         public string RestaurantWebsite { get; set; } 
         public string RestaurantPhone { get; set; } 
         public string RestaurantMenu { get; set; }
-        public string RestaurantLocation { get; set; } 
+        public string RestaurantLocation { get; set; }
+        public int SuggestedDay { get; set; }
 
         public string RestaurantPhotos { get; set; }
         public string RestaurantCategories { get; set; }

@@ -10,11 +10,13 @@ namespace capstone_project_be.Application.Features.Auths.Handles
     public class SignInHandler : IRequestHandler<SignInRequest, object>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IStorageRepository _storageRepository;
         private readonly IMapper _mapper;
 
-        public SignInHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public SignInHandler(IUnitOfWork unitOfWork, IStorageRepository storageRepository, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _storageRepository = storageRepository;
             _mapper = mapper;
         }
         public async Task<object> Handle(SignInRequest request, CancellationToken cancellationToken)
@@ -30,6 +32,10 @@ namespace capstone_project_be.Application.Features.Auths.Handles
             else
             {
                 var user = userList.First();
+                if (!string.IsNullOrWhiteSpace(user.SavedFileName))
+                {
+                    user.SignedUrl = await _storageRepository.GetSignedUrlAsync(user.SavedFileName);
+                }
                 bool isPasswordMatch = BCrypt.Net.BCrypt.EnhancedVerify(data.Password, user.Password);
                 if (isPasswordMatch)
                     return new BaseResponse<UserDTO>()

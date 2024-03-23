@@ -16,7 +16,7 @@ namespace capstone_project_be.Infrastructure.Context
         public DbSet<AccommodationComment> AccommodationComment { get; set; }
         public DbSet<AccommodationPhoto> AccommodationPhotos { get; set; }
         public DbSet<Blog> Blogs { get; set; }
-        public DbSet<Blog_BlogCategory> Blog_BlogCatagories { get; set; }
+        public DbSet<Blog_BlogCategory> Blog_BlogCategories { get; set; }
         public DbSet<BlogCategory> BlogCategories { get; set; }
         public DbSet<BlogComment> BlogComments { get; set; }
         public DbSet<BlogPhoto> BlogPhotos { get; set; }

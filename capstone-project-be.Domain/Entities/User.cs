@@ -22,8 +22,6 @@ namespace capstone_project_be.Domain.Entities
         public string? SignedUrl { get; set; }
         public string? SavedFileName { get; set; }
 
-
-
         //Set quan hệ với các bảng khác ở đây
         public IEnumerable<Trip> Trips { get; set; }
         public IEnumerable<Blog> Blogs { get; set; }

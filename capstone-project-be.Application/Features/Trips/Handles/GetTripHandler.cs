@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
-using capstone_project_be.Application.DTOs.TouristAttractions;
 using capstone_project_be.Application.DTOs.Trip_Accommodations;
 using capstone_project_be.Application.DTOs.Trip_Locations;
 using capstone_project_be.Application.DTOs.Trip_Restaurants;
 using capstone_project_be.Application.DTOs.Trip_TouristAttractions;
 using capstone_project_be.Application.DTOs.Trips;
-using capstone_project_be.Application.Features.TouristAttractions.Requests;
 using capstone_project_be.Application.Features.Trips.Requests;
 using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Application.Responses;
@@ -70,7 +68,9 @@ namespace capstone_project_be.Application.Features.Trips.Handles
                 var trip_Restaurant = await _unitOfWork.Trip_RestaurantRepository.
                     Find(tr => tr.TripId == tripId && tr.RestaurantId == tripRes.RestaurantId);
                 var Id = trip_Restaurant.First().Id;
+                var suggestedDay = trip_Restaurant.First().SuggestedDay;
                 tripRes.Id = Id;
+                tripRes.SuggestedDay = suggestedDay;
             }
             trip.Trip_Restaurants = _mapper.Map<IEnumerable<CRUDTrip_RestaurantDTO>>(trip_RestaurantList);
 
@@ -81,7 +81,9 @@ namespace capstone_project_be.Application.Features.Trips.Handles
                 var trip_TouristAttraction = await _unitOfWork.Trip_TouristAttractionRepository.
                     Find(tta => tta.TripId == tripId && tta.TouristAttractionId == tripTa.TouristAttractionId);
                 var Id = trip_TouristAttraction.First().Id;
+                var suggestedDay = trip_TouristAttraction.First().SuggestedDay;
                 tripTa.Id = Id;
+                tripTa.SuggestedDay = suggestedDay;
             }
             trip.Trip_TouristAttractions = _mapper.Map<IEnumerable<CRUDTrip_TouristAttractionDTO>>(trip_touristAttractionList);
 

@@ -51,7 +51,7 @@ namespace capstone_project_be.Application.Features.Trip_Restaurants.Handles
             var trip_Restaurant = _mapper.Map<Trip_Restaurant>(trip_RestaurantData);
 
             var trip_RestaurantList = await _unitOfWork.Trip_RestaurantRepository.
-            Find(tr => tr.RestaurantId == trip_Restaurant.RestaurantId);
+            Find(tr => tr.RestaurantId == trip_Restaurant.RestaurantId && tr.TripId == trip_Restaurant.TripId);
 
             if (trip_RestaurantList.Any()) return new BaseResponse<Trip_RestaurantDTO>()
             {

@@ -4,5 +4,6 @@
     {
         public required int TripId { get; set; }
         public required int TouristAttractionId { get; set; }
+        public int SuggestedDay { get; set; }
     }
 }

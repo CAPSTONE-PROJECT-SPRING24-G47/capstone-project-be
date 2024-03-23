@@ -4,5 +4,6 @@
     {
         public required int TripId { get; set; }
         public required int RestaurantId { get; set; }
+        public int SuggestedDay { get; set; }
     }
 }
