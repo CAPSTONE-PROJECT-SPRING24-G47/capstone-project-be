@@ -1,6 +1,8 @@
 ﻿using capstone_project_be.Application.DTOs.Restaurant_RestaurantCategories;
 using capstone_project_be.Application.DTOs.RestaurantPhotos;
 using capstone_project_be.Domain.Entities;
+using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace capstone_project_be.Application.DTOs.Restaurants
 {
@@ -19,7 +21,9 @@ namespace capstone_project_be.Application.DTOs.Restaurants
         public required int UserId { get; set; }
         public string Status { get; set; }
 
-        public IEnumerable<CRUDRestaurantPhotoDTO> RestaurantPhotos { get; set; }
-        public IEnumerable<CRUDRes_ResCategoryDTO> Restaurant_RestaurantCategories { get; set; }
+        [NotMapped]
+        public IEnumerable<IFormFile> Photos { get; set; }
+        [NotMapped]
+        public string Res_ResCategories { get; set; }
     }
 }

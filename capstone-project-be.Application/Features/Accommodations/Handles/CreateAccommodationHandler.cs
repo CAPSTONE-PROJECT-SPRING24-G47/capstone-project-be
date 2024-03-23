@@ -63,7 +63,6 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
             }
             var acc_AccCategoryList = _mapper.Map<IEnumerable<Accommodation_AccommodationCategory>>(acc_AccCategories.Distinct());
             await _unitOfWork.Acc_AccCategoryRepository.AddRange(acc_AccCategoryList);
-            await _unitOfWork.Save();
 
             var photoData = accommodationData.Photos;
             var accommodationPhotos = new List<CRUDAccommodationPhotoDTO>();

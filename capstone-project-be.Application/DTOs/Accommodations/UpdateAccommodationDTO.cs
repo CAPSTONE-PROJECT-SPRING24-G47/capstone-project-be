@@ -22,7 +22,6 @@ namespace capstone_project_be.Application.DTOs.Accommodations
         [NotMapped]
         public IEnumerable<IFormFile> Photos { get; set; }
         [NotMapped]
-        public string Acc_AccCategories
-        { get; set; }
+        public string Acc_AccCategories { get; set; }
     }
 }

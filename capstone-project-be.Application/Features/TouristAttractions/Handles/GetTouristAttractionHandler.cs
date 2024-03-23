@@ -1,8 +1,12 @@
 ﻿using AutoMapper;
+using capstone_project_be.Application.DTOs.Restaurants;
+using capstone_project_be.Application.DTOs.TouristAttraction_TouristAttractionCategories;
+using capstone_project_be.Application.DTOs.TouristAttractionPhotos;
 using capstone_project_be.Application.DTOs.TouristAttractions;
 using capstone_project_be.Application.Features.TouristAttractions.Requests;
 using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Application.Responses;
+using capstone_project_be.Domain.Entities;
 using MediatR;
 
 namespace capstone_project_be.Application.Features.TouristAttractions.Handles
@@ -10,11 +14,13 @@ namespace capstone_project_be.Application.Features.TouristAttractions.Handles
     public class GetTouristAttractionHandler : IRequestHandler<GetTouristAttractionRequest, BaseResponse<TouristAttractionDTO>>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IStorageRepository _storageRepository;
         private readonly IMapper _mapper;
 
-        public GetTouristAttractionHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public GetTouristAttractionHandler(IUnitOfWork unitOfWork, IStorageRepository storageRepository, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _storageRepository = storageRepository;
             _mapper = mapper;
         }
 
@@ -29,7 +35,8 @@ namespace capstone_project_be.Application.Features.TouristAttractions.Handles
                 };
             }
 
-            var touristAttraction = await _unitOfWork.TouristAttractionRepository.GetByID(touristAttractionId);
+            var touristAttraction = _mapper.Map<TouristAttractionDTO>
+                (await _unitOfWork.TouristAttractionRepository.GetByID(touristAttractionId));
             if (touristAttraction == null)
             {
                 return new BaseResponse<TouristAttractionDTO>()
@@ -39,17 +46,26 @@ namespace capstone_project_be.Application.Features.TouristAttractions.Handles
                 };
             }
 
-            var touristAttractionPhotoList = await _unitOfWork.TouristAttractionPhotoRepository.
-                Find(tap => tap.TouristAttractionId == touristAttractionId);
+            var touristAttractionPhotoList = _mapper.Map<IEnumerable<CRUDTouristAttractionPhotoDTO>>
+                (await _unitOfWork.TouristAttractionPhotoRepository.
+                Find(tap => tap.TouristAttractionId == touristAttractionId));
+
+            foreach (var item in touristAttractionPhotoList)
+            {
+                item.SignedUrl = await _storageRepository.GetSignedUrlAsync(item.SavedFileName);
+                item.FileAsBase64 = await _storageRepository.GetFileAsBase64Async(item.SavedFileName);
+            }
+
             touristAttraction.TouristAttractionPhotos = touristAttractionPhotoList;
-            var tA_TACategoryList = await _unitOfWork.TA_TACategoryRepository.
-                Find(tac => tac.TouristAttractionId == touristAttractionId);
-            touristAttraction.TouristAttraction_TouristAttractionCategories = tA_TACategoryList;
+            var ta_taCategoryList = _mapper.Map<IEnumerable<CRUDTA_TACategoryDTO>>
+                (await _unitOfWork.TA_TACategoryRepository.
+                Find(ta => ta.TouristAttractionId == touristAttractionId));
+            touristAttraction.TouristAttraction_TouristAttractionCategories = ta_taCategoryList;
 
             return new BaseResponse<TouristAttractionDTO>()
             {
                 IsSuccess = true,
-                Data = new List<TouristAttractionDTO> { _mapper.Map<TouristAttractionDTO>(touristAttraction) }
+                Data = new List<TouristAttractionDTO> { touristAttraction }
             };
         }
     }
