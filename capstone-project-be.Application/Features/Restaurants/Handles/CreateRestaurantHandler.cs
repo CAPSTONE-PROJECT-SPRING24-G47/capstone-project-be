@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using capstone_project_be.Application.DTOs.Accommodations;
 using capstone_project_be.Application.DTOs.Restaurants;
 using capstone_project_be.Application.Features.Restaurants.Requests;
 using capstone_project_be.Application.Interfaces;
@@ -12,11 +11,13 @@ namespace capstone_project_be.Application.Features.Restaurants.Handles
     public class CreateRestaurantHandler : IRequestHandler<CreateRestaurantRequest, object>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IStorageRepository _storageRepository;
         private readonly IMapper _mapper;
 
-        public CreateRestaurantHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public CreateRestaurantHandler(IUnitOfWork unitOfWork, IStorageRepository storageRepository, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _storageRepository = storageRepository;
             _mapper = mapper;
         }
         public async Task<object> Handle(CreateRestaurantRequest request, CancellationToken cancellationToken)

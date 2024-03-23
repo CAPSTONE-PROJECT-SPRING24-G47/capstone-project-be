@@ -7,5 +7,6 @@ namespace capstone_project_be.Application.Interfaces
         Task<string> GetSignedUrlAsync(string fileNameToRead, int timeOutInMinutes = 30);
         Task<string> UpLoadFileAsync(IFormFile fileToUpload, string fileNameToSave);
         Task DeleteFileAsync(string fileNameToDelete);
+        Task<string> GetFileAsBase64Async(string fileName);
     }
 }

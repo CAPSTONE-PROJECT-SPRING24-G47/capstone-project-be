@@ -53,6 +53,7 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
             foreach (var item in accommodationPhotoList)
             {
                 item.SignedUrl = await _storageRepository.GetSignedUrlAsync(item.SavedFileName);
+                item.FileAsBase64 = await _storageRepository.GetFileAsBase64Async(item.SavedFileName);
             }
 
             accommodation.AccommodationPhotos = accommodationPhotoList;
