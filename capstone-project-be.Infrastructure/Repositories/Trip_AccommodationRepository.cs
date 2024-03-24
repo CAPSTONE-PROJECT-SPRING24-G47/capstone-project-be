@@ -52,6 +52,7 @@ namespace capstone_project_be.Infrastructure.Repositories
                                                    PriceLevel = a.PriceLevel,
                                                    CityId = a.CityId,
                                                    PriceRange = a.PriceRange,
+                                                   SuggestedDay = ta.SuggestedDay,
                                                    AccommodationPhotos = apu.PhotoURLs,
                                                    AccommodationCategories = acn.AccommodationCategoryNames
                                                }

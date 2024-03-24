@@ -16,7 +16,8 @@ namespace capstone_project_be.Application.DTOs.Trip_Accommodations
         public string AccommodationPhone { get; set; }
         public string AccommodationDescription { get; set; }
         public string AccommodationLocation { get; set; }
-        
+        public required int SuggestedDay { get; set; }
+
 
         public string AccommodationPhotos { get; set; }
         public string AccommodationCategories { get; set; }

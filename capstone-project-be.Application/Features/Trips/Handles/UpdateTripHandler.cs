@@ -223,7 +223,8 @@ namespace capstone_project_be.Application.Features.Trips.Handles
             {
                 trip_Accommodations.Add(new CRUDTrip_AccommodationDTO
                 {
-                    AccommodationId = acc.AccommodationId
+                    AccommodationId = acc.AccommodationId,
+                    SuggestedDay = 0
                 });
             }
             var suggestTrip_Accommodations = _mapper.Map<IEnumerable<Trip_Accommodation>>(trip_Accommodations);
