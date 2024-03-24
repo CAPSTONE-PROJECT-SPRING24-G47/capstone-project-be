@@ -44,7 +44,7 @@ namespace capstone_project_be.Application.Features.Restaurants.Handles
                 };
             }
 
-            var restaurantPhotoList = _mapper.Map<IEnumerable<CRUDRestaurantPhotoDTO>>
+            var restaurantPhotoList = _mapper.Map<IEnumerable<RestaurantPhotoDTO>>
                 (await _unitOfWork.RestaurantPhotoRepository.
                 Find(ap => ap.RestaurantId == restaurantId));
 
