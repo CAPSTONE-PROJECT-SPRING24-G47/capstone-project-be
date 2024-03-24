@@ -83,6 +83,15 @@ namespace capstone_project_be.Application.Features.Trips.Handles
             await _unitOfWork.TripRepository.Update(existedTrip);
             await _unitOfWork.Save();
 
+            if(!existedTrip.IsCreatedAutomatically)
+            {
+                return new BaseResponse<TripDTO>()
+                {
+                    IsSuccess = true,
+                    Message = "Cập nhật chuyến đi thành công"
+                };
+            }
+
             //Call out recently updated trip
             var tripList = await _unitOfWork.TripRepository.
                 Find(t => t.UserId == trip.UserId && t.CreatedAt >= DateTime.Now.AddMinutes(-1));

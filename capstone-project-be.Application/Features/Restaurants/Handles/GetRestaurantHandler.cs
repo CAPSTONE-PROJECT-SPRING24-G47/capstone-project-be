@@ -44,14 +44,13 @@ namespace capstone_project_be.Application.Features.Restaurants.Handles
                 };
             }
 
-            var restaurantPhotoList = _mapper.Map<IEnumerable<CRUDRestaurantPhotoDTO>>
+            var restaurantPhotoList = _mapper.Map<IEnumerable<RestaurantPhotoDTO>>
                 (await _unitOfWork.RestaurantPhotoRepository.
                 Find(ap => ap.RestaurantId == restaurantId));
 
             foreach (var item in restaurantPhotoList)
             {
                 item.SignedUrl = await _storageRepository.GetSignedUrlAsync(item.SavedFileName);
-                item.FileAsBase64 = await _storageRepository.GetFileAsBase64Async(item.SavedFileName);
             }
 
             restaurant.RestaurantPhotos = restaurantPhotoList;

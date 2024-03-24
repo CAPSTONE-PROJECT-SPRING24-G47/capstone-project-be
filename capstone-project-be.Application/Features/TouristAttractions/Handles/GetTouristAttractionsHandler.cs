@@ -28,7 +28,7 @@ namespace capstone_project_be.Application.Features.TouristAttractions.Handles
 
             foreach (var item in touristAttractions)
             {
-                var touristAttractionPhotoList = _mapper.Map<IEnumerable<CRUDTouristAttractionPhotoDTO>>
+                var touristAttractionPhotoList = _mapper.Map<IEnumerable<TouristAttractionPhotoDTO>>
                 (await _unitOfWork.TouristAttractionPhotoRepository.
                 Find(tap => tap.TouristAttractionId == item.TouristAttractionId));
 

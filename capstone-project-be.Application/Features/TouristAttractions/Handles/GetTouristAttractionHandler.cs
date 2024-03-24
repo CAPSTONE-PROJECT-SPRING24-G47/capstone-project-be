@@ -46,14 +46,13 @@ namespace capstone_project_be.Application.Features.TouristAttractions.Handles
                 };
             }
 
-            var touristAttractionPhotoList = _mapper.Map<IEnumerable<CRUDTouristAttractionPhotoDTO>>
+            var touristAttractionPhotoList = _mapper.Map<IEnumerable<TouristAttractionPhotoDTO>>
                 (await _unitOfWork.TouristAttractionPhotoRepository.
                 Find(tap => tap.TouristAttractionId == touristAttractionId));
 
             foreach (var item in touristAttractionPhotoList)
             {
                 item.SignedUrl = await _storageRepository.GetSignedUrlAsync(item.SavedFileName);
-                item.FileAsBase64 = await _storageRepository.GetFileAsBase64Async(item.SavedFileName);
             }
 
             touristAttraction.TouristAttractionPhotos = touristAttractionPhotoList;

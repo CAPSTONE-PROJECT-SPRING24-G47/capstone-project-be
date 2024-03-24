@@ -21,6 +21,7 @@ namespace capstone_project_be.Application.DTOs.Restaurants
         public required int UserId { get; set; }
         public string Status { get; set; }
 
+        public string? DeletePhotos { get; set; }
         [NotMapped]
         public IEnumerable<IFormFile> Photos { get; set; }
         [NotMapped]

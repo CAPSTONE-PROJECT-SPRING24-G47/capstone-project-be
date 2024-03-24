@@ -17,7 +17,7 @@ namespace capstone_project_be.Application.DTOs.TouristAttractions
         public required string Status { get; set; }
         public bool IsReported { get; set; }
 
-        public IEnumerable<CRUDTouristAttractionPhotoDTO> TouristAttractionPhotos { get; set; }
+        public IEnumerable<TouristAttractionPhotoDTO> TouristAttractionPhotos { get; set; }
         public IEnumerable<CRUDTA_TACategoryDTO>
             TouristAttraction_TouristAttractionCategories
         { get; set; }

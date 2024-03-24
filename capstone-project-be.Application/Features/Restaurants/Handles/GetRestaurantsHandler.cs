@@ -28,7 +28,7 @@ namespace capstone_project_be.Application.Features.Restaurants.Handles
 
             foreach (var item in restaurants)
             {
-                var restaurantPhotoList = _mapper.Map<IEnumerable<CRUDRestaurantPhotoDTO>>
+                var restaurantPhotoList = _mapper.Map<IEnumerable<RestaurantPhotoDTO>>
                 (await _unitOfWork.RestaurantPhotoRepository.
                 Find(rp => rp.RestaurantId == item.RestaurantId));
 

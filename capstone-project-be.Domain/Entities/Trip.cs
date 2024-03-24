@@ -12,6 +12,7 @@ namespace capstone_project_be.Domain.Entities
         public required DateTime EndDate { get; set; }
         public required int Duration { get; set; }
         public bool IsPublic { get; set; } = false;
+        public bool IsCreatedAutomatically { get; set; }
         public required DateTime CreatedAt { get; set; }
         public string? AccommodationPriceLevel { get; set; }
         public string? RestaurantPriceLevel { get; set; }
