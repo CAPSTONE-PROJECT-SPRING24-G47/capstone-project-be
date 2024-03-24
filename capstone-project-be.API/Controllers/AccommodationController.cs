@@ -39,6 +39,13 @@ namespace capstone_project_be.API.Controllers
             return response;
         }
 
+        [HttpGet("accommodation-number")]
+        public async Task<int> GetAccommodationNumber()
+        {
+            var response = await _mediator.Send(new GetAccommodationNumberRequest());
+            return response;
+        }
+
         [HttpPost]
         public async Task<object> CreateAccommodation([FromForm] CreateAccommodationDTO accommodationData)
         {

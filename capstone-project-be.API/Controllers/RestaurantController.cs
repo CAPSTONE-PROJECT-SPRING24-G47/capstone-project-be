@@ -54,6 +54,13 @@ namespace capstone_project_be.API.Controllers
             return response;
         }
 
+        [HttpGet("restaurant-number")]
+        public async Task<int> GetRestaurantNumber()
+        {
+            var response = await _mediator.Send(new GetRestaurantNumberRequest());
+            return response;
+        }
+
         [HttpDelete("{id}")]
         public async Task<object> DeleteRestaurant(string id)
         {

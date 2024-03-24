@@ -1,4 +1,5 @@
 ﻿using capstone_project_be.Application.DTOs.TouristAttractions;
+using capstone_project_be.Application.Features.Restaurants.Requests;
 using capstone_project_be.Application.Features.TouristAttractions.Requests;
 using capstone_project_be.Application.Responses;
 using MediatR;
@@ -35,6 +36,13 @@ namespace capstone_project_be.API.Controllers
         public async Task<IEnumerable<TouristAttractionDTO>> GetProcessingTouristAttractions()
         {
             var response = await _mediator.Send(new GetProcessingTouristAttractionsRequest());
+            return response;
+        }
+
+        [HttpGet("tourist-attraction-number")]
+        public async Task<int> GetTouristAttractionNumber()
+        {
+            var response = await _mediator.Send(new GetTouristAttractionNumberRequest());
             return response;
         }
 

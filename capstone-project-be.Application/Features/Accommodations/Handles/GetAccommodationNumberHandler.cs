@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
-using capstone_project_be.Application.DTOs.Accommodations;
 using capstone_project_be.Application.Features.Accommodations.Requests;
 using capstone_project_be.Application.Interfaces;
-using capstone_project_be.Application.Responses;
 using MediatR;
 
 namespace capstone_project_be.Application.Features.Accommodations.Handles
 {
-    public class GetAccommodationNumberHandler : IRequestHandler<GetAccommodationNumberRequest, object>
+    public class GetAccommodationNumberHandler : IRequestHandler<GetAccommodationNumberRequest, int>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -18,18 +16,13 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
             _mapper = mapper;
         }
 
-        public async Task<object> Handle(GetAccommodationNumberRequest request, CancellationToken cancellationToken)
+        public async Task<int> Handle(GetAccommodationNumberRequest request, CancellationToken cancellationToken)
         {
             var accommodation = await _unitOfWork.AccommodationRepository.GetAll();
 
-            await _unitOfWork.AccommodationRepository.Update(accommodation);
-            await _unitOfWork.Save();
+            var result = accommodation.ToList().Count();
 
-            return new BaseResponse<AccommodationDTO>()
-            {
-                IsSuccess = true,
-                Message = "Report thành công"
-            };
+            return result;
         }
     }
 }
