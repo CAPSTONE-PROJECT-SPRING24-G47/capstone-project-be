@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using capstone_project_be.Application.DTOs.Accommodation_AccommodationCategories;
+using capstone_project_be.Application.DTOs.AccommodationPhotos;
 using capstone_project_be.Application.DTOs.Accommodations;
 using capstone_project_be.Application.Features.Accommodations.Requests;
 using capstone_project_be.Application.Interfaces;
@@ -11,11 +13,13 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
     public class CreateAccommodationHandler : IRequestHandler<CreateAccommodationRequest, object>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IStorageRepository _storageRepository;
         private readonly IMapper _mapper;
 
-        public CreateAccommodationHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public CreateAccommodationHandler(IUnitOfWork unitOfWork, IStorageRepository storageRepository, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _storageRepository = storageRepository;
             _mapper = mapper;
         }
         public async Task<object> Handle(CreateAccommodationRequest request, CancellationToken cancellationToken)
@@ -44,34 +48,53 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
 
             var accommodationList = await _unitOfWork.AccommodationRepository.
                 Find(a => a.UserId == accommodation.UserId && a.CreatedAt >= DateTime.Now.AddMinutes(-1));
-            if(!accommodationList.Any())
-                return new BaseResponse<AccommodationDTO>()
-                {
-                    IsSuccess = false,
-                    Message = "Thêm nơi ở mới thất bại"
-                };
             var accommodationId = accommodationList.First().AccommodationId;
-            var acc_AccCategories = accommodationData.Accommodation_AccommodationCategories;
-            var acc_AccCategoryList = _mapper.Map<IEnumerable<Accommodation_AccommodationCategory>>(acc_AccCategories);
-            foreach (var item in acc_AccCategoryList)
+            var acc_AccCategoryData = accommodationData.Acc_AccCategories;
+            string[] parts = acc_AccCategoryData.Split(',');
+            var acc_AccCategories = new List<CRUDAcc_AccCategoryDTO>();
+            foreach (string part in parts)
             {
-                item.AccommodationId = accommodationId;
+                acc_AccCategories.Add(
+                    new CRUDAcc_AccCategoryDTO
+                    {
+                        AccommodationId = accommodationId,
+                        AccommodationCategoryId = int.Parse(part)
+                    });
             }
+            var acc_AccCategoryList = _mapper.Map<IEnumerable<Accommodation_AccommodationCategory>>(acc_AccCategories.Distinct());
             await _unitOfWork.Acc_AccCategoryRepository.AddRange(acc_AccCategoryList);
 
-            var accommodationPhotos = accommodationData.AccommodationPhotos;
-            var accommodationPhotoList = _mapper.Map<IEnumerable<AccommodationPhoto>>(accommodationPhotos);
-            foreach (var item in accommodationPhotoList)
+            var photoData = accommodationData.Photos;
+            var accommodationPhotos = new List<CRUDAccommodationPhotoDTO>();
+            foreach (var photo in photoData)
             {
-                item.AccommodationId = accommodationId;
+                if (photo != null)
+                {
+                    var savedFileName = GenerateFileNameToSave(photo.FileName);
+                    accommodationPhotos.Add(
+                        new CRUDAccommodationPhotoDTO
+                        {
+                            AccommodationId = accommodationId,
+                            PhotoURL = await _storageRepository.UpLoadFileAsync(photo, savedFileName),
+                            SavedFileName = savedFileName
+                        }
+                        );
+                }
             }
+            var accommodationPhotoList = _mapper.Map<IEnumerable<AccommodationPhoto>>(accommodationPhotos);
             await _unitOfWork.AccommodationPhotoRepository.AddRange(accommodationPhotoList);
-
+            await _unitOfWork.Save();
             return new BaseResponse<AccommodationDTO>()
             {
                 IsSuccess = true,
                 Message = "Thêm nơi ở mới thành công"
             };
+        }
+        private string? GenerateFileNameToSave(string incomingFileName)
+        {
+            var fileName = Path.GetFileNameWithoutExtension(incomingFileName);
+            var extension = Path.GetExtension(incomingFileName);
+            return $"{fileName}-{DateTime.Now.ToString("yyyyMMddHHmmss")}{extension}";
         }
     }
 }

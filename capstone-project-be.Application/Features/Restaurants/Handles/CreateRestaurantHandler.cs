@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using capstone_project_be.Application.DTOs.Accommodations;
+using capstone_project_be.Application.DTOs.Restaurant_RestaurantCategories;
+using capstone_project_be.Application.DTOs.RestaurantPhotos;
 using capstone_project_be.Application.DTOs.Restaurants;
 using capstone_project_be.Application.Features.Restaurants.Requests;
 using capstone_project_be.Application.Interfaces;
@@ -12,11 +13,13 @@ namespace capstone_project_be.Application.Features.Restaurants.Handles
     public class CreateRestaurantHandler : IRequestHandler<CreateRestaurantRequest, object>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IStorageRepository _storageRepository;
         private readonly IMapper _mapper;
 
-        public CreateRestaurantHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public CreateRestaurantHandler(IUnitOfWork unitOfWork, IStorageRepository storageRepository, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _storageRepository = storageRepository;
             _mapper = mapper;
         }
         public async Task<object> Handle(CreateRestaurantRequest request, CancellationToken cancellationToken)
@@ -45,34 +48,55 @@ namespace capstone_project_be.Application.Features.Restaurants.Handles
 
             var restaurantList = await _unitOfWork.RestaurantRepository.
                 Find(r => r.UserId == restaurant.UserId && r.CreatedAt >= DateTime.Now.AddMinutes(-1));
-            if (!restaurantList.Any())
-                return new BaseResponse<RestaurantDTO>()
-                {
-                    IsSuccess = false,
-                    Message = "Thêm nhà hàng mới thất bại"
-                };
             var restaurantId = restaurantList.First().RestaurantId;
-            var res_ResCategories = restaurantData.Restaurant_RestaurantCategories;
-            var res_ResCategoryList = _mapper.Map<IEnumerable<Restaurant_RestaurantCategory>>(res_ResCategories);
-            foreach (var item in res_ResCategoryList)
+            var res_ResCategoryData = restaurantData.Res_ResCategories;
+            string[] parts = res_ResCategoryData.Split(',');
+            var res_ResCategories = new List<CRUDRes_ResCategoryDTO>();
+            foreach (string part in parts)
             {
-                item.RestaurantId = restaurantId;
+                res_ResCategories.Add(
+                    new CRUDRes_ResCategoryDTO
+                    {
+                        RestaurantId = restaurantId,
+                        RestaurantCategoryId = int.Parse(part)
+                    });
             }
+            var res_ResCategoryList = _mapper.Map<IEnumerable<Restaurant_RestaurantCategory>>(res_ResCategories.Distinct());
             await _unitOfWork.Res_ResCategoryRepository.AddRange(res_ResCategoryList);
 
-            var restaurantPhotos = restaurantData.RestaurantPhotos;
-            var restaurantPhotoList = _mapper.Map<IEnumerable<RestaurantPhoto>>(restaurantPhotos);
-            foreach (var item in restaurantPhotoList)
+            var photoData = restaurantData.Photos;
+            var restaurantPhotos = new List<CRUDRestaurantPhotoDTO>();
+            foreach (var photo in photoData)
             {
-                item.RestaurantId = restaurantId;
+                if (photo != null)
+                {
+                    var savedFileName = GenerateFileNameToSave(photo.FileName);
+                    restaurantPhotos.Add(
+                        new CRUDRestaurantPhotoDTO
+                        {
+                            RestaurantId = restaurantId,
+                            PhotoURL = await _storageRepository.UpLoadFileAsync(photo, savedFileName),
+                            SavedFileName = savedFileName
+                        }
+                        );
+                }
             }
+            var restaurantPhotoList = _mapper.Map<IEnumerable<RestaurantPhoto>>(restaurantPhotos);
             await _unitOfWork.RestaurantPhotoRepository.AddRange(restaurantPhotoList);
+            await _unitOfWork.Save();
 
             return new BaseResponse<RestaurantDTO>()
             {
                 IsSuccess = true,
                 Message = "Thêm nhà hàng mới thành công"
             };
+        }
+
+        private string? GenerateFileNameToSave(string incomingFileName)
+        {
+            var fileName = Path.GetFileNameWithoutExtension(incomingFileName);
+            var extension = Path.GetExtension(incomingFileName);
+            return $"{fileName}-{DateTime.Now.ToString("yyyyMMddHHmmss")}{extension}";
         }
     }
 }

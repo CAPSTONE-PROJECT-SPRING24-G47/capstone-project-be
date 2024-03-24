@@ -2,6 +2,7 @@
 {
     public class CRUDTA_TACategoryDTO
     {
+        public required int TouristAttractionId { get; set; }
         public required int TouristAttractionCategoryId { get; set; }
     }
 }

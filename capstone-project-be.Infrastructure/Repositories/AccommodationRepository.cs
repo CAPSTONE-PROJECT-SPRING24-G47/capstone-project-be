@@ -15,7 +15,7 @@ namespace capstone_project_be.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<AccmmodationSearchDTO>> FindValueContain(string property, string value)
+        public async Task<IEnumerable<AccommodationSearchDTO>> FindValueContain(string property, string value)
         {
             switch (property)
             {
@@ -25,7 +25,7 @@ namespace capstone_project_be.Infrastructure.Repositories
                                 on a.AccommodationId equals p.AccommodationId into gj
                                 from subp in gj.DefaultIfEmpty()
                                 where a.AccommodationName.Contains(value)
-                                select new AccmmodationSearchDTO
+                                select new AccommodationSearchDTO
                                 {
                                     AccommodationId = a.AccommodationId,
                                     AccommodationName = a.AccommodationName,
@@ -42,7 +42,7 @@ namespace capstone_project_be.Infrastructure.Repositories
                                  on a.AccommodationId equals p.AccommodationId into gj
                                  from subp in gj.DefaultIfEmpty()
                                  where a.AccommodationAddress.Contains(value)
-                                 select new AccmmodationSearchDTO
+                                 select new AccommodationSearchDTO
                                  {
                                      AccommodationId = a.AccommodationId,
                                      AccommodationName = a.AccommodationName,
@@ -60,7 +60,7 @@ namespace capstone_project_be.Infrastructure.Repositories
                                  on a.AccommodationId equals p.AccommodationId into gj
                                  from subp in gj.DefaultIfEmpty()
                                  where a.AccommodationDescription.Contains(value)
-                                 select new AccmmodationSearchDTO
+                                 select new AccommodationSearchDTO
                                  {
                                      AccommodationId = a.AccommodationId,
                                      AccommodationName = a.AccommodationName,
@@ -73,7 +73,7 @@ namespace capstone_project_be.Infrastructure.Repositories
                     return result2;
 
                 default:
-                    return Enumerable.Empty<AccmmodationSearchDTO>();
+                    return Enumerable.Empty<AccommodationSearchDTO>();
             }
         }
     }

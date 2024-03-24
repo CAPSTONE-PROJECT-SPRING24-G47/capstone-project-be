@@ -2,6 +2,7 @@
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Storage.V1;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -85,6 +86,30 @@ namespace capstone_project_be.Infrastructure.Repositories
             catch (Exception ex)
             {
                 _logger.LogError($"Error while uploading file {fileNameToSave}: {ex.Message}");
+                throw;
+            }
+        }
+
+        public async Task<string> GetFileAsBase64Async(string fileName)
+        {
+            try
+            {
+                using (var storageClient = StorageClient.Create(_googleCredential))
+                {
+                    var memoryStream = new MemoryStream();
+                    await storageClient.DownloadObjectAsync(_options.GoogleCloudStorageBucketName, fileName, memoryStream);
+                    memoryStream.Seek(0, SeekOrigin.Begin); // Reset stream position to the beginning
+
+                    var byteArray = memoryStream.ToArray();
+                    var base64String = Convert.ToBase64String(byteArray);
+
+                    _logger.LogInformation($"Retrieved file {fileName} from storage {_options.GoogleCloudStorageBucketName} as Base64");
+                    return base64String;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error while retrieving file {fileName}: {ex.Message}");
                 throw;
             }
         }
