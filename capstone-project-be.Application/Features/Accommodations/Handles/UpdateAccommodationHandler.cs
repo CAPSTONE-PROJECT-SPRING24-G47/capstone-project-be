@@ -38,6 +38,13 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
             var accommodation = _mapper.Map<Accommodation>(accommodationData);
             accommodation.AccommodationId = accommodationId;
             accommodation.CreatedAt = DateTime.Now;
+            string[] ranges = accommodation.PriceRange.Split('-');
+            var min = int.Parse(ranges[0]);
+            var max = int.Parse(ranges[1]);
+            var average = (min + max) / 2;
+            if (average < 2000000) accommodation.PriceLevel = "Giá thấp";
+            else if (average < 4000000) accommodation.PriceLevel = "Trung bình";
+            else accommodation.PriceLevel = "Giá cao";
 
             var cityId = accommodation.CityId;
             var cityList = await _unitOfWork.CityRepository.Find(c => c.CityId == cityId);

@@ -43,6 +43,14 @@ namespace capstone_project_be.Application.Features.Restaurants.Handles
             }
             else restaurant.Status = "Processing";
             restaurant.CreatedAt = DateTime.Now;
+            string[] ranges = restaurant.PriceRange.Split('-');
+            var min = int.Parse(ranges[0]);
+            var max = int.Parse(ranges[1]);
+            var average = (min + max) / 2;
+            if (average < 500000) restaurant.PriceLevel = "Giá thấp";
+            else if (average < 1000000) restaurant.PriceLevel = "Trung bình";
+            else restaurant.PriceLevel = "Giá cao";
+
             await _unitOfWork.RestaurantRepository.Add(restaurant);
             await _unitOfWork.Save();
 

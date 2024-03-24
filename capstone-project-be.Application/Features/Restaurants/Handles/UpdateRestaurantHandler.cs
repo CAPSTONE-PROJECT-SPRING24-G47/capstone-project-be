@@ -39,6 +39,13 @@ namespace capstone_project_be.Application.Features.Restaurants.Handles
             var restaurant = _mapper.Map<Restaurant>(restaurantData);
             restaurant.RestaurantId = restaurantId;
             restaurant.CreatedAt = DateTime.Now;
+            string[] ranges = restaurant.PriceRange.Split('-');
+            var min = int.Parse(ranges[0]);
+            var max = int.Parse(ranges[1]);
+            var average = (min + max) / 2;
+            if (average < 500000) restaurant.PriceLevel = "Giá thấp";
+            else if (average < 1000000) restaurant.PriceLevel = "Trung bình";
+            else restaurant.PriceLevel = "Giá cao";
 
             var cityId = restaurant.CityId;
             var cityList = await _unitOfWork.CityRepository.Find(c => c.CityId == cityId);
