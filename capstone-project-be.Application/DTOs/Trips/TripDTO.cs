@@ -15,6 +15,7 @@ namespace capstone_project_be.Application.DTOs.Trips
         public required DateTime EndDate { get; set; }
         public required int Duration { get; set; }
         public required bool IsPublic { get; set; }
+        public bool IsCreatedAutomatically { get; set; }
         public required DateTime CreatedAt { get; set; }
         public string AccommodationPriceLevel { get; set; }
         public string RestaurantPriceLevel { get; set; }

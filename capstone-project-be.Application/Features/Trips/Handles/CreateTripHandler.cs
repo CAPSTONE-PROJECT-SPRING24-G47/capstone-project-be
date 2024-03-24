@@ -52,7 +52,7 @@ namespace capstone_project_be.Application.Features.Trips.Handles
             //Check locations null
             if (!trip.Trip_Locations.Any())
             {
-                //Add trip temporarily
+                trip.IsCreatedAutomatically = false;
                 await _unitOfWork.TripRepository.Add(trip);
                 await _unitOfWork.Save();
                 return new BaseResponse<TripDTO>()
@@ -86,6 +86,7 @@ namespace capstone_project_be.Application.Features.Trips.Handles
                     }
                 }
                 //Add trip temporarily
+                trip.IsCreatedAutomatically = true;
                 await _unitOfWork.TripRepository.Add(trip);
                 await _unitOfWork.Save();
             }

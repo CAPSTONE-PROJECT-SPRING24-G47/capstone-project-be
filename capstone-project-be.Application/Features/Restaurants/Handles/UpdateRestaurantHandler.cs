@@ -88,28 +88,29 @@ namespace capstone_project_be.Application.Features.Restaurants.Handles
                     await _storageRepository.DeleteFileAsync(rp.SavedFileName);
                 }
                 await _unitOfWork.RestaurantPhotoRepository.DeleteRange(restaurantPhotoList);
-                var photoData = restaurantData.Photos;
-                if (photoData != null)
+            }
+
+            var photoData = restaurantData.Photos;
+            if (photoData != null)
+            {
+                var restaurantPhotos = new List<CRUDRestaurantPhotoDTO>();
+                foreach (var photo in photoData)
                 {
-                    var restaurantPhotos = new List<CRUDRestaurantPhotoDTO>();
-                    foreach (var photo in photoData)
+                    if (photo != null)
                     {
-                        if (photo != null)
-                        {
-                            var savedFileName = GenerateFileNameToSave(photo.FileName);
-                            restaurantPhotos.Add(
-                                new CRUDRestaurantPhotoDTO
-                                {
-                                    RestaurantId = restaurantId,
-                                    PhotoURL = await _storageRepository.UpLoadFileAsync(photo, savedFileName),
-                                    SavedFileName = savedFileName
-                                }
-                                );
-                        }
+                        var savedFileName = GenerateFileNameToSave(photo.FileName);
+                        restaurantPhotos.Add(
+                            new CRUDRestaurantPhotoDTO
+                            {
+                                RestaurantId = restaurantId,
+                                PhotoURL = await _storageRepository.UpLoadFileAsync(photo, savedFileName),
+                                SavedFileName = savedFileName
+                            }
+                            );
                     }
-                    restaurantPhotoList = _mapper.Map<IEnumerable<RestaurantPhoto>>(restaurantPhotos);
-                    await _unitOfWork.RestaurantPhotoRepository.AddRange(restaurantPhotoList);
                 }
+                var restaurantPhotoList = _mapper.Map<IEnumerable<RestaurantPhoto>>(restaurantPhotos);
+                await _unitOfWork.RestaurantPhotoRepository.AddRange(restaurantPhotoList);
             }
 
             await _unitOfWork.RestaurantRepository.Update(restaurant);

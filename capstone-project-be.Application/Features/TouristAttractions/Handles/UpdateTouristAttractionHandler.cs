@@ -91,28 +91,29 @@ namespace capstone_project_be.Application.Features.TouristAttractions.Handles
                     await _storageRepository.DeleteFileAsync(tap.SavedFileName);
                 }
                 await _unitOfWork.TouristAttractionPhotoRepository.DeleteRange(touristAttractionPhotoList);
-                var photoData = touristAttractionData.Photos;
-                if (photoData != null)
+            }
+
+            var photoData = touristAttractionData.Photos;
+            if (photoData != null)
+            {
+                var touristAttractionPhotos = new List<CRUDTouristAttractionPhotoDTO>();
+                foreach (var photo in photoData)
                 {
-                    var touristAttractionPhotos = new List<CRUDTouristAttractionPhotoDTO>();
-                    foreach (var photo in photoData)
+                    if (photo != null)
                     {
-                        if (photo != null)
-                        {
-                            var savedFileName = GenerateFileNameToSave(photo.FileName);
-                            touristAttractionPhotos.Add(
-                                new CRUDTouristAttractionPhotoDTO
-                                {
-                                    TouristAttractionId = touristAttractionId,
-                                    PhotoURL = await _storageRepository.UpLoadFileAsync(photo, savedFileName),
-                                    SavedFileName = savedFileName
-                                }
-                                );
-                        }
+                        var savedFileName = GenerateFileNameToSave(photo.FileName);
+                        touristAttractionPhotos.Add(
+                            new CRUDTouristAttractionPhotoDTO
+                            {
+                                TouristAttractionId = touristAttractionId,
+                                PhotoURL = await _storageRepository.UpLoadFileAsync(photo, savedFileName),
+                                SavedFileName = savedFileName
+                            }
+                            );
                     }
-                    touristAttractionPhotoList = _mapper.Map<IEnumerable<TouristAttractionPhoto>>(touristAttractionPhotos);
-                    await _unitOfWork.TouristAttractionPhotoRepository.AddRange(touristAttractionPhotoList);
                 }
+                var touristAttractionPhotoList = _mapper.Map<IEnumerable<TouristAttractionPhoto>>(touristAttractionPhotos);
+                await _unitOfWork.TouristAttractionPhotoRepository.AddRange(touristAttractionPhotoList);
             }
 
             await _unitOfWork.TouristAttractionRepository.Update(touristAttraction);

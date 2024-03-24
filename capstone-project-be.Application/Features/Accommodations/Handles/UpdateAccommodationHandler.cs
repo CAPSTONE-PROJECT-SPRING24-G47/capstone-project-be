@@ -87,28 +87,29 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
                     await _storageRepository.DeleteFileAsync(ac.SavedFileName);
                 }
                 await _unitOfWork.AccommodationPhotoRepository.DeleteRange(accommodationPhotoList);
-                var photoData = accommodationData.Photos;
-                if (photoData != null)
+            }
+
+            var photoData = accommodationData.Photos;
+            if (photoData != null)
+            {
+                var accommodationPhotos = new List<CRUDAccommodationPhotoDTO>();
+                foreach (var photo in photoData)
                 {
-                    var accommodationPhotos = new List<CRUDAccommodationPhotoDTO>();
-                    foreach (var photo in photoData)
+                    if (photo != null)
                     {
-                        if (photo != null)
-                        {
-                            var savedFileName = GenerateFileNameToSave(photo.FileName);
-                            accommodationPhotos.Add(
-                                new CRUDAccommodationPhotoDTO
-                                {
-                                    AccommodationId = accommodationId,
-                                    PhotoURL = await _storageRepository.UpLoadFileAsync(photo, savedFileName),
-                                    SavedFileName = savedFileName
-                                }
-                                );
-                        }
+                        var savedFileName = GenerateFileNameToSave(photo.FileName);
+                        accommodationPhotos.Add(
+                            new CRUDAccommodationPhotoDTO
+                            {
+                                AccommodationId = accommodationId,
+                                PhotoURL = await _storageRepository.UpLoadFileAsync(photo, savedFileName),
+                                SavedFileName = savedFileName
+                            }
+                            );
                     }
-                    accommodationPhotoList = _mapper.Map<IEnumerable<AccommodationPhoto>>(accommodationPhotos);
-                    await _unitOfWork.AccommodationPhotoRepository.AddRange(accommodationPhotoList);
                 }
+                var accommodationPhotoList = _mapper.Map<IEnumerable<AccommodationPhoto>>(accommodationPhotos);
+                await _unitOfWork.AccommodationPhotoRepository.AddRange(accommodationPhotoList);
             }
 
             await _unitOfWork.AccommodationRepository.Update(accommodation);
