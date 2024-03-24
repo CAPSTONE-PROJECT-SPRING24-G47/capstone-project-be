@@ -9,14 +9,16 @@ using MediatR;
 
 namespace capstone_project_be.Application.Features.Restaurants.Handles
 {
-    public class UpdateResutaurantHandler : IRequestHandler<UpdateRestaurantRequest, object>
+    public class UpdateRestaurantHandler : IRequestHandler<UpdateRestaurantRequest, object>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IStorageRepository _storageRepository;
         private readonly IMapper _mapper;
 
-        public UpdateResutaurantHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public UpdateRestaurantHandler(IUnitOfWork unitOfWork, IStorageRepository storageRepository, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _storageRepository = storageRepository;
             _mapper = mapper;
         }
 
@@ -31,7 +33,8 @@ namespace capstone_project_be.Application.Features.Restaurants.Handles
                 };
             }
 
-            var restaurant = _mapper.Map<Restaurant>(request.RestaurantData);
+            var restaurantData = request.UpdateRestaurantData;
+            var restaurant = _mapper.Map<Restaurant>(restaurantData);
             restaurant.RestaurantId = restaurantId;
             restaurant.CreatedAt = DateTime.Now;
 

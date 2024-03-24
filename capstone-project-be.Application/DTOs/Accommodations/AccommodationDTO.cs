@@ -20,7 +20,7 @@ namespace capstone_project_be.Application.DTOs.Accommodations
         public string Status { get; set; }
         public bool IsReported { get; set; }
 
-        public IEnumerable<CRUDAccommodationPhotoDTO> AccommodationPhotos { get; set; }
+        public IEnumerable<AccommodationPhotoDTO> AccommodationPhotos { get; set; }
 
         public IEnumerable<CRUDAcc_AccCategoryDTO>
             Accommodation_AccommodationCategories

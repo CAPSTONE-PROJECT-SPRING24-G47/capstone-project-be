@@ -19,9 +19,10 @@ namespace capstone_project_be.Application.DTOs.Accommodations
         public int UserId { get; set; }
         public string Status { get; set; }
 
+        public string? DeletePhotos { get; set; }
         [NotMapped]
-        public IEnumerable<IFormFile> Photos { get; set; }
+        public IEnumerable<IFormFile>? Photos { get; set; }
         [NotMapped]
-        public string Acc_AccCategories { get; set; }
+        public string? Acc_AccCategories { get; set; }
     }
 }

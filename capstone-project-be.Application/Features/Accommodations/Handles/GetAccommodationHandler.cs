@@ -46,14 +46,13 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
                 };
             }
 
-            var accommodationPhotoList = _mapper.Map <IEnumerable<CRUDAccommodationPhotoDTO>>
+            var accommodationPhotoList = _mapper.Map <IEnumerable<AccommodationPhotoDTO>>
                 (await _unitOfWork.AccommodationPhotoRepository.
                 Find(ap => ap.AccommodationId == accommodationId));
 
             foreach (var item in accommodationPhotoList)
             {
                 item.SignedUrl = await _storageRepository.GetSignedUrlAsync(item.SavedFileName);
-                item.FileAsBase64 = await _storageRepository.GetFileAsBase64Async(item.SavedFileName);
             }
 
             accommodation.AccommodationPhotos = accommodationPhotoList;

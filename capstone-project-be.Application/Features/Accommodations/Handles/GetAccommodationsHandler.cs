@@ -29,7 +29,7 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
 
             foreach (var item in accommodations)
             {
-                var accommodationPhotoList = _mapper.Map<IEnumerable<CRUDAccommodationPhotoDTO>>
+                var accommodationPhotoList = _mapper.Map<IEnumerable<AccommodationPhotoDTO>>
                 (await _unitOfWork.AccommodationPhotoRepository.
                 Find(ap => ap.AccommodationId == item.AccommodationId));
 

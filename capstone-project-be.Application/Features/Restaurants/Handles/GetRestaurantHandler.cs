@@ -51,7 +51,6 @@ namespace capstone_project_be.Application.Features.Restaurants.Handles
             foreach (var item in restaurantPhotoList)
             {
                 item.SignedUrl = await _storageRepository.GetSignedUrlAsync(item.SavedFileName);
-                item.FileAsBase64 = await _storageRepository.GetFileAsBase64Async(item.SavedFileName);
             }
 
             restaurant.RestaurantPhotos = restaurantPhotoList;
