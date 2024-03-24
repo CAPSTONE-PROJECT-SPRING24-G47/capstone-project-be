@@ -220,12 +220,11 @@ namespace capstone_project_be.Application.Features.Trips.Handles
             var suggestTrip_Accommodations = _mapper.Map<IEnumerable<Trip_Accommodation>>(trip_Accommodations);
             if (!suggestTrip_Accommodations.Any())
             {
-                await _unitOfWork.TripRepository.Delete(trip);
-                await _unitOfWork.Save();
                 return new BaseResponse<TripDTO>()
                 {
-                    IsSuccess = false,
-                    Message = "Không tìm được nơi ở phù hợp!"
+                    IsSuccess = true,
+                    Message = "Không tìm được nơi ở phù hợp với thông tin vừa được cập nhật," +
+                    " các địa điểm đã gợi ý sẽ được giữ nguyên."
                 };
             }
             foreach (var item in suggestTrip_Accommodations)
@@ -291,12 +290,11 @@ namespace capstone_project_be.Application.Features.Trips.Handles
             var suggestTrip_Restaurants = _mapper.Map<IEnumerable<Trip_Restaurant>>(trip_Restaurants);
             if (!suggestTrip_Restaurants.Any())
             {
-                await _unitOfWork.TripRepository.Delete(trip);
-                await _unitOfWork.Save();
                 return new BaseResponse<TripDTO>()
                 {
                     IsSuccess = false,
-                    Message = "Không tìm được nhà hàng phù hợp!"
+                    Message = "Không tìm được nhà hàng phù hợp với thông tin vừa được cập nhật," +
+                    " các địa điểm đã gợi ý sẽ được giữ nguyên."
                 };
             }
             foreach (var item in suggestTrip_Restaurants)
@@ -366,7 +364,8 @@ namespace capstone_project_be.Application.Features.Trips.Handles
                 return new BaseResponse<TripDTO>()
                 {
                     IsSuccess = false,
-                    Message = "Không tìm được địa điểm du lịch phù hợp!"
+                    Message = "Không tìm được địa điểm du lịch phù hợp với thông tin vừa được cập nhật," +
+                    " các địa điểm đã gợi ý sẽ được giữ nguyên."
                 };
             }
             foreach (var item in suggestTrip_TouristAttractions)
