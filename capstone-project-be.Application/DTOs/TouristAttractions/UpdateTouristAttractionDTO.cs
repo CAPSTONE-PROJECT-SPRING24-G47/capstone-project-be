@@ -19,8 +19,8 @@ namespace capstone_project_be.Application.DTOs.TouristAttractions
 
         public string? DeletePhotos { get; set; }
         [NotMapped]
-        public IEnumerable<IFormFile> Photos { get; set; }
+        public IEnumerable<IFormFile>? Photos { get; set; }
         [NotMapped]
-        public string TA_TACategories { get; set; }
+        public string? TA_TACategories { get; set; }
     }
 }

@@ -23,8 +23,8 @@ namespace capstone_project_be.Application.DTOs.Restaurants
 
         public string? DeletePhotos { get; set; }
         [NotMapped]
-        public IEnumerable<IFormFile> Photos { get; set; }
+        public IEnumerable<IFormFile>? Photos { get; set; }
         [NotMapped]
-        public string Res_ResCategories { get; set; }
+        public string? Res_ResCategories { get; set; }
     }
 }
