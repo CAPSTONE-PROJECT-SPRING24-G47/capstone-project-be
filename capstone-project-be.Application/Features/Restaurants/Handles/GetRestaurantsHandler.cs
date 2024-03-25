@@ -26,6 +26,12 @@ namespace capstone_project_be.Application.Features.Restaurants.Handles
             var restaurants = _mapper.Map<IEnumerable<RestaurantDTO>>
                 (await _unitOfWork.RestaurantRepository.GetAll());
 
+            int pageIndex = request.PageIndex;
+            int pageSize = 10;
+            // Start index in the page
+            int skip = (pageIndex - 1) * pageSize;
+            restaurants = restaurants.Skip(skip).Take(pageSize);
+
             foreach (var item in restaurants)
             {
                 var restaurantPhotoList = _mapper.Map<IEnumerable<RestaurantPhotoDTO>>

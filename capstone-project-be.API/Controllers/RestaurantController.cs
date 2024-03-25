@@ -20,9 +20,9 @@ namespace capstone_project_be.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<RestaurantDTO>> GetRestaurants()
+        public async Task<IEnumerable<RestaurantDTO>> GetRestaurants(int pageIndex)
         {
-            var response = await _mediator.Send(new GetRestaurantsRequest());
+            var response = await _mediator.Send(new GetRestaurantsRequest(pageIndex));
             return response;
         }
 

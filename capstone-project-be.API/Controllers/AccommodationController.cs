@@ -19,9 +19,9 @@ namespace capstone_project_be.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<AccommodationDTO>> GetAccommodations()
+        public async Task<IEnumerable<AccommodationDTO>> GetAccommodations(int pageIndex)
         {
-            var response = await _mediator.Send(new GetAccommodationsRequest());
+            var response = await _mediator.Send(new GetAccommodationsRequest(pageIndex));
             return response;
         }
 

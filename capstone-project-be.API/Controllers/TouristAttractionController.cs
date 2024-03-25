@@ -19,9 +19,9 @@ namespace capstone_project_be.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<TouristAttractionDTO>> GetTouristAttractions()
+        public async Task<IEnumerable<TouristAttractionDTO>> GetTouristAttractions(int pageIndex)
         {
-            var response = await _mediator.Send(new GetTouristAttractionsRequest());
+            var response = await _mediator.Send(new GetTouristAttractionsRequest(pageIndex));
             return response;
         }
 

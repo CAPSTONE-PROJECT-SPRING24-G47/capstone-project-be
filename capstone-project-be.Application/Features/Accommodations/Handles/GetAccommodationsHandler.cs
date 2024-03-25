@@ -27,6 +27,12 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
             var accommodations = _mapper.Map<IEnumerable<AccommodationDTO>>
                 (await _unitOfWork.AccommodationRepository.GetAll());
 
+            int pageIndex = request.PageIndex;
+            int pageSize = 10;
+            // Start index in the page
+            int skip = (pageIndex - 1) * pageSize;
+            accommodations = accommodations.Skip(skip).Take(pageSize);
+
             foreach (var item in accommodations)
             {
                 var accommodationPhotoList = _mapper.Map<IEnumerable<AccommodationPhotoDTO>>

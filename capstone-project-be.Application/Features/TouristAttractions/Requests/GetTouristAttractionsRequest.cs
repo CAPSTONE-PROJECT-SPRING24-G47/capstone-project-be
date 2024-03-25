@@ -3,7 +3,8 @@ using MediatR;
 
 namespace capstone_project_be.Application.Features.TouristAttractions.Requests
 {
-    public class GetTouristAttractionsRequest : IRequest<IEnumerable<TouristAttractionDTO>>
+    public class GetTouristAttractionsRequest(int pageIndex) : IRequest<IEnumerable<TouristAttractionDTO>>
     {
+        public int PageIndex { get; set; } = pageIndex;
     }
 }
