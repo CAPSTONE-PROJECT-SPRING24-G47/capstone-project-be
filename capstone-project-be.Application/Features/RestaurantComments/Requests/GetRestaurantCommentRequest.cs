@@ -1,5 +1,4 @@
-﻿using capstone_project_be.Application.DTOs.RestaurantCategories;
-using capstone_project_be.Application.DTOs.RestaurantComments;
+﻿using capstone_project_be.Application.DTOs.RestaurantComments;
 using capstone_project_be.Application.Responses;
 using MediatR;
 

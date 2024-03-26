@@ -1,5 +1,4 @@
-﻿using capstone_project_be.Application.DTOs.AccommodationCommentPhotos;
-using capstone_project_be.Application.DTOs.RestaurantCommentPhotos;
+﻿using capstone_project_be.Application.DTOs.RestaurantCommentPhotos;
 
 namespace capstone_project_be.Application.DTOs.RestaurantComments
 {

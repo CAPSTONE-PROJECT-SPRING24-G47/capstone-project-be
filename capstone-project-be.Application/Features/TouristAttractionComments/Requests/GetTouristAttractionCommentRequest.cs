@@ -1,5 +1,4 @@
-﻿using capstone_project_be.Application.DTOs.TouristAttractionCategories;
-using capstone_project_be.Application.DTOs.TouristAttractionComments;
+﻿using capstone_project_be.Application.DTOs.TouristAttractionComments;
 using capstone_project_be.Application.Responses;
 using MediatR;
 

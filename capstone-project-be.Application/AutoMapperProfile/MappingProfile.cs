@@ -22,6 +22,7 @@ using capstone_project_be.Application.DTOs.RestaurantPhotos;
 using capstone_project_be.Application.DTOs.Restaurants;
 using capstone_project_be.Application.DTOs.TouristAttraction_TouristAttractionCategories;
 using capstone_project_be.Application.DTOs.TouristAttractionCategories;
+using capstone_project_be.Application.DTOs.TouristAttractionCommentPhotos;
 using capstone_project_be.Application.DTOs.TouristAttractionComments;
 using capstone_project_be.Application.DTOs.TouristAttractionPhotos;
 using capstone_project_be.Application.DTOs.TouristAttractions;
@@ -132,7 +133,12 @@ namespace capstone_project_be.Application.AutoMapperProfile
 
             //TouristAttractionComment
             CreateMap<TouristAttractionCommentDTO, TouristAttractionComment>().ReverseMap();
-            CreateMap<CRUDTouristAttractionCommentDTO, TouristAttractionComment>().ReverseMap();
+            CreateMap<CreateTouristAttractionCommentDTO, TouristAttractionComment>().ReverseMap();
+            CreateMap<UpdateTouristAttractionCommentDTO, TouristAttractionComment>().ReverseMap();
+
+            //TouristAttractionCommentPhoto
+            CreateMap<TouristAttractionCommentPhotoDTO, TouristAttractionCommentPhoto>().ReverseMap();
+            CreateMap<CRUDTouristAttractionCommentPhotoDTO, TouristAttractionCommentPhoto>().ReverseMap();
 
             //Blog
             CreateMap<BlogDTO, Blog>().ReverseMap();

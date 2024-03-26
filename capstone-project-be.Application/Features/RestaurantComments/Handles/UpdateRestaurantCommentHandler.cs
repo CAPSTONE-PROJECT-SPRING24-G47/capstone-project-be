@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using capstone_project_be.Application.DTOs.AccommodationCommentPhotos;
 using capstone_project_be.Application.DTOs.RestaurantCommentPhotos;
 using capstone_project_be.Application.DTOs.RestaurantComments;
 using capstone_project_be.Application.Features.RestaurantComments.Requests;
