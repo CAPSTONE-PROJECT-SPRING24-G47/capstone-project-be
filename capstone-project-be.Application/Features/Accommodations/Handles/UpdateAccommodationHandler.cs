@@ -89,9 +89,9 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
                 var accommodationPhotoList = await _unitOfWork.AccommodationPhotoRepository.
                     Find(ap => ap.AccommodationId == accommodationId && deletePhotoIds.Contains(ap.AccommodationPhotoId));
 
-                foreach (var ac in accommodationPhotoList)
+                foreach (var ap in accommodationPhotoList)
                 {
-                    await _storageRepository.DeleteFileAsync(ac.SavedFileName);
+                    await _storageRepository.DeleteFileAsync(ap.SavedFileName);
                 }
                 await _unitOfWork.AccommodationPhotoRepository.DeleteRange(accommodationPhotoList);
             }

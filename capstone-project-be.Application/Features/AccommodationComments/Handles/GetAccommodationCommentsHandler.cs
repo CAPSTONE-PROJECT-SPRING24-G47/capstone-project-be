@@ -20,6 +20,11 @@ namespace capstone_project_be.Application.Features.AccommodationComments.Handles
         public async Task<IEnumerable<AccommodationCommentDTO>> Handle(GetAccommodationCommentsRequest request, CancellationToken cancellationToken)
         {
             var accommodationComments = await _unitOfWork.AccommodationCommentRepository.GetAll();
+            int pageIndex = request.PageIndex;
+            int pageSize = 10;
+            // Start index in the page
+            int skip = (pageIndex - 1) * pageSize;
+            accommodationComments = accommodationComments.Skip(skip).Take(pageSize);
 
             return _mapper.Map<IEnumerable<AccommodationCommentDTO>>(accommodationComments);
         }

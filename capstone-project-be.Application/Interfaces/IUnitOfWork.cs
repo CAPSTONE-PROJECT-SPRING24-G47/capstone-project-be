@@ -15,18 +15,21 @@
         IAcc_AccCategoryRepository Acc_AccCategoryRepository { get; }
         IAccommodationPhotoRepository AccommodationPhotoRepository { get; }
         IAccommodationCommentRepository AccommodationCommentRepository { get; }
+        IAccommodationCommentPhotoRepository AccommodationCommentPhotoRepository { get; }
 
         IRestaurantRepository RestaurantRepository { get; }
         IRestaurantCategoryRepository RestaurantCategoryRepository { get; }
         IRes_ResCategoryRepository Res_ResCategoryRepository { get; }
         IRestaurantPhotoRepository RestaurantPhotoRepository { get; }
         IRestaurantCommentRepository RestaurantCommentRepository { get; }
+        IRestaurantCommentPhotoRepository RestaurantCommentPhotoRepository { get; }
 
         ITouristAttractionRepository TouristAttractionRepository { get; }
         ITouristAttractionCategoryRepository TouristAttractionCategoryRepository { get; }
         ITA_TACategoryRepository TA_TACategoryRepository { get; }
         ITouristAttractionPhotoRepository TouristAttractionPhotoRepository { get; }
         ITouristAttractionCommentRepository TouristAttractionCommentRepository { get; }
+        ITouristAttractionCommentPhotoRepository TouristAttractionCommentPhotoRepository { get; }
 
         IBlogRepository BlogRepository { get; }
         IBlogCategoryRepository BlogCategoryRepository { get; }

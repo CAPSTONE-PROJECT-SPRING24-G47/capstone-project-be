@@ -1,7 +1,4 @@
-﻿using capstone_project_be.Application.DTOs.Accommodation_AccommodationCategories;
-using capstone_project_be.Application.DTOs.AccommodationPhotos;
-using capstone_project_be.Domain.Entities;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace capstone_project_be.Application.DTOs.Accommodations

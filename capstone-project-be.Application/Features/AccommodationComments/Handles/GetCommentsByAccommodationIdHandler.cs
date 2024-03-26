@@ -32,6 +32,12 @@ namespace capstone_project_be.Application.Features.AccommodationComments.Handles
             var comments = await _unitOfWork.AccommodationCommentRepository.
                 Find(ac => ac.AccommodationId == AccommodationId);
 
+            int pageIndex = request.PageIndex;
+            int pageSize = 10;
+            // Start index in the page
+            int skip = (pageIndex - 1) * pageSize;
+            comments = comments.Skip(skip).Take(pageSize);
+
             return new BaseResponse<AccommodationCommentDTO>()
             {
                 IsSuccess = true,

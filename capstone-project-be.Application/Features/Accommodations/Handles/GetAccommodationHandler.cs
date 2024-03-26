@@ -5,7 +5,6 @@ using capstone_project_be.Application.DTOs.Accommodations;
 using capstone_project_be.Application.Features.Accommodations.Requests;
 using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Application.Responses;
-using capstone_project_be.Domain.Entities;
 using MediatR;
 
 namespace capstone_project_be.Application.Features.Accommodations.Handles
@@ -54,8 +53,8 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
             {
                 item.SignedUrl = await _storageRepository.GetSignedUrlAsync(item.SavedFileName);
             }
-
             accommodation.AccommodationPhotos = accommodationPhotoList;
+
             var acc_accCategoryList = _mapper.Map<IEnumerable<CRUDAcc_AccCategoryDTO>>
                 (await _unitOfWork.Acc_AccCategoryRepository.
                 Find(acc => acc.AccommodationId == accommodationId));
