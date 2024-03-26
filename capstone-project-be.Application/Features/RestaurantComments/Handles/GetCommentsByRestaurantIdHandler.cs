@@ -41,7 +41,7 @@ namespace capstone_project_be.Application.Features.RestaurantComments.Handles
             int pageSize = 10;
             // Start index in the page
             int skip = (pageIndex - 1) * pageSize;
-            comments = comments.Skip(skip).Take(pageSize).OrderByDescending(c => c.CreatedAt);
+            comments = comments.OrderByDescending(c => c.CreatedAt).Skip(skip).Take(pageSize);
             var restaurantComments = _mapper.Map<IEnumerable<RestaurantCommentDTO>>(comments);
 
             foreach (var rc in restaurantComments)

@@ -24,7 +24,7 @@ namespace capstone_project_be.Application.Features.AccommodationComments.Handles
             int pageSize = 10;
             // Start index in the page
             int skip = (pageIndex - 1) * pageSize;
-            accommodationComments = accommodationComments.Skip(skip).Take(pageSize).OrderByDescending(ac => ac.CreatedAt);
+            accommodationComments = accommodationComments.OrderByDescending(ac => ac.CreatedAt).Skip(skip).Take(pageSize);
 
             return _mapper.Map<IEnumerable<AccommodationCommentDTO>>(accommodationComments);
         }
