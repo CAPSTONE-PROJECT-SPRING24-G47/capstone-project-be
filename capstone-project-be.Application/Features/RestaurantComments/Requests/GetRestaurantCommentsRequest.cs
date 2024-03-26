@@ -5,5 +5,6 @@ namespace capstone_project_be.Application.Features.RestaurantComments.Requests
 {
     public class GetRestaurantCommentsRequest(int pageIndex) : IRequest<IEnumerable<RestaurantCommentDTO>>
     {
+        public int PageIndex { get; set; } = pageIndex;
     }
 }

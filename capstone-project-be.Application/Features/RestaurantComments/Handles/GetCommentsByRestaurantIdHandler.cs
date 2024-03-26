@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using capstone_project_be.Application.DTOs.AccommodationCommentPhotos;
+using capstone_project_be.Application.DTOs.AccommodationComments;
+using capstone_project_be.Application.DTOs.RestaurantCommentPhotos;
 using capstone_project_be.Application.DTOs.RestaurantComments;
 using capstone_project_be.Application.Features.RestaurantComments.Requests;
 using capstone_project_be.Application.Interfaces;
@@ -10,17 +13,19 @@ namespace capstone_project_be.Application.Features.RestaurantComments.Handles
     public class GetCommentsByRestaurantIdHandler : IRequestHandler<GetCommentsByRestaurantIdRequest, BaseResponse<RestaurantCommentDTO>>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IStorageRepository _storageRepository;
         private readonly IMapper _mapper;
 
-        public GetCommentsByRestaurantIdHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public GetCommentsByRestaurantIdHandler(IUnitOfWork unitOfWork, IMapper mapper, IStorageRepository storageRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _storageRepository = storageRepository;
         }
 
         public async Task<BaseResponse<RestaurantCommentDTO>> Handle(GetCommentsByRestaurantIdRequest request, CancellationToken cancellationToken)
         {
-            if (!int.TryParse(request.RestaurantId, out int RestaurantId))
+            if (!int.TryParse(request.RestaurantId, out int restaurantId))
             {
                 return new BaseResponse<RestaurantCommentDTO>()
                 {
@@ -30,12 +35,32 @@ namespace capstone_project_be.Application.Features.RestaurantComments.Handles
             }
 
             var comments = await _unitOfWork.RestaurantCommentRepository.
-                Find(rc => rc.RestaurantId == RestaurantId);
+                Find(rc => rc.RestaurantId == restaurantId);
+
+            int pageIndex = request.PageIndex;
+            int pageSize = 10;
+            // Start index in the page
+            int skip = (pageIndex - 1) * pageSize;
+            comments = comments.Skip(skip).Take(pageSize).OrderByDescending(c => c.CreatedAt);
+            var restaurantComments = _mapper.Map<IEnumerable<RestaurantCommentDTO>>(comments);
+
+            foreach (var rc in restaurantComments)
+            {
+                var restaurantCommentPhotoList = _mapper.Map<IEnumerable<RestaurantCommentPhotoDTO>>
+                (await _unitOfWork.RestaurantCommentPhotoRepository.
+                Find(rcp => rcp.RestaurantCommentId == rc.RestaurantCommentId));
+
+                foreach (var item in restaurantCommentPhotoList)
+                {
+                    item.SignedUrl = await _storageRepository.GetSignedUrlAsync(item.SavedFileName);
+                }
+                rc.RestaurantCommentPhotos = restaurantCommentPhotoList;
+            }
 
             return new BaseResponse<RestaurantCommentDTO>()
             {
                 IsSuccess = true,
-                Data = _mapper.Map<IEnumerable<RestaurantCommentDTO>>(comments)
+                Data = _mapper.Map<IEnumerable<RestaurantCommentDTO>>(restaurantComments)
             };
         }
     }

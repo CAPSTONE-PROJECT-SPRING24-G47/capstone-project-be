@@ -16,6 +16,7 @@ using capstone_project_be.Application.DTOs.Prefectures;
 using capstone_project_be.Application.DTOs.Regions;
 using capstone_project_be.Application.DTOs.Restaurant_RestaurantCategories;
 using capstone_project_be.Application.DTOs.RestaurantCategories;
+using capstone_project_be.Application.DTOs.RestaurantCommentPhotos;
 using capstone_project_be.Application.DTOs.RestaurantComments;
 using capstone_project_be.Application.DTOs.RestaurantPhotos;
 using capstone_project_be.Application.DTOs.Restaurants;
@@ -107,6 +108,10 @@ namespace capstone_project_be.Application.AutoMapperProfile
             CreateMap<RestaurantCommentDTO, RestaurantComment>().ReverseMap();
             CreateMap<CreateRestaurantCommentDTO, RestaurantComment>().ReverseMap();
             CreateMap<UpdateRestaurantCommentDTO, RestaurantComment>().ReverseMap();
+
+            //RestaurantCommentPhoto
+            CreateMap<RestaurantCommentPhotoDTO, RestaurantCommentPhoto>().ReverseMap();
+            CreateMap<CRUDRestaurantCommentPhotoDTO, RestaurantCommentPhoto>().ReverseMap();
 
             //TouristAttraction
             CreateMap<TouristAttractionDTO, TouristAttraction>().ReverseMap();

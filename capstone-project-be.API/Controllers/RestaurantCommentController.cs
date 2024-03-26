@@ -1,5 +1,6 @@
 ﻿using capstone_project_be.Application.DTOs.BlogComments;
 using capstone_project_be.Application.DTOs.RestaurantComments;
+using capstone_project_be.Application.Features.AccommodationComments.Requests;
 using capstone_project_be.Application.Features.BlogComments.Requests;
 using capstone_project_be.Application.Features.RestaurantComments.Requests;
 using capstone_project_be.Application.Responses;
@@ -26,6 +27,13 @@ namespace capstone_project_be.API.Controllers
             return response;
         }
 
+        [HttpGet("get-number-of-restaurant-comment")]
+        public async Task<int> GetNumberOfRestaurantComments()
+        {
+            var response = await _mediator.Send(new GetNumberOfRestaurantCommentsRequest());
+            return response;
+        }
+
         [HttpGet("{id}")]
         public async Task<BaseResponse<RestaurantCommentDTO>> GetRestaurantComment(string id)
         {
@@ -40,16 +48,23 @@ namespace capstone_project_be.API.Controllers
             return response;
         }
 
+        [HttpGet("{id}/get-number-of-comment-by-restaurantId")]
+        public async Task<int> GetNumberOfCommentsByRestaurantId(string id)
+        {
+            var response = await _mediator.Send(new GetNumberOfCommentsByRestaurantIdRequest(id));
+            return response;
+        }
+
 
         [HttpPost]
-        public async Task<object> CreateRestaurantComment([FromBody] CreateRestaurantCommentDTO restaurantCommentData)
+        public async Task<object> CreateRestaurantComment([FromForm] CreateRestaurantCommentDTO restaurantCommentData)
         {
             var response = await _mediator.Send(new CreateRestaurantCommentRequest(restaurantCommentData));
             return response;
         }
 
         [HttpPut("{id}")]
-        public async Task<object> UpdateRestaurantComment(string id, [FromBody] UpdateRestaurantCommentDTO updateRestaurantCommentData)
+        public async Task<object> UpdateRestaurantComment(string id, [FromForm] UpdateRestaurantCommentDTO updateRestaurantCommentData)
         {
             var response = await _mediator.Send(new UpdateRestaurantCommentRequest(id, updateRestaurantCommentData));
             return response;

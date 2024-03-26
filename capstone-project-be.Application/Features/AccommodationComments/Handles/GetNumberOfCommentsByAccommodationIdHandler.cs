@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
-using capstone_project_be.Application.DTOs.AccommodationComments;
 using capstone_project_be.Application.Features.AccommodationComments.Requests;
-using capstone_project_be.Application.Features.Accommodations.Requests;
 using capstone_project_be.Application.Interfaces;
-using capstone_project_be.Application.Responses;
 using MediatR;
 
 namespace capstone_project_be.Application.Features.AccommodationComments.Handles
