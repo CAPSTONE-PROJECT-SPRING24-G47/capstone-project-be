@@ -369,8 +369,6 @@ namespace capstone_project_be.Application.Features.Trips.Handles
             var suggestTrip_TouristAttractions = _mapper.Map<IEnumerable<Trip_TouristAttraction>>(trip_TouristAttractions);
             if (!suggestTrip_TouristAttractions.Any())
             {
-                await _unitOfWork.TripRepository.Delete(trip);
-                await _unitOfWork.Save();
                 return new BaseResponse<TripDTO>()
                 {
                     IsSuccess = false,

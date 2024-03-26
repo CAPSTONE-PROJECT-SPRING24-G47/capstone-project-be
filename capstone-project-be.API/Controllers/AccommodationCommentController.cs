@@ -24,17 +24,32 @@ namespace capstone_project_be.API.Controllers
             return response;
         }
 
+        [HttpGet("get-number-of-accommodation-comment")]
+        public async Task<int> GetNumberOfAccommodationComments()
+        {
+            var response = await _mediator.Send(new GetNumberOfAccommodationCommentsRequest());
+            return response;
+        }
+
         [HttpGet("{id}")]
         public async Task<BaseResponse<AccommodationCommentDTO>> GetAccommodationComment(string id)
         {
             var response = await _mediator.Send(new GetAccommodationCommentRequest(id));
             return response;
         }
+        
 
         [HttpGet("{id}/get-comment-by-accommodationId")]
         public async Task<BaseResponse<AccommodationCommentDTO>> GetCommentsByAccommodationId(string id, int pageIndex)
         {
             var response = await _mediator.Send(new GetCommentsByAccommodationIdRequest(id , pageIndex));
+            return response;
+        }
+
+        [HttpGet("{id}/get-number-of-comment-by-accommodationId")]
+        public async Task<int> GetNumberOfCommentsByAccommodationId(string id)
+        {
+            var response = await _mediator.Send(new GetNumberOfCommentsByAccommodationIdRequest(id));
             return response;
         }
 

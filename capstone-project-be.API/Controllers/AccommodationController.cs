@@ -39,10 +39,10 @@ namespace capstone_project_be.API.Controllers
             return response;
         }
 
-        [HttpGet("accommodation-number")]
+        [HttpGet("get-number-of-accommodation")]
         public async Task<int> GetAccommodationNumber()
         {
-            var response = await _mediator.Send(new GetAccommodationNumberRequest());
+            var response = await _mediator.Send(new GetNumberOfAccommodationsRequest());
             return response;
         }
 

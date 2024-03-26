@@ -2,7 +2,7 @@
 
 namespace capstone_project_be.Application.Features.Accommodations.Requests
 {
-    public class GetAccommodationNumberRequest : IRequest<int>
+    public class GetNumberOfAccommodationsRequest : IRequest<int>
     {
     }
 }

@@ -105,7 +105,8 @@ namespace capstone_project_be.Application.AutoMapperProfile
 
             //RestaurantComment
             CreateMap<RestaurantCommentDTO, RestaurantComment>().ReverseMap();
-            CreateMap<CRUDRestaurantCommentDTO, RestaurantComment>().ReverseMap();
+            CreateMap<CreateRestaurantCommentDTO, RestaurantComment>().ReverseMap();
+            CreateMap<UpdateRestaurantCommentDTO, RestaurantComment>().ReverseMap();
 
             //TouristAttraction
             CreateMap<TouristAttractionDTO, TouristAttraction>().ReverseMap();

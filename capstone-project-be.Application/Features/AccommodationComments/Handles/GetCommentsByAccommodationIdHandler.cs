@@ -36,7 +36,7 @@ namespace capstone_project_be.Application.Features.AccommodationComments.Handles
             int pageSize = 10;
             // Start index in the page
             int skip = (pageIndex - 1) * pageSize;
-            comments = comments.Skip(skip).Take(pageSize);
+            comments = comments.Skip(skip).Take(pageSize).OrderByDescending(c => c.CreatedAt);
 
             return new BaseResponse<AccommodationCommentDTO>()
             {

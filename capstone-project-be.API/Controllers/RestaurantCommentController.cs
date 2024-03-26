@@ -20,9 +20,9 @@ namespace capstone_project_be.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<RestaurantCommentDTO>> GetRestaurantComments()
+        public async Task<IEnumerable<RestaurantCommentDTO>> GetRestaurantComments(int pageIndex)
         {
-            var response = await _mediator.Send(new GetRestaurantCommentsRequest());
+            var response = await _mediator.Send(new GetRestaurantCommentsRequest(pageIndex));
             return response;
         }
 
@@ -34,22 +34,22 @@ namespace capstone_project_be.API.Controllers
         }
 
         [HttpGet("{id}/get-comment-by-restaurantId")]
-        public async Task<BaseResponse<RestaurantCommentDTO>> GetCommentsByRestaurantId(string id)
+        public async Task<BaseResponse<RestaurantCommentDTO>> GetCommentsByRestaurantId(string id, int pageIndex)
         {
-            var response = await _mediator.Send(new GetCommentsByRestaurantIdRequest(id));
+            var response = await _mediator.Send(new GetCommentsByRestaurantIdRequest(id, pageIndex));
             return response;
         }
 
 
         [HttpPost]
-        public async Task<object> CreateRestaurantComment([FromBody] CRUDRestaurantCommentDTO restaurantCommentData)
+        public async Task<object> CreateRestaurantComment([FromBody] CreateRestaurantCommentDTO restaurantCommentData)
         {
             var response = await _mediator.Send(new CreateRestaurantCommentRequest(restaurantCommentData));
             return response;
         }
 
         [HttpPut("{id}")]
-        public async Task<object> UpdateRestaurantComment(string id, [FromBody] CRUDRestaurantCommentDTO updateRestaurantCommentData)
+        public async Task<object> UpdateRestaurantComment(string id, [FromBody] UpdateRestaurantCommentDTO updateRestaurantCommentData)
         {
             var response = await _mediator.Send(new UpdateRestaurantCommentRequest(id, updateRestaurantCommentData));
             return response;

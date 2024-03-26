@@ -3,7 +3,7 @@ using MediatR;
 
 namespace capstone_project_be.Application.Features.RestaurantComments.Requests
 {
-    public class GetRestaurantCommentsRequest : IRequest<IEnumerable<RestaurantCommentDTO>>
+    public class GetRestaurantCommentsRequest(int pageIndex) : IRequest<IEnumerable<RestaurantCommentDTO>>
     {
     }
 }

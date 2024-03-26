@@ -5,18 +5,18 @@ using MediatR;
 
 namespace capstone_project_be.Application.Features.Accommodations.Handles
 {
-    public class GetAccommodationNumberHandler : IRequestHandler<GetAccommodationNumberRequest, int>
+    public class GetNumberOfAccommodationsHandler : IRequestHandler<GetNumberOfAccommodationsRequest, int>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public GetAccommodationNumberHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public GetNumberOfAccommodationsHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
-        public async Task<int> Handle(GetAccommodationNumberRequest request, CancellationToken cancellationToken)
+        public async Task<int> Handle(GetNumberOfAccommodationsRequest request, CancellationToken cancellationToken)
         {
             var accommodation = await _unitOfWork.AccommodationRepository.GetAll();
 
