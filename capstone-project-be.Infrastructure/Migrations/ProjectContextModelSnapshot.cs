@@ -114,7 +114,6 @@ namespace capstone_project_be.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("CommentContent")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
@@ -135,7 +134,32 @@ namespace capstone_project_be.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AccommodationComment");
+                    b.ToTable("AccommodationComments");
+                });
+
+            modelBuilder.Entity("capstone_project_be.Domain.Entities.AccommodationCommentPhoto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AccommodationCommentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PhotoURL")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SavedFileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccommodationCommentId");
+
+                    b.ToTable("AccommodationCommentPhotos");
                 });
 
             modelBuilder.Entity("capstone_project_be.Domain.Entities.AccommodationPhoto", b =>
@@ -151,6 +175,9 @@ namespace capstone_project_be.Infrastructure.Migrations
 
                     b.Property<string>("PhotoURL")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SavedFileName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("AccommodationPhotoId");
@@ -284,6 +311,9 @@ namespace capstone_project_be.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("SavedFileName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("BlogPhotoId");
 
                     b.HasIndex("BlogId");
@@ -311,7 +341,7 @@ namespace capstone_project_be.Infrastructure.Migrations
 
                     b.HasIndex("BlogId");
 
-                    b.ToTable("Blog_BlogCatagories");
+                    b.ToTable("Blog_BlogCategories");
                 });
 
             modelBuilder.Entity("capstone_project_be.Domain.Entities.City", b =>
@@ -478,7 +508,6 @@ namespace capstone_project_be.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RestaurantCommentId"));
 
                     b.Property<string>("CommentContent")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
@@ -505,6 +534,31 @@ namespace capstone_project_be.Infrastructure.Migrations
                     b.ToTable("RestaurantComments");
                 });
 
+            modelBuilder.Entity("capstone_project_be.Domain.Entities.RestaurantCommentPhoto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("PhotoURL")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RestaurantCommentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SavedFileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RestaurantCommentId");
+
+                    b.ToTable("RestaurantCommentPhotos");
+                });
+
             modelBuilder.Entity("capstone_project_be.Domain.Entities.RestaurantPhoto", b =>
                 {
                     b.Property<int>("RestaurantPhotoId")
@@ -519,6 +573,9 @@ namespace capstone_project_be.Infrastructure.Migrations
 
                     b.Property<int>("RestaurantId")
                         .HasColumnType("int");
+
+                    b.Property<string>("SavedFileName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("RestaurantPhotoId");
 
@@ -646,7 +703,6 @@ namespace capstone_project_be.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TouristAttractionCommentId"));
 
                     b.Property<string>("CommentContent")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
@@ -673,6 +729,31 @@ namespace capstone_project_be.Infrastructure.Migrations
                     b.ToTable("TouristAttractionComments");
                 });
 
+            modelBuilder.Entity("capstone_project_be.Domain.Entities.TouristAttractionCommentPhoto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("PhotoURL")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SavedFileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TouristAttractionCommentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TouristAttractionCommentId");
+
+                    b.ToTable("TouristAttractionCommentPhotos");
+                });
+
             modelBuilder.Entity("capstone_project_be.Domain.Entities.TouristAttractionPhoto", b =>
                 {
                     b.Property<int>("TouristAttractionPhotoId")
@@ -683,6 +764,9 @@ namespace capstone_project_be.Infrastructure.Migrations
 
                     b.Property<string>("PhotoURL")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SavedFileName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TouristAttractionId")
@@ -726,8 +810,10 @@ namespace capstone_project_be.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TripId"));
 
+                    b.Property<string>("AccommodationCategories")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("AccommodationPriceLevel")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
@@ -742,11 +828,16 @@ namespace capstone_project_be.Infrastructure.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsCreatedAutomatically")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsPublic")
                         .HasColumnType("bit");
 
+                    b.Property<string>("RestaurantCategories")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("RestaurantPriceLevel")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("StartDate")
@@ -754,6 +845,9 @@ namespace capstone_project_be.Infrastructure.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TouristAttractionCategories")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
@@ -775,6 +869,9 @@ namespace capstone_project_be.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AccommodationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SuggestedDay")
                         .HasColumnType("int");
 
                     b.Property<int>("TripId")
@@ -799,6 +896,9 @@ namespace capstone_project_be.Infrastructure.Migrations
 
                     b.Property<int?>("CityId")
                         .HasColumnType("int");
+
+                    b.Property<string>("LocationName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("PrefectureId")
                         .HasColumnType("int");
@@ -833,6 +933,9 @@ namespace capstone_project_be.Infrastructure.Migrations
                     b.Property<int>("RestaurantId")
                         .HasColumnType("int");
 
+                    b.Property<int>("SuggestedDay")
+                        .HasColumnType("int");
+
                     b.Property<int>("TripId")
                         .HasColumnType("int");
 
@@ -852,6 +955,9 @@ namespace capstone_project_be.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("SuggestedDay")
+                        .HasColumnType("int");
 
                     b.Property<int>("TouristAttractionId")
                         .HasColumnType("int");
@@ -909,6 +1015,9 @@ namespace capstone_project_be.Infrastructure.Migrations
 
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
+
+                    b.Property<string>("SavedFileName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId");
 
@@ -977,6 +1086,17 @@ namespace capstone_project_be.Infrastructure.Migrations
                     b.Navigation("Accommodation");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("capstone_project_be.Domain.Entities.AccommodationCommentPhoto", b =>
+                {
+                    b.HasOne("capstone_project_be.Domain.Entities.AccommodationComment", "AccommodationComment")
+                        .WithMany()
+                        .HasForeignKey("AccommodationCommentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AccommodationComment");
                 });
 
             modelBuilder.Entity("capstone_project_be.Domain.Entities.AccommodationPhoto", b =>
@@ -1123,6 +1243,17 @@ namespace capstone_project_be.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("capstone_project_be.Domain.Entities.RestaurantCommentPhoto", b =>
+                {
+                    b.HasOne("capstone_project_be.Domain.Entities.RestaurantComment", "RestaurantComment")
+                        .WithMany()
+                        .HasForeignKey("RestaurantCommentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RestaurantComment");
+                });
+
             modelBuilder.Entity("capstone_project_be.Domain.Entities.RestaurantPhoto", b =>
                 {
                     b.HasOne("capstone_project_be.Domain.Entities.Restaurant", "Restaurant")
@@ -1187,6 +1318,17 @@ namespace capstone_project_be.Infrastructure.Migrations
                     b.Navigation("TouristAttraction");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("capstone_project_be.Domain.Entities.TouristAttractionCommentPhoto", b =>
+                {
+                    b.HasOne("capstone_project_be.Domain.Entities.TouristAttractionComment", "TouristAttractionComment")
+                        .WithMany()
+                        .HasForeignKey("TouristAttractionCommentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TouristAttractionComment");
                 });
 
             modelBuilder.Entity("capstone_project_be.Domain.Entities.TouristAttractionPhoto", b =>

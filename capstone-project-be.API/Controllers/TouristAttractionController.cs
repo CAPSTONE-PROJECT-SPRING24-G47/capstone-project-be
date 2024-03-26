@@ -1,4 +1,5 @@
 ﻿using capstone_project_be.Application.DTOs.TouristAttractions;
+using capstone_project_be.Application.Features.Restaurants.Requests;
 using capstone_project_be.Application.Features.TouristAttractions.Requests;
 using capstone_project_be.Application.Responses;
 using MediatR;
@@ -18,9 +19,9 @@ namespace capstone_project_be.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<TouristAttractionDTO>> GetTouristAttractions()
+        public async Task<IEnumerable<TouristAttractionDTO>> GetTouristAttractions(int pageIndex)
         {
-            var response = await _mediator.Send(new GetTouristAttractionsRequest());
+            var response = await _mediator.Send(new GetTouristAttractionsRequest(pageIndex));
             return response;
         }
 
@@ -38,15 +39,22 @@ namespace capstone_project_be.API.Controllers
             return response;
         }
 
+        [HttpGet("tourist-attraction-number")]
+        public async Task<int> GetTouristAttractionNumber()
+        {
+            var response = await _mediator.Send(new GetTouristAttractionNumberRequest());
+            return response;
+        }
+
         [HttpPost]
-        public async Task<object> CreateTouristAttraction([FromBody] CreateTouristAttractionDTO touristAttractionData)
+        public async Task<object> CreateTouristAttraction([FromForm] CreateTouristAttractionDTO touristAttractionData)
         {
             var response = await _mediator.Send(new CreateTouristAttractionRequest(touristAttractionData));
             return response;
         }
 
         [HttpPut("{id}")]
-        public async Task<object> UpdateTouristAttraction(string id, [FromBody] UpdateTouristAttractionDTO touristAttractionData)
+        public async Task<object> UpdateTouristAttraction(string id, [FromForm] UpdateTouristAttractionDTO touristAttractionData)
         {
             var response = await _mediator.Send(new UpdateTouristAttractionRequest(id, touristAttractionData));
             return response;

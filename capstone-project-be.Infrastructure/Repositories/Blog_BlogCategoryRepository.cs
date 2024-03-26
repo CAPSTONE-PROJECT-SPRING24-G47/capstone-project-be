@@ -17,7 +17,7 @@ namespace capstone_project_be.Infrastructure.Repositories
         }
         public async Task<IEnumerable<ReadBlog_BlogCategoryDTO>> GetBlogDetailCategories(int blogId)
         {
-            var categoriesForBlog = await (from bbc in _dbContext.Blog_BlogCatagories
+            var categoriesForBlog = await (from bbc in _dbContext.Blog_BlogCategories
                                                     join bc in _dbContext.BlogCategories on bbc.BlogCategoryId equals bc.BlogCategoryId
                                                     join b in _dbContext.Blogs on bbc.BlogId equals b.BlogId
                                                     where b.BlogId == blogId

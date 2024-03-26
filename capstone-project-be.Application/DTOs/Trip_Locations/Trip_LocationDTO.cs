@@ -7,5 +7,6 @@
         public int? RegionId { get; set; }
         public int? PrefectureId { get; set; }
         public int? CityId { get; set; }
+        public string? LocationName { get; set; }
     }
 }

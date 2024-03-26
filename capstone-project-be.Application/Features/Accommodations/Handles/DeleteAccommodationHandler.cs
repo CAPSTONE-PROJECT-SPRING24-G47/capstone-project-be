@@ -35,6 +35,13 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
             };
 
             var accommodation = accommodationList.First();
+            var accommodationPhotos = await _unitOfWork.AccommodationPhotoRepository.
+                Find(ap => ap.AccommodationId == accommodationId);
+            await _unitOfWork.AccommodationPhotoRepository.DeleteRange(accommodationPhotos);
+
+            var acc_AccCategories = await _unitOfWork.Acc_AccCategoryRepository.
+                Find(acc => acc.AccommodationId == accommodationId);
+            await _unitOfWork.Acc_AccCategoryRepository.DeleteRange(acc_AccCategories);
 
             await _unitOfWork.AccommodationRepository.Delete(accommodation);
             await _unitOfWork.Save();

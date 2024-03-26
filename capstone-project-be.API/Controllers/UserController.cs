@@ -22,14 +22,14 @@ namespace capstone_project_be.API.Controllers
         }
 
         [HttpPost()]
-        public async Task<object> CreateUser([FromBody] CRUDUserDTO userData)
+        public async Task<object> CreateUser([FromBody] CreateUserDTO userData)
         {
             var response = await _mediator.Send(new CreateUserRequest(userData));
             return response;
         }
 
         [HttpPut("{id}/update-profile")]
-        public async Task<object> UpdateProfile(string id, [FromBody] CRUDUserDTO updateProfileData)
+        public async Task<object> UpdateProfile(string id, [FromForm] UpdateUserDTO updateProfileData)
         {
             var response = await _mediator.Send(new UpdateProfileRequest(id, updateProfileData));
             return response;

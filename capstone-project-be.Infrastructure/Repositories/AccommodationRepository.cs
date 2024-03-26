@@ -1,4 +1,5 @@
-﻿using capstone_project_be.Application.Interfaces;
+﻿using capstone_project_be.Application.DTOs.Accommodations;
+using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Domain.Entities;
 using capstone_project_be.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
@@ -14,24 +15,65 @@ namespace capstone_project_be.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<Accommodation>> FindValueContain(string property, string value)
+        public async Task<IEnumerable<AccommodationSearchDTO>> FindValueContain(string property, string value)
         {
             switch (property)
             {
                 case "AccommodationName":
-                    return await _dbContext.Set<Accommodation>().Where(
-                        ac => EF.Functions.Like(ac.AccommodationName, $"%{value}%"))
-                        .ToListAsync();
+                    var query = (from a in _dbContext.Accommodations
+                                join p in _dbContext.AccommodationPhotos
+                                on a.AccommodationId equals p.AccommodationId into gj
+                                from subp in gj.DefaultIfEmpty()
+                                where a.AccommodationName.Contains(value)
+                                select new AccommodationSearchDTO
+                                {
+                                    AccommodationId = a.AccommodationId,
+                                    AccommodationName = a.AccommodationName,
+                                    AccommodationAddress = a.AccommodationAddress,
+                                    AccommodationDescription = a.AccommodationDescription,
+                                    PhotoUrl = (subp != null) ? subp.PhotoURL : null
+                                }).Take(10);
+
+                    var result = await query.ToListAsync();
+                    return result;
                 case "AccommodationAddress":
-                    return await _dbContext.Set<Accommodation>().Where(
-                        ac => EF.Functions.Like(ac.AccommodationAddress, $"%{value}%"))
-                        .ToListAsync();
+                    var query1 = (from a in _dbContext.Accommodations
+                                 join p in _dbContext.AccommodationPhotos
+                                 on a.AccommodationId equals p.AccommodationId into gj
+                                 from subp in gj.DefaultIfEmpty()
+                                 where a.AccommodationAddress.Contains(value)
+                                 select new AccommodationSearchDTO
+                                 {
+                                     AccommodationId = a.AccommodationId,
+                                     AccommodationName = a.AccommodationName,
+                                     AccommodationAddress = a.AccommodationAddress,
+                                     AccommodationDescription = a.AccommodationDescription,
+                                     PhotoUrl = (subp != null) ? subp.PhotoURL : null
+                                 }).Take(10);
+
+                    var result1 = await query1.ToListAsync();
+                    return result1;
+
                 case "AccommodationDescription":
-                    return await _dbContext.Set<Accommodation>().Where(
-                        ac => EF.Functions.Like(ac.AccommodationDescription, $"%{value}%"))
-                        .ToListAsync();
+                    var query2 = (from a in _dbContext.Accommodations
+                                 join p in _dbContext.AccommodationPhotos
+                                 on a.AccommodationId equals p.AccommodationId into gj
+                                 from subp in gj.DefaultIfEmpty()
+                                 where a.AccommodationDescription.Contains(value)
+                                 select new AccommodationSearchDTO
+                                 {
+                                     AccommodationId = a.AccommodationId,
+                                     AccommodationName = a.AccommodationName,
+                                     AccommodationAddress = a.AccommodationAddress,
+                                     AccommodationDescription = a.AccommodationDescription,
+                                     PhotoUrl = (subp != null) ? subp.PhotoURL : null
+                                 }).Take(10);
+
+                    var result2 = await query2.ToListAsync();
+                    return result2;
+
                 default:
-                    return Enumerable.Empty<Accommodation>();
+                    return Enumerable.Empty<AccommodationSearchDTO>();
             }
         }
     }

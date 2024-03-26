@@ -10,15 +10,17 @@ namespace capstone_project_be.Application.Features.RestaurantComments.Handles
     public class DeleteRestaurantCommentHandler : IRequestHandler<DeleteRestaurantCommentRequest, object>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IStorageRepository _storageRepository;
 
-        public DeleteRestaurantCommentHandler(IUnitOfWork unitOfWork)
+        public DeleteRestaurantCommentHandler(IUnitOfWork unitOfWork, IStorageRepository storageRepository)
         {
             _unitOfWork = unitOfWork;
+            _storageRepository = storageRepository;
         }
 
         public async Task<object> Handle(DeleteRestaurantCommentRequest request, CancellationToken cancellationToken)
         {
-            if (!int.TryParse(request.RestaurantCommentId, out int RestaurantCommentId))
+            if (!int.TryParse(request.RestaurantCommentId, out int restaurantCommentId))
             {
                 return new BaseResponse<RestaurantDTO>()
                 {
@@ -28,17 +30,25 @@ namespace capstone_project_be.Application.Features.RestaurantComments.Handles
             }
 
             var RestaurantCommentList = await _unitOfWork.RestaurantCommentRepository.
-                Find(acc => acc.RestaurantCommentId == RestaurantCommentId);
+                Find(acc => acc.RestaurantCommentId == restaurantCommentId);
 
             if (RestaurantCommentList.Count() == 0) return new BaseResponse<RestaurantCommentDTO>()
             {
                 IsSuccess = false,
-                Message = $"Không tìm thấy comment với Id: {RestaurantCommentId}"
+                Message = $"Không tìm thấy comment với Id: {restaurantCommentId}"
             };
 
-            var RestaurantComment = RestaurantCommentList.First();
+            var restaurantComment = RestaurantCommentList.First();
 
-            await _unitOfWork.RestaurantCommentRepository.Delete(RestaurantComment);
+            var restaurantCommentPhotos = await _unitOfWork.RestaurantCommentPhotoRepository.
+                Find(rcp => rcp.RestaurantCommentId == restaurantCommentId);
+            foreach (var item in restaurantCommentPhotos)
+            {
+                await _storageRepository.DeleteFileAsync(item.SavedFileName);
+            }
+            await _unitOfWork.RestaurantCommentPhotoRepository.DeleteRange(restaurantCommentPhotos);
+
+            await _unitOfWork.RestaurantCommentRepository.Delete(restaurantComment);
             await _unitOfWork.Save();
 
             return new BaseResponse<RestaurantCommentDTO>()

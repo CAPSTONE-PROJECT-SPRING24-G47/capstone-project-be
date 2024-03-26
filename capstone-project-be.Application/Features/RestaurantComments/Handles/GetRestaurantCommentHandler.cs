@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using capstone_project_be.Application.DTOs.RestaurantCommentPhotos;
 using capstone_project_be.Application.DTOs.RestaurantComments;
 using capstone_project_be.Application.Features.RestaurantComments.Requests;
 using capstone_project_be.Application.Interfaces;
@@ -10,17 +11,19 @@ namespace capstone_project_be.Application.Features.RestaurantComments.Handles
     public class GetRestaurantCommentHandler : IRequestHandler<GetRestaurantCommentRequest, BaseResponse<RestaurantCommentDTO>>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IStorageRepository _storageRepository;
         private readonly IMapper _mapper;
 
-        public GetRestaurantCommentHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public GetRestaurantCommentHandler(IUnitOfWork unitOfWork, IMapper mapper, IStorageRepository storageRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _storageRepository = storageRepository;
         }
 
         public async Task<BaseResponse<RestaurantCommentDTO>> Handle(GetRestaurantCommentRequest request, CancellationToken cancellationToken)
         {
-            if (!int.TryParse(request.RestaurantCommentId, out int RestaurantCommentId))
+            if (!int.TryParse(request.RestaurantCommentId, out int restaurantCommentId))
             {
                 return new BaseResponse<RestaurantCommentDTO>()
                 {
@@ -29,9 +32,10 @@ namespace capstone_project_be.Application.Features.RestaurantComments.Handles
                 };
             }
 
-            var RestaurantComment = await _unitOfWork.RestaurantCommentRepository.GetByID(RestaurantCommentId);
+            var restaurantComment = _mapper.Map<RestaurantCommentDTO>
+                (await _unitOfWork.RestaurantCommentRepository.GetByID(restaurantCommentId));
 
-            if (RestaurantComment == null)
+            if (restaurantComment == null)
             {
                 return new BaseResponse<RestaurantCommentDTO>()
                 {
@@ -40,10 +44,20 @@ namespace capstone_project_be.Application.Features.RestaurantComments.Handles
                 };
             }
 
+            var restaurantCommentPhotoList = _mapper.Map<IEnumerable<RestaurantCommentPhotoDTO>>
+                (await _unitOfWork.RestaurantCommentPhotoRepository.
+                Find(rcp => rcp.RestaurantCommentId == restaurantCommentId));
+
+            foreach (var item in restaurantCommentPhotoList)
+            {
+                item.SignedUrl = await _storageRepository.GetSignedUrlAsync(item.SavedFileName);
+            }
+            restaurantComment.RestaurantCommentPhotos = restaurantCommentPhotoList;
+
             return new BaseResponse<RestaurantCommentDTO>()
             {
                 IsSuccess = true,
-                Data = new List<RestaurantCommentDTO> { _mapper.Map<RestaurantCommentDTO>(RestaurantComment) }
+                Data = new List<RestaurantCommentDTO> { restaurantComment }
             };
         }
     }

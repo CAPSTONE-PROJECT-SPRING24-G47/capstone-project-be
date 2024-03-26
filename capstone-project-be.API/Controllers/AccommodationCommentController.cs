@@ -18,9 +18,16 @@ namespace capstone_project_be.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<AccommodationCommentDTO>> GetAccommodationComments()
+        public async Task<IEnumerable<AccommodationCommentDTO>> GetAccommodationComments(int pageIndex)
         {
-            var response = await _mediator.Send(new GetAccommodationCommentsRequest());
+            var response = await _mediator.Send(new GetAccommodationCommentsRequest(pageIndex));
+            return response;
+        }
+
+        [HttpGet("get-number-of-accommodation-comment")]
+        public async Task<int> GetNumberOfAccommodationComments()
+        {
+            var response = await _mediator.Send(new GetNumberOfAccommodationCommentsRequest());
             return response;
         }
 
@@ -30,17 +37,32 @@ namespace capstone_project_be.API.Controllers
             var response = await _mediator.Send(new GetAccommodationCommentRequest(id));
             return response;
         }
+        
+
+        [HttpGet("{id}/get-comment-by-accommodationId")]
+        public async Task<BaseResponse<AccommodationCommentDTO>> GetCommentsByAccommodationId(string id, int pageIndex)
+        {
+            var response = await _mediator.Send(new GetCommentsByAccommodationIdRequest(id , pageIndex));
+            return response;
+        }
+
+        [HttpGet("{id}/get-number-of-comment-by-accommodationId")]
+        public async Task<int> GetNumberOfCommentsByAccommodationId(string id)
+        {
+            var response = await _mediator.Send(new GetNumberOfCommentsByAccommodationIdRequest(id));
+            return response;
+        }
 
 
         [HttpPost]
-        public async Task<object> CreateAccommodationComment([FromBody] CRUDAccommodationCommentDTO accommodationCommentData)
+        public async Task<object> CreateAccommodationComment([FromForm] CreateAccommodationCommentDTO accommodationCommentData)
         {
             var response = await _mediator.Send(new CreateAccommodationCommentRequest(accommodationCommentData));
             return response;
         }
 
         [HttpPut("{id}")]
-        public async Task<object> UpdateAccommodationComment(string id, [FromBody] CRUDAccommodationCommentDTO updateAccommodationCommentData)
+        public async Task<object> UpdateAccommodationComment(string id, [FromForm] UpdateAccommodationCommentDTO updateAccommodationCommentData)
         {
             var response = await _mediator.Send(new UpdateAccommodationCommentRequest(id, updateAccommodationCommentData));
             return response;

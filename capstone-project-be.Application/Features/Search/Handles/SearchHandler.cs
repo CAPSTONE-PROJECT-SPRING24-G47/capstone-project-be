@@ -48,6 +48,9 @@ namespace capstone_project_be.Application.Features.Search.Handles
                 case "TouristAttractions":
                     list = await _unitOfWork.TouristAttractionRepository.FindValueContain(property.Trim(), value.Trim());
                     break;
+                case "Blogs":
+                    list = await _unitOfWork.BlogRepository.FindValueContain(property.Trim(), value.Trim());
+                    break;
                 default:
                     return new BaseResponse<AccommodationDTO>()
                     {

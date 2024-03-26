@@ -1,4 +1,7 @@
-﻿using capstone_project_be.Application.DTOs.TouristAttractionComments;
+﻿using capstone_project_be.Application.DTOs.RestaurantComments;
+using capstone_project_be.Application.DTOs.TouristAttractionComments;
+using capstone_project_be.Application.Features.AccommodationComments.Requests;
+using capstone_project_be.Application.Features.RestaurantComments.Requests;
 using capstone_project_be.Application.Features.TouristAttractionComments.Requests;
 using capstone_project_be.Application.Responses;
 using MediatR;
@@ -18,9 +21,16 @@ namespace capstone_project_be.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<TouristAttractionCommentDTO>> GetTouristAttractionComments()
+        public async Task<IEnumerable<TouristAttractionCommentDTO>> GetTouristAttractionComments(int pageIndex)
         {
-            var response = await _mediator.Send(new GetTouristAttractionCommentsRequest());
+            var response = await _mediator.Send(new GetTouristAttractionCommentsRequest(pageIndex));
+            return response;
+        }
+
+        [HttpGet("get-number-of-tourist-attraction-comment")]
+        public async Task<int> GetNumberOfTouristAttractionComments()
+        {
+            var response = await _mediator.Send(new GetNumberOfTouristAttractionCommentsRequest());
             return response;
         }
 
@@ -31,16 +41,29 @@ namespace capstone_project_be.API.Controllers
             return response;
         }
 
+        [HttpGet("{id}/get-comment-by-touristAttractionId")]
+        public async Task<BaseResponse<TouristAttractionCommentDTO>> GetCommentsByTouristAttractionId(string id, int pageIndex)
+        {
+            var response = await _mediator.Send(new GetCommentsByTouristAttractionIdRequest(id,pageIndex));
+            return response;
+        }
+
+        [HttpGet("{id}/get-number-of-comment-by-touristAttractionId")]
+        public async Task<int> GetNumberOfCommentsByTouristAttractionId(string id)
+        {
+            var response = await _mediator.Send(new GetNumberOfCommentsByTouristAttractionIdRequest(id));
+            return response;
+        }
 
         [HttpPost]
-        public async Task<object> CreateTouristAttractionComment([FromBody] CRUDTouristAttractionCommentDTO touristAttractionCommentData)
+        public async Task<object> CreateTouristAttractionComment([FromForm] CreateTouristAttractionCommentDTO touristAttractionCommentData)
         {
             var response = await _mediator.Send(new CreateTouristAttractionCommentRequest(touristAttractionCommentData));
             return response;
         }
 
         [HttpPut("{id}")]
-        public async Task<object> UpdateTouristAttractionComment(string id, [FromBody] CRUDTouristAttractionCommentDTO updateTouristAttractionCommentData)
+        public async Task<object> UpdateTouristAttractionComment(string id, [FromForm] UpdateTouristAttractionCommentDTO updateTouristAttractionCommentData)
         {
             var response = await _mediator.Send(new UpdateTouristAttractionCommentRequest(id, updateTouristAttractionCommentData));
             return response;

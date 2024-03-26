@@ -2,6 +2,9 @@
 {
     public class CRUDTouristAttractionPhotoDTO
     {
+        public required int TouristAttractionId { get; set; }
         public required string PhotoURL { get; set; }
+        public string? SavedFileName { get; set; }
+        public string? SignedUrl { get; set; }
     }
 }

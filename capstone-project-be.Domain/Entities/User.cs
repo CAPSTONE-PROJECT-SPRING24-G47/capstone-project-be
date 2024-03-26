@@ -1,4 +1,7 @@
-﻿namespace capstone_project_be.Domain.Entities
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace capstone_project_be.Domain.Entities
 {
     public class User
     {
@@ -13,8 +16,11 @@
         public bool IsVerified { get; set; } = false;
         public bool IsBanned { get; set; } = false;
         public DateTime CreatedAt { get; set; }
-
-        
+        [NotMapped]
+        public IFormFile? Photo { get; set; }
+        [NotMapped]
+        public string? SignedUrl { get; set; }
+        public string? SavedFileName { get; set; }
 
         //Set quan hệ với các bảng khác ở đây
         public IEnumerable<Trip> Trips { get; set; }

@@ -2,6 +2,9 @@
 {
     public class CRUDRestaurantPhotoDTO
     {
-        public required string PhotoUrl { get; set; }
+        public required int RestaurantId { get; set; }
+        public required string PhotoURL { get; set; }
+        public string? SavedFileName { get; set; }
+        public string? SignedUrl { get; set; }
     }
 }

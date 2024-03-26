@@ -2,6 +2,7 @@
 using capstone_project_be.Application.DTOs.TouristAttractionComments;
 using capstone_project_be.Application.Features.TouristAttractionComments.Requests;
 using capstone_project_be.Application.Interfaces;
+using capstone_project_be.Domain.Entities;
 using MediatR;
 
 namespace capstone_project_be.Application.Features.TouristAttractionComments.Handles
@@ -19,9 +20,15 @@ namespace capstone_project_be.Application.Features.TouristAttractionComments.Han
 
         public async Task<IEnumerable<TouristAttractionCommentDTO>> Handle(GetTouristAttractionCommentsRequest request, CancellationToken cancellationToken)
         {
-            var TouristAttractionComments = await _unitOfWork.TouristAttractionCommentRepository.GetAll();
+            var touristAttractionComments = await _unitOfWork.TouristAttractionCommentRepository.GetAll();
 
-            return _mapper.Map<IEnumerable<TouristAttractionCommentDTO>>(TouristAttractionComments);
+            int pageIndex = request.PageIndex;
+            int pageSize = 10;
+            // Start index in the page
+            int skip = (pageIndex - 1) * pageSize;
+            touristAttractionComments = touristAttractionComments.OrderByDescending(rc => rc.CreatedAt).Skip(skip).Take(pageSize);
+
+            return _mapper.Map<IEnumerable<TouristAttractionCommentDTO>>(touristAttractionComments);
         }
     }
 }

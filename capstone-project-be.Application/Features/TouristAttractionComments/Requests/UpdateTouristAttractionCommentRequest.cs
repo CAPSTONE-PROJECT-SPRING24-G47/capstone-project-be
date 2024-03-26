@@ -3,9 +3,9 @@ using MediatR;
 
 namespace capstone_project_be.Application.Features.TouristAttractionComments.Requests
 {
-    public class UpdateTouristAttractionCommentRequest(string touristAttractionCommentId, CRUDTouristAttractionCommentDTO updateTouristAttractionCommentData) : IRequest<object>
+    public class UpdateTouristAttractionCommentRequest(string touristAttractionCommentId, UpdateTouristAttractionCommentDTO updateTouristAttractionCommentData) : IRequest<object>
     {
-        public CRUDTouristAttractionCommentDTO UpdateTouristAttractionCommentData { get; set; } = updateTouristAttractionCommentData;
+        public UpdateTouristAttractionCommentDTO UpdateTouristAttractionCommentData { get; set; } = updateTouristAttractionCommentData;
         public string TouristAttractionCommentId { get; set; } = touristAttractionCommentId;
     }
 }

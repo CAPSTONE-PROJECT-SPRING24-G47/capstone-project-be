@@ -19,9 +19,14 @@ namespace capstone_project_be.Application.Features.RestaurantComments.Handles
 
         public async Task<IEnumerable<RestaurantCommentDTO>> Handle(GetRestaurantCommentsRequest request, CancellationToken cancellationToken)
         {
-            var RestaurantComments = await _unitOfWork.RestaurantCommentRepository.GetAll();
+            var restaurantComments = await _unitOfWork.RestaurantCommentRepository.GetAll();
+            int pageIndex = request.PageIndex;
+            int pageSize = 10;
+            // Start index in the page
+            int skip = (pageIndex - 1) * pageSize;
+            restaurantComments = restaurantComments.OrderByDescending(rc => rc.CreatedAt).Skip(skip).Take(pageSize);
 
-            return _mapper.Map<IEnumerable<RestaurantCommentDTO>>(RestaurantComments);
+            return _mapper.Map<IEnumerable<RestaurantCommentDTO>>(restaurantComments);
         }
     }
 }
