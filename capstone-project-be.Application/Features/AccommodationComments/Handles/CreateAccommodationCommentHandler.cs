@@ -53,7 +53,7 @@ namespace capstone_project_be.Application.Features.AccommodationComments.Handles
             await _unitOfWork.Save();
 
             accommodationComment = (await _unitOfWork.AccommodationCommentRepository.
-                Find(ac => ac.UserId == accommodationComment.UserId && ac.CreatedAt >= DateTime.Now.AddMinutes(-1))).First();
+                Find(ac => ac.UserId == accommodationComment.UserId)).OrderByDescending(ac => ac.CreatedAt).First();
             var accommodationCommentId = accommodationComment.AccommodationCommentId;
             var photoData = accommodationCommentData.Photos;
             if (photoData != null)
