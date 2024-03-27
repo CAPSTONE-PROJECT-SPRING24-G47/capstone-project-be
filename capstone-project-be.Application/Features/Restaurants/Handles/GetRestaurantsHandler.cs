@@ -30,7 +30,7 @@ namespace capstone_project_be.Application.Features.Restaurants.Handles
             int pageSize = 10;
             // Start index in the page
             int skip = (pageIndex - 1) * pageSize;
-            restaurants = restaurants.Skip(skip).Take(pageSize);
+            restaurants = restaurants.OrderByDescending(r => r.CreatedAt).Skip(skip).Take(pageSize);
 
             foreach (var item in restaurants)
             {

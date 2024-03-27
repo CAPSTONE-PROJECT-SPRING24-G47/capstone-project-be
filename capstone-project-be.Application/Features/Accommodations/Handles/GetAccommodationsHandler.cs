@@ -31,7 +31,7 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
             int pageSize = 10;
             // Start index in the page
             int skip = (pageIndex - 1) * pageSize;
-            accommodations = accommodations.Skip(skip).Take(pageSize);
+            accommodations = accommodations.OrderByDescending(a => a.CreatedAt).Skip(skip).Take(pageSize);
 
             foreach (var item in accommodations)
             {

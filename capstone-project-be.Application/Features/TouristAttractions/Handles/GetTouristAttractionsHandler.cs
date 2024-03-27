@@ -31,7 +31,7 @@ namespace capstone_project_be.Application.Features.TouristAttractions.Handles
             int pageSize = 10;
             // Start index in the page
             int skip = (pageIndex - 1) * pageSize;
-            touristAttractions = touristAttractions.Skip(skip).Take(pageSize);
+            touristAttractions = touristAttractions.OrderByDescending(t => t.CreatedAt).Skip(skip).Take(pageSize);
 
             foreach (var item in touristAttractions)
             {
