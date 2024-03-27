@@ -53,7 +53,7 @@ namespace capstone_project_be.API.Controllers
         }
 
         [HttpPost]
-        public async Task<object> CreateBlog([FromBody] CreateBlogDTO blogData)
+        public async Task<object> CreateBlog([FromForm] CreateBlogDTO blogData)
         {
             var response = await _mediator.Send(new CreateBlogRequest(blogData));
             return response;
