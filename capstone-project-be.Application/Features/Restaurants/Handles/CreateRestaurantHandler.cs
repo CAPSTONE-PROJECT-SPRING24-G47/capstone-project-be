@@ -54,8 +54,8 @@ namespace capstone_project_be.Application.Features.Restaurants.Handles
             await _unitOfWork.RestaurantRepository.Add(restaurant);
             await _unitOfWork.Save();
 
-            var restaurantList = await _unitOfWork.RestaurantRepository.
-                Find(r => r.UserId == restaurant.UserId && r.CreatedAt >= DateTime.Now.AddMinutes(-1));
+            var restaurantList = (await _unitOfWork.RestaurantRepository.
+                Find(r => r.UserId == restaurant.UserId)).OrderByDescending(r => r.CreatedAt);
             var restaurantId = restaurantList.First().RestaurantId;
             var res_ResCategoryData = restaurantData.Res_ResCategories;
             string[] parts = res_ResCategoryData.Split(',');

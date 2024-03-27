@@ -54,7 +54,7 @@ namespace capstone_project_be.Application.Features.RestaurantComments.Handles
             await _unitOfWork.Save();
 
             restaurantComment = (await _unitOfWork.RestaurantCommentRepository.
-                Find(rc => rc.UserId == restaurantComment.UserId && rc.CreatedAt >= DateTime.Now.AddMinutes(-1))).First();
+                Find(rc => rc.UserId == restaurantComment.UserId)).OrderByDescending(rc => rc.CreatedAt).First();
             var restaurantCommentId = restaurantComment.RestaurantCommentId;
             var photoData = restaurantCommentData.Photos;
             if (photoData != null)

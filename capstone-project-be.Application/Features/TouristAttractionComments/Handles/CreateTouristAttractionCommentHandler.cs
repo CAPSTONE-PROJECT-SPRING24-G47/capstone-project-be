@@ -54,7 +54,7 @@ namespace capstone_project_be.Application.Features.TouristAttractionComments.Han
             await _unitOfWork.Save();
 
             touristAttractionComment = (await _unitOfWork.TouristAttractionCommentRepository.
-                Find(tac => tac.UserId == touristAttractionComment.UserId && tac.CreatedAt >= DateTime.Now.AddMinutes(-1))).First();
+                Find(tac => tac.UserId == touristAttractionComment.UserId)).OrderByDescending(tc => tc.CreatedAt).First();
             var touristAttractionCommentId = touristAttractionComment.TouristAttractionCommentId;
             var photoData = touristAttractionCommentData.Photos;
             if (photoData != null)

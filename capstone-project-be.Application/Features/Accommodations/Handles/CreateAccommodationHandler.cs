@@ -54,8 +54,8 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
             await _unitOfWork.AccommodationRepository.Add(accommodation);
             await _unitOfWork.Save();
 
-            var accommodationList = await _unitOfWork.AccommodationRepository.
-                Find(a => a.UserId == accommodation.UserId && a.CreatedAt >= DateTime.Now.AddMinutes(-1));
+            var accommodationList = (await _unitOfWork.AccommodationRepository.
+                Find(a => a.UserId == accommodation.UserId)).OrderByDescending(a => a.CreatedAt);
             var accommodationId = accommodationList.First().AccommodationId;
             var acc_AccCategoryData = accommodationData.Acc_AccCategories;
             string[] parts = acc_AccCategoryData.Split(',');

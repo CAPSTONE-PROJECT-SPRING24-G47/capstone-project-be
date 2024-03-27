@@ -49,8 +49,8 @@ namespace capstone_project_be.Application.Features.TouristAttractions.Handles
             await _unitOfWork.TouristAttractionRepository.Add(touristAttraction);
             await _unitOfWork.Save();
 
-            var touristAttractionList = await _unitOfWork.TouristAttractionRepository.
-                Find(ta => ta.UserId == touristAttraction.UserId && ta.CreatedAt >= DateTime.Now.AddMinutes(-1));
+            var touristAttractionList = (await _unitOfWork.TouristAttractionRepository.
+                Find(ta => ta.UserId == touristAttraction.UserId)).OrderByDescending(ta => ta.CreatedAt);
             var touristAttractionId = touristAttractionList.First().TouristAttractionId;
             var ta_TACategoryData = touristAttractionData.TA_TACategories;
             string[] parts = ta_TACategoryData.Split(',');
