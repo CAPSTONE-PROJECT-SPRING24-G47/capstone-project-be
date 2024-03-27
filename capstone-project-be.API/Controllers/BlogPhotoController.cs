@@ -31,15 +31,6 @@ namespace capstone_project_be.API.Controllers
             return response;
         }
 
-
-        [HttpPost]
-        public async Task<object> CreateBlogPhoto(int blogId, IFormFile photo)
-        {
-            var blogPhotoData = new CRUDBlogPhotoDTO {BlogId = blogId, Photo = photo };
-            var response = await _mediator.Send(new CreateBlogPhotoRequest(blogPhotoData));
-            return response;
-        }
-
     }
 }
 

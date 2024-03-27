@@ -1,5 +1,4 @@
-﻿using capstone_project_be.Application.DTOs.BlogPhotos;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace capstone_project_be.Application.DTOs.Blogs

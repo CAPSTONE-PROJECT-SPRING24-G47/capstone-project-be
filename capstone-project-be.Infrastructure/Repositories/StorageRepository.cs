@@ -114,6 +114,64 @@ namespace capstone_project_be.Infrastructure.Repositories
             }
         }
 
+        public async Task<IFormFile> GetIFormFileFromBase64Async(string base64String, string fileName)
+        {
+            try
+            {
+                // Chuyển đổi chuỗi base64 thành mảng byte
+                byte[] byteArray = Convert.FromBase64String(base64String);
+
+                // Tạo một MemoryStream từ mảng byte
+                using (MemoryStream memoryStream = new MemoryStream(byteArray))
+                {
+                    // Tạo một đối tượng FormFile từ MemoryStream
+                    IFormFile formFile = new FormFile(memoryStream, 0, memoryStream.Length, null, fileName);
+
+                    // Trả về đối tượng IFormFile
+                    return formFile;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi
+                Console.WriteLine($"Error while converting base64 to IFormFile: {ex.Message}");
+                throw;
+            }
+        }
+
+        public async Task<string> UploadFileFromBase64Async(string base64String, string fileNameToSave)
+        {
+            try
+            {
+                // Chuyển đổi chuỗi base64 thành mảng byte
+                byte[] byteArray = Convert.FromBase64String(base64String);
+
+                // Tạo một MemoryStream từ mảng byte
+                using (MemoryStream memoryStream = new MemoryStream(byteArray))
+                {
+                    // Create Storage Client from Google Credential
+                    using (var storageClient = StorageClient.Create(_googleCredential))
+                    {
+                        // Upload file stream
+                        var uploadedFile = await storageClient.UploadObjectAsync(
+                            _options.GoogleCloudStorageBucketName,
+                            fileNameToSave,
+                            "application/octet-stream", // Assume content type is application/octet-stream for images
+                            memoryStream);
+
+                        // Trả về đường dẫn tới file trên Google Drive
+                        return uploadedFile.MediaLink;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi
+                Console.WriteLine($"Error while uploading file {fileNameToSave}: {ex.Message}");
+                throw;
+            }
+        }
+
         public class GCSConfigOptions
         {
             //Download key in GGCloud/IAM & Admin/Service Account
