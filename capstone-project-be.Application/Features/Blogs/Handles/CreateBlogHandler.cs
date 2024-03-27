@@ -88,6 +88,7 @@ namespace capstone_project_be.Application.Features.Blogs.Handles
             foreach (string part in inputParts)
             {
                 int startIndex = part.IndexOf("base64,", StringComparison.Ordinal);
+                int index = blogContent.IndexOf("data:image", StringComparison.Ordinal);
                 if (startIndex != -1)
                 {
                     // Cắt chuỗi từ vị trí sau "base64,"
@@ -98,7 +99,7 @@ namespace capstone_project_be.Application.Features.Blogs.Handles
                     if (endIndex != -1)
                     {
                         // Lấy dữ liệu base64 của ảnh
-                        base64Data = base64Data.Substring(0, endIndex - 1);
+                        base64Data = base64Data.Substring(0, endIndex);
                         var fileName = (blogId + "_" + count.ToString());
                         savedFileName = GenerateFileNameToSave(fileName);
                         blogPhotos.Add(
@@ -113,7 +114,7 @@ namespace capstone_project_be.Application.Features.Blogs.Handles
 
                         //Thay đường dẫn base 64 bằng đường dẫn trên google cloud
                         var signedUrl = await _storageRepository.GetSignedUrlAsync(savedFileName);
-                        var subString1 = blogContent.Substring(0, startIndex - 16);
+                        var subString1 = blogContent.Substring(0, index);
                         var subString2 = blogContent.Substring(subString1.Length + 23 + endIndex);
                         blog.BlogContent = subString1 + signedUrl + subString2;
                     }
