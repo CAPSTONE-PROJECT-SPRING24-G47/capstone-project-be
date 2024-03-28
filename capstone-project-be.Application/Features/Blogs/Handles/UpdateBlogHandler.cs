@@ -40,7 +40,7 @@ namespace capstone_project_be.Application.Features.Blogs.Handles
             var blog_BlogCategoryList = await _unitOfWork.Blog_BlogCategoryRepository
                 .Find(b => b.BlogId == blogId);
             await _unitOfWork.Blog_BlogCategoryRepository.DeleteRange(blog_BlogCategoryList);
-            var blog_BlogCategoryData = blogData.B_BCatagories;
+            var blog_BlogCategoryData = blogData.B_BCategories;
             if (blog_BlogCategoryData != null)
             {
                 string[] parts = blog_BlogCategoryData.Split(',');

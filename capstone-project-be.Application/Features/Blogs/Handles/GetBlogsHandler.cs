@@ -46,7 +46,7 @@ namespace capstone_project_be.Application.Features.Blogs.Handles
                     var blogCategoryName = (await _unitOfWork.BlogCategoryRepository.Find(bc => bc.BlogCategoryId == item.BlogCategoryId)).First().BlogCategoryName;
                     item.BlogCategoryName = blogCategoryName;
                 }
-                blog.Blog_BlogCatagories = blog_blogCategoryList;
+                blog.Blog_BlogCategories = blog_blogCategoryList;
                 var user = await _unitOfWork.UserRepository.GetByID(blog.UserId);
                 blog.User = _mapper.Map<CreateUserDTO>(user);
             }

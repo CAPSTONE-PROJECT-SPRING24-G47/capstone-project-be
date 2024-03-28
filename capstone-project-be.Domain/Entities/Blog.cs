@@ -20,7 +20,7 @@ namespace capstone_project_be.Domain.Entities
         public string? SavedFileName { get; set; }
 
         public User User { get; set; }
-        public IEnumerable<Blog_BlogCategory> Blog_BlogCatagories { get; set; }
+        public IEnumerable<Blog_BlogCategory> Blog_BlogCategories { get; set; }
         public IEnumerable<BlogComment> BlogComments { get; set; }
     }
 }

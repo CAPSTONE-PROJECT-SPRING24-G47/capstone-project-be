@@ -17,6 +17,6 @@ namespace capstone_project_be.Application.DTOs.Blogs
         public string? SavedFileName { get; set; }
 
         public CreateUserDTO User { get; set; }
-        public IEnumerable<ReadBlog_BlogCategoryDTO> Blog_BlogCatagories { get; set; }
+        public IEnumerable<ReadBlog_BlogCategoryDTO> Blog_BlogCategories { get; set; }
     }
 }

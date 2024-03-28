@@ -11,6 +11,6 @@ namespace capstone_project_be.Application.DTOs.Blogs
         [NotMapped]
         public IFormFile? Photo { get; set; }
 
-        public string B_BCatagories { get; set; }
+        public string B_BCategories { get; set; }
     }
 }

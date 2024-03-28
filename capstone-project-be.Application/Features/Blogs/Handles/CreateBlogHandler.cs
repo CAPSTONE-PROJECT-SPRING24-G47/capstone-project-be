@@ -63,7 +63,7 @@ namespace capstone_project_be.Application.Features.Blogs.Handles
             blog = blogList.First();
 
             var blogId = blog.BlogId;
-            var blog_BlogCategoryData = blogData.B_BCatagories;
+            var blog_BlogCategoryData = blogData.B_BCategories;
             string[] parts = blog_BlogCategoryData.Split(',');
             var blog_BlogCategories = new List<CRUDBlog_BlogCategoryDTO>();
             foreach (string part in parts)
