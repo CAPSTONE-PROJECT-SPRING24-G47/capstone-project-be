@@ -9,7 +9,6 @@ using capstone_project_be.Application.DTOs.Auths;
 using capstone_project_be.Application.DTOs.Blog_BlogCategories;
 using capstone_project_be.Application.DTOs.BlogCategories;
 using capstone_project_be.Application.DTOs.BlogComments;
-using capstone_project_be.Application.DTOs.BlogPhotos;
 using capstone_project_be.Application.DTOs.Blogs;
 using capstone_project_be.Application.DTOs.Cities;
 using capstone_project_be.Application.DTOs.Prefectures;
@@ -149,10 +148,6 @@ namespace capstone_project_be.Application.AutoMapperProfile
             CreateMap<Blog_BlogCategoryDTO, Blog_BlogCategory>().ReverseMap();
             CreateMap<CRUDBlog_BlogCategoryDTO, Blog_BlogCategory>().ReverseMap();
             CreateMap<ReadBlog_BlogCategoryDTO, Blog_BlogCategory>().ReverseMap();
-
-            //BlogPhoto
-            CreateMap<BlogPhotoDTO, BlogPhoto>().ReverseMap();
-            CreateMap<CRUDBlogPhotoDTO, BlogPhoto>().ReverseMap();
 
             //BlogCategory
             CreateMap<BlogCategoryDTO, BlogCategory>().ReverseMap();

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using capstone_project_be.Application.DTOs.Blog_BlogCategories;
 using capstone_project_be.Application.DTOs.Blogs;
 using capstone_project_be.Application.Features.Blogs.Requests;
 using capstone_project_be.Application.Interfaces;
@@ -11,12 +12,14 @@ namespace capstone_project_be.Application.Features.Blogs.Handles
     public class CreateBlogHandler : IRequestHandler<CreateBlogRequest, object>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IStorageRepository _storageRepository;
         private readonly IMapper _mapper;
 
-        public CreateBlogHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public CreateBlogHandler(IUnitOfWork unitOfWork, IMapper mapper, IStorageRepository storageRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _storageRepository = storageRepository;
         }
         public async Task<object> Handle(CreateBlogRequest request, CancellationToken cancellationToken)
         {
@@ -40,39 +43,54 @@ namespace capstone_project_be.Application.Features.Blogs.Handles
             else blog.Status = "Processing";
             blog.CreatedAt = DateTime.Now;
             blog.IsReported = false;
-            await _unitOfWork.BlogRepository.Add(blog);
-            await _unitOfWork.Save();
 
-            var blogList = await _unitOfWork.BlogRepository.
-                Find(b => b.UserId == blog.UserId && b.CreatedAt >= DateTime.Now.AddMinutes(-1));
-            if (!blogList.Any())
+            var thumbnail = blogData.Photo;
+            if (thumbnail == null)
                 return new BaseResponse<BlogDTO>()
                 {
                     IsSuccess = false,
-                    Message = "Thêm blog mới thất bại"
+                    Message = "Chưa có ảnh thumbnail"
                 };
-            var blogId = blogList.First().BlogId;
-            var blog_BlogCategories = blogData.Blog_BlogCatagories;
-            var blog_BlogCategoryList = _mapper.Map<IEnumerable<Blog_BlogCategory>>(blog_BlogCategories);
-            foreach (var item in blog_BlogCategoryList)
-            {
-                item.BlogId = blogId;
-            }
-            await _unitOfWork.Blog_BlogCategoryRepository.AddRange(blog_BlogCategoryList);
+            var savedFileName = GenerateFileNameToSave(thumbnail.FileName);
+            blog.SavedFileName = savedFileName;
+            blog.ThumbnailURL = await _storageRepository.UpLoadFileAsync(thumbnail, savedFileName);
 
-            var blogPhotos = blogData.BlogPhotos;
-            var blogPhotoList = _mapper.Map<IEnumerable<BlogPhoto>>(blogPhotos);
-            foreach (var item in blogPhotoList)
+            await _unitOfWork.BlogRepository.Add(blog);
+            await _unitOfWork.Save();
+
+            var blogList = (await _unitOfWork.BlogRepository.
+                Find(b => b.UserId == blog.UserId)).OrderByDescending(b => b.CreatedAt);
+            blog = blogList.First();
+
+            var blogId = blog.BlogId;
+            var blog_BlogCategoryData = blogData.B_BCatagories;
+            string[] parts = blog_BlogCategoryData.Split(',');
+            var blog_BlogCategories = new List<CRUDBlog_BlogCategoryDTO>();
+            foreach (string part in parts)
             {
-                item.BlogId = blogId;
+                blog_BlogCategories.Add(
+                    new CRUDBlog_BlogCategoryDTO
+                    {
+                        BlogId = blogId,
+                        BlogCategoryId = int.Parse(part)
+                    });
             }
-            await _unitOfWork.BlogPhotoRepository.AddRange(blogPhotoList);
+            var blog_BlogCategoryList = _mapper.Map<IEnumerable<Blog_BlogCategory>>(blog_BlogCategories.Distinct());
+            await _unitOfWork.Blog_BlogCategoryRepository.AddRange(blog_BlogCategoryList);
+            await _unitOfWork.Save();
 
             return new BaseResponse<BlogDTO>()
             {
                 IsSuccess = true,
                 Message = "Thêm blog mới thành công"
             };
+        }
+
+        private string? GenerateFileNameToSave(string incomingFileName)
+        {
+            var fileName = Path.GetFileNameWithoutExtension(incomingFileName);
+            var extension = Path.GetExtension(incomingFileName);
+            return $"{fileName}-{DateTime.Now.ToString("yyyyMMddHHmmss")}{extension}";
         }
     }
 }

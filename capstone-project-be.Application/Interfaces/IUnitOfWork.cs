@@ -34,7 +34,6 @@
         IBlogRepository BlogRepository { get; }
         IBlogCategoryRepository BlogCategoryRepository { get; }
         IBlog_BlogCategoryRepository Blog_BlogCategoryRepository { get; }
-        IBlogPhotoRepository BlogPhotoRepository { get; }
         IBlogCommentRepository BlogCommentRepository { get; }
 
         ITripRepository TripRepository { get; }

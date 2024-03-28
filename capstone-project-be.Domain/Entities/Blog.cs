@@ -1,4 +1,7 @@
-﻿namespace capstone_project_be.Domain.Entities
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace capstone_project_be.Domain.Entities
 {
     public class Blog
     {
@@ -9,9 +12,14 @@
         public required DateTime CreatedAt { get; set; }
         public required string Status { get; set; }
         public bool IsReported { get; set; } = false;
+        public required string ThumbnailURL {  get; set; }
+        [NotMapped]
+        public IFormFile? Photo { get; set; }
+        [NotMapped]
+        public string? SignedUrl { get; set; }
+        public string? SavedFileName { get; set; }
 
         public User User { get; set; }
-        public IEnumerable<BlogPhoto> BlogPhotos { get; set; }
         public IEnumerable<Blog_BlogCategory> Blog_BlogCatagories { get; set; }
         public IEnumerable<BlogComment> BlogComments { get; set; }
     }

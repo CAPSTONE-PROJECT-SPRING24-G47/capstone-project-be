@@ -2,6 +2,7 @@
 {
     public class CRUDBlog_BlogCategoryDTO
     {
+        public required int BlogId { get; set; }
         public required int BlogCategoryId { get; set; }
     }
 }

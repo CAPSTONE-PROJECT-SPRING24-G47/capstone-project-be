@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using capstone_project_be.Infrastructure.Context;
 
@@ -11,9 +12,11 @@ using capstone_project_be.Infrastructure.Context;
 namespace capstone_project_be.Infrastructure.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    partial class ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20240326152053_UpdateDB-26032024-2")]
+    partial class UpdateDB260320242
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -301,6 +304,31 @@ namespace capstone_project_be.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("BlogComments");
+                });
+
+            modelBuilder.Entity("capstone_project_be.Domain.Entities.BlogPhoto", b =>
+                {
+                    b.Property<int>("BlogPhotoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BlogPhotoId"));
+
+                    b.Property<int>("BlogId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PhotoURL")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SavedFileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("BlogPhotoId");
+
+                    b.HasIndex("BlogId");
+
+                    b.ToTable("BlogPhotos");
                 });
 
             modelBuilder.Entity("capstone_project_be.Domain.Entities.Blog_BlogCategory", b =>
@@ -1137,6 +1165,17 @@ namespace capstone_project_be.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("capstone_project_be.Domain.Entities.BlogPhoto", b =>
+                {
+                    b.HasOne("capstone_project_be.Domain.Entities.Blog", "Blog")
+                        .WithMany("BlogPhotos")
+                        .HasForeignKey("BlogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Blog");
+                });
+
             modelBuilder.Entity("capstone_project_be.Domain.Entities.Blog_BlogCategory", b =>
                 {
                     b.HasOne("capstone_project_be.Domain.Entities.BlogCategory", "BlogCategory")
@@ -1470,6 +1509,8 @@ namespace capstone_project_be.Infrastructure.Migrations
             modelBuilder.Entity("capstone_project_be.Domain.Entities.Blog", b =>
                 {
                     b.Navigation("BlogComments");
+
+                    b.Navigation("BlogPhotos");
 
                     b.Navigation("Blog_BlogCatagories");
                 });

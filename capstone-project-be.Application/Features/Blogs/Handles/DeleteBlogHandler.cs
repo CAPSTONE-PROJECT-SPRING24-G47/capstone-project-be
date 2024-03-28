@@ -1,6 +1,4 @@
-﻿using capstone_project_be.Application.DTOs.Accommodations;
-using capstone_project_be.Application.DTOs.Blogs;
-using capstone_project_be.Application.Features.Accommodations.Requests;
+﻿using capstone_project_be.Application.DTOs.Blogs;
 using capstone_project_be.Application.Features.Blogs.Requests;
 using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Application.Responses;

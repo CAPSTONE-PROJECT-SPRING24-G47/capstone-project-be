@@ -3,7 +3,8 @@ using MediatR;
 
 namespace capstone_project_be.Application.Features.BlogComments.Requests
 {
-    public class GetBlogCommentsRequest : IRequest<IEnumerable<BlogCommentDTO>>
+    public class GetBlogCommentsRequest(int pageIndex) : IRequest<IEnumerable<BlogCommentDTO>>
     {
+        public int PageIndex { get; set; } = pageIndex;
     }
 }
