@@ -91,7 +91,7 @@ namespace capstone_project_be.Application.Features.Accommodations.Handles
 
                 foreach (var ap in accommodationPhotoList)
                 {
-                    await _storageRepository.DeleteFileAsync(ap.SavedFileName);
+                    if(ap.SavedFileName != null) await _storageRepository.DeleteFileAsync(ap.SavedFileName);
                 }
                 await _unitOfWork.AccommodationPhotoRepository.DeleteRange(accommodationPhotoList);
             }

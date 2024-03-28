@@ -92,7 +92,7 @@ namespace capstone_project_be.Application.Features.Restaurants.Handles
 
                 foreach (var rp in restaurantPhotoList)
                 {
-                    await _storageRepository.DeleteFileAsync(rp.SavedFileName);
+                    if(rp.SavedFileName != null) await _storageRepository.DeleteFileAsync(rp.SavedFileName);
                 }
                 await _unitOfWork.RestaurantPhotoRepository.DeleteRange(restaurantPhotoList);
             }

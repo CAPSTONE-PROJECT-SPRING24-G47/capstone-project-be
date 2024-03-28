@@ -88,7 +88,7 @@ namespace capstone_project_be.Application.Features.TouristAttractions.Handles
 
                 foreach (var tap in touristAttractionPhotoList)
                 {
-                    await _storageRepository.DeleteFileAsync(tap.SavedFileName);
+                    if(tap.SavedFileName != null) await _storageRepository.DeleteFileAsync(tap.SavedFileName);
                 }
                 await _unitOfWork.TouristAttractionPhotoRepository.DeleteRange(touristAttractionPhotoList);
             }
