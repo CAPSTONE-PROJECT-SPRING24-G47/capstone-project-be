@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using capstone_project_be.Application.DTOs.Blog_BlogCategories;
 using capstone_project_be.Application.DTOs.Blogs;
+using capstone_project_be.Application.DTOs.Users;
 using capstone_project_be.Application.Features.Blogs.Requests;
 using capstone_project_be.Application.Interfaces;
 using capstone_project_be.Application.Responses;
@@ -11,12 +13,14 @@ namespace capstone_project_be.Application.Features.Blogs.Handles
     public class GetRelatedBlogsHandler : IRequestHandler<GetRelatedBlogsRequest, BaseResponse<BlogDTO>>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IStorageRepository _storageRepository;
         private readonly IMapper _mapper;
 
-        public GetRelatedBlogsHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public GetRelatedBlogsHandler(IUnitOfWork unitOfWork, IMapper mapper, IStorageRepository storageRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _storageRepository = storageRepository;
         }
 
         public async Task<BaseResponse<BlogDTO>> Handle(GetRelatedBlogsRequest request, CancellationToken cancellationToken)
@@ -53,10 +57,28 @@ namespace capstone_project_be.Application.Features.Blogs.Handles
                 }
             }
 
+            var blogs = _mapper.Map<IEnumerable<BlogDTO>>(blogList.AsEnumerable().Distinct().OrderByDescending(b => b.CreatedAt).Take(3));
+
+            foreach (var blog in blogs)
+            {
+                blog.SignedUrl = await _storageRepository.GetSignedUrlAsync(blog.SavedFileName);
+
+                var blog_blogCategoryList = _mapper.Map<IEnumerable<ReadBlog_BlogCategoryDTO>>(await _unitOfWork.Blog_BlogCategoryRepository.
+                Find(bbc => bbc.BlogId == blog.BlogId));
+                foreach (var item in blog_blogCategoryList)
+                {
+                    var blogCategoryName = (await _unitOfWork.BlogCategoryRepository.Find(bc => bc.BlogCategoryId == item.BlogCategoryId)).First().BlogCategoryName;
+                    item.BlogCategoryName = blogCategoryName;
+                }
+                blog.Blog_BlogCategories = blog_blogCategoryList;
+                var user = await _unitOfWork.UserRepository.GetByID(blog.UserId);
+                blog.User = _mapper.Map<CreateUserDTO>(user);
+            }
+
             return new BaseResponse<BlogDTO>()
             {
                 IsSuccess = true,
-                Data = _mapper.Map<IEnumerable<BlogDTO>>(blogList.AsEnumerable().Distinct().OrderByDescending(b => b.CreatedAt).Take(3))
+                Data = blogs
             };
 
         }
