@@ -1,4 +1,5 @@
-﻿using capstone_project_be.Application.DTOs.BlogComments;
+﻿using capstone_project_be.Application.DTOs.AccommodationComments;
+using capstone_project_be.Application.DTOs.BlogComments;
 using capstone_project_be.Application.DTOs.RestaurantComments;
 using capstone_project_be.Application.Features.AccommodationComments.Requests;
 using capstone_project_be.Application.Features.BlogComments.Requests;
@@ -52,6 +53,13 @@ namespace capstone_project_be.API.Controllers
         public async Task<int> GetNumberOfCommentsByRestaurantId(string id)
         {
             var response = await _mediator.Send(new GetNumberOfCommentsByRestaurantIdRequest(id));
+            return response;
+        }
+
+        [HttpGet("get-comment-by-userId-and-resId")]
+        public async Task<BaseResponse<RestaurantCommentDTO>> GetCommentByUserIdAndResId(string userId, string restaurantId)
+        {
+            var response = await _mediator.Send(new GetCommentByUserIdAndResIdRequest(userId, restaurantId));
             return response;
         }
 
