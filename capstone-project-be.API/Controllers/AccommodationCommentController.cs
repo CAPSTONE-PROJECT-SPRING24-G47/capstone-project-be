@@ -53,6 +53,13 @@ namespace capstone_project_be.API.Controllers
             return response;
         }
 
+        [HttpGet("get-comment-by-userId-and-accId")]
+        public async Task<BaseResponse<AccommodationCommentDTO>> GetCommentByUserIdAndAccId(string userId, string accommodationId)
+        {
+            var response = await _mediator.Send(new GetCommentByUserIdAndAccIdRequest(userId, accommodationId));
+            return response;
+        }
+
 
         [HttpPost]
         public async Task<object> CreateAccommodationComment([FromForm] CreateAccommodationCommentDTO accommodationCommentData)
