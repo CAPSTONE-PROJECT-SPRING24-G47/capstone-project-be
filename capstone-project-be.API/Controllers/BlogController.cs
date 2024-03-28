@@ -1,4 +1,5 @@
 ﻿using capstone_project_be.Application.DTOs.Blogs;
+using capstone_project_be.Application.Features.AccommodationComments.Requests;
 using capstone_project_be.Application.Features.Blogs.Requests;
 using capstone_project_be.Application.Responses;
 using MediatR;
@@ -18,9 +19,9 @@ namespace capstone_project_be.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<BlogDTO>> GetBlogs()
+        public async Task<IEnumerable<BlogDTO>> GetBlogs(int pageIndex)
         {
-            var response = await _mediator.Send(new GetBlogsRequest());
+            var response = await _mediator.Send(new GetBlogsRequest(pageIndex));
             return response;
         }
 
@@ -31,10 +32,24 @@ namespace capstone_project_be.API.Controllers
             return response;
         }
 
-        [HttpGet("{id}/get-blog-by-userId")]
-        public async Task<BaseResponse<BlogDTO>> GetBlogByUserId(string id)
+        [HttpGet("get-number-of-blog")]
+        public async Task<int> GetNumberOfBlogs()
         {
-            var response = await _mediator.Send(new GetBlogByUserIdRequest(id));
+            var response = await _mediator.Send(new GetNumberOfBlogsRequest());
+            return response;
+        }
+
+        [HttpGet("{id}/get-blog-by-userId")]
+        public async Task<BaseResponse<BlogDTO>> GetBlogByUserId(string id, int pageIndex)
+        {
+            var response = await _mediator.Send(new GetBlogByUserIdRequest(id,pageIndex));
+            return response;
+        }
+
+        [HttpGet("{id}/get-number-of-blog-by-userId")]
+        public async Task<int> GetNumberOfBlogsByUserId(string id)
+        {
+            var response = await _mediator.Send(new GetNumberOfBlogByUserIdRequest(id));
             return response;
         }
 
@@ -45,22 +60,29 @@ namespace capstone_project_be.API.Controllers
             return response;
         }
 
-        [HttpGet("processing")]
-        public async Task<IEnumerable<BlogDTO>> GetProcessingBlogs()
+        [HttpGet("get-processing-blog")]
+        public async Task<IEnumerable<BlogDTO>> GetProcessingBlogs(int pageIndex)
         {
-            var response = await _mediator.Send(new GetProcessingBlogsRequest());
+            var response = await _mediator.Send(new GetProcessingBlogsRequest(pageIndex));
+            return response;
+        }
+
+        [HttpGet("get-number-of-processing-blog")]
+        public async Task<int> GetNumberOfProcessingBlogs()
+        {
+            var response = await _mediator.Send(new GetNumberOfProcessingBlogsRequest());
             return response;
         }
 
         [HttpPost]
-        public async Task<object> CreateBlog([FromBody] CreateBlogDTO blogData)
+        public async Task<object> CreateBlog([FromForm] CreateBlogDTO blogData)
         {
             var response = await _mediator.Send(new CreateBlogRequest(blogData));
             return response;
         }
 
         [HttpPut("{id}")]
-        public async Task<object> UpdateBlog(string id, [FromBody] UpdateBlogDTO updateBlogData)
+        public async Task<object> UpdateBlog(string id, [FromForm] UpdateBlogDTO updateBlogData)
         {
             var response = await _mediator.Send(new UpdateBlogRequest(id, updateBlogData));
             return response;

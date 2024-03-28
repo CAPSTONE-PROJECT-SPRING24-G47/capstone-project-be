@@ -56,7 +56,7 @@ namespace capstone_project_be.Application.Features.Blogs.Handles
             return new BaseResponse<BlogDTO>()
             {
                 IsSuccess = true,
-                Data = _mapper.Map<IEnumerable<BlogDTO>>(blogList.AsEnumerable().Distinct().Take(3))
+                Data = _mapper.Map<IEnumerable<BlogDTO>>(blogList.AsEnumerable().Distinct().OrderByDescending(b => b.CreatedAt).Take(3))
             };
 
         }

@@ -41,7 +41,6 @@ namespace capstone_project_be.Infrastructure.Repositories
             BlogRepository = new BlogRepository(_dbContext);
             BlogCategoryRepository = new BlogCategoryRepository(_dbContext);
             Blog_BlogCategoryRepository = new Blog_BlogCategoryRepository(_dbContext);
-            BlogPhotoRepository = new BlogPhotoRepository(_dbContext);
             BlogCommentRepository = new BlogCommentRepository(_dbContext);
 
             TripRepository = new TripRepository(_dbContext);
@@ -82,7 +81,6 @@ namespace capstone_project_be.Infrastructure.Repositories
         public IBlogRepository BlogRepository { get; set; }
         public IBlogCategoryRepository BlogCategoryRepository { get; set; }
         public IBlog_BlogCategoryRepository Blog_BlogCategoryRepository { get; set; }
-        public IBlogPhotoRepository BlogPhotoRepository { get; set; }
         public IBlogCommentRepository BlogCommentRepository { get; set; }
 
         public ITripRepository TripRepository { get; set; }

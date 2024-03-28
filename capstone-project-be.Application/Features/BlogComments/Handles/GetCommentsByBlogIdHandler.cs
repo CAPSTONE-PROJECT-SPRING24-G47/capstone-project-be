@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using capstone_project_be.Application.DTOs.AccommodationComments;
 using capstone_project_be.Application.DTOs.BlogComments;
 using capstone_project_be.Application.DTOs.Trip_Accommodations;
 using capstone_project_be.Application.Features.BlogComments.Requests;
@@ -33,6 +34,12 @@ namespace capstone_project_be.Application.Features.BlogComments.Handles
 
             var comments = await _unitOfWork.BlogCommentRepository.
                 Find(bc => bc.BlogId == blogId);
+
+            int pageIndex = request.PageIndex;
+            int pageSize = 10;
+            // Start index in the page
+            int skip = (pageIndex - 1) * pageSize;
+            comments = comments.OrderByDescending(c => c.CreatedAt).Skip(skip).Take(pageSize);
 
             return new BaseResponse<BlogCommentDTO>()
             {
