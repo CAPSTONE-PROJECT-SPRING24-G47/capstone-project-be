@@ -5,6 +5,7 @@
         public required string Value { get; set; }
         public string Type { get; set; }
         public string Property { get; set; }
+        public int Limit { get; set; }
 
     }
 }

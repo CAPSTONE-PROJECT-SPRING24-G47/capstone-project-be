@@ -16,58 +16,64 @@ namespace capstone_project_be.Infrastructure.Repositories
         }
 
         //tìm kiếm nếu property có chứa value (Khác với find bên generic là tìm giá trị cứng)
-        public async Task<IEnumerable<TouristAttractionSearchDTO>> FindValueContain(string property, string value)
+        public async Task<IEnumerable<TouristAttractionSearchDTO>> FindValueContain(string property, string value, int limit)
         {
             switch (property)
             {
                 case "TouristAttractionName":
-                    var query = (from ta in _dbContext.TouristAttractions
-                                join tp in _dbContext.TouristAttractionPhotos
-                                on ta.TouristAttractionId equals tp.TouristAttractionId into gj
-                                from subtp in gj.DefaultIfEmpty()
-                                where ta.TouristAttractionName.Contains(value)
-                                select new TouristAttractionSearchDTO
-                                {
-                                    TouristAttractionId = ta.TouristAttractionId,
-                                    TouristAttractionName = ta.TouristAttractionName,
-                                    TouristAttractionAddress = ta.TouristAttractionAddress,
-                                    TouristAttractionDescription = ta.TouristAttractionDescription,
-                                    PhotoUrl = (subtp != null) ? subtp.PhotoURL : null
-                                }).Take(10);
+                    var query = (from TA in _dbContext.TouristAttractions
+                                 where TA.TouristAttractionName.Contains(value)
+                                 join C in _dbContext.Cities on TA.CityId equals C.CityId into cityGroup
+                                 from city in cityGroup.DefaultIfEmpty()
+                                 join TAP in _dbContext.TouristAttractionPhotos on TA.TouristAttractionId equals TAP.TouristAttractionId into photoGroup
+                                 from photo in photoGroup.DefaultIfEmpty()
+                                 select new TouristAttractionSearchDTO
+                                 {
+                                     TouristAttractionId = TA.TouristAttractionId,
+                                     TouristAttractionName = TA.TouristAttractionName,
+                                     TouristAttractionAddress = TA.TouristAttractionAddress,
+                                     TouristAttractionDescription = TA.TouristAttractionDescription,
+                                     PhotoUrl = (photo != null) ? photo.PhotoURL : null,
+                                     CityName = (city != null) ? city.CityName : null
+                                 }).Take(limit != 0 ? limit : 10);
 
                     var result = await query.ToListAsync();
                     return result;
                 case "TouristAttractionAddress":
-                    var query1 = (from ta in _dbContext.TouristAttractions
-                                 join tp in _dbContext.TouristAttractionPhotos
-                                 on ta.TouristAttractionId equals tp.TouristAttractionId into gj
-                                 from subtp in gj.DefaultIfEmpty()
-                                 where ta.TouristAttractionAddress.Contains(value)
-                                 select new TouristAttractionSearchDTO
-                                 {
-                                     TouristAttractionId = ta.TouristAttractionId,
-                                     TouristAttractionName = ta.TouristAttractionName,
-                                     TouristAttractionAddress = ta.TouristAttractionAddress,
-                                     TouristAttractionDescription = ta.TouristAttractionDescription,
-                                     PhotoUrl = (subtp != null) ? subtp.PhotoURL : null
-                                 }).Take(10);
+                    var query1 = (from TA in _dbContext.TouristAttractions
+                                  where TA.TouristAttractionAddress.Contains(value)
+                                  join C in _dbContext.Cities on TA.CityId equals C.CityId into cityGroup
+                                  from city in cityGroup.DefaultIfEmpty()
+                                  join TAP in _dbContext.TouristAttractionPhotos on TA.TouristAttractionId equals TAP.TouristAttractionId into photoGroup
+                                  from photo in photoGroup.DefaultIfEmpty()
+                                  select new TouristAttractionSearchDTO
+                                  {
+                                      TouristAttractionId = TA.TouristAttractionId,
+                                      TouristAttractionName = TA.TouristAttractionName,
+                                      TouristAttractionAddress = TA.TouristAttractionAddress,
+                                      TouristAttractionDescription = TA.TouristAttractionDescription,
+                                      PhotoUrl = (photo != null) ? photo.PhotoURL : null,
+                                      CityName = (city != null) ? city.CityName : null
+                                  }).Take(limit != 0 ? limit : 10);
 
                     var result1 = await query1.ToListAsync();
                     return result1;
                 case "TouristAttractionDescription":
-                    var query2 = (from ta in _dbContext.TouristAttractions
-                                 join tp in _dbContext.TouristAttractionPhotos
-                                 on ta.TouristAttractionId equals tp.TouristAttractionId into gj
-                                 from subtp in gj.DefaultIfEmpty()
-                                 where ta.TouristAttractionDescription.Contains(value)
-                                 select new TouristAttractionSearchDTO
-                                 {
-                                     TouristAttractionId = ta.TouristAttractionId,
-                                     TouristAttractionName = ta.TouristAttractionName,
-                                     TouristAttractionAddress = ta.TouristAttractionAddress,
-                                     TouristAttractionDescription = ta.TouristAttractionDescription,
-                                     PhotoUrl = (subtp != null) ? subtp.PhotoURL : null
-                                 }).Take(10);
+                    var query2 = (from TA in _dbContext.TouristAttractions
+                                  where TA.TouristAttractionDescription.Contains(value)
+                                  join C in _dbContext.Cities on TA.CityId equals C.CityId into cityGroup
+                                  from city in cityGroup.DefaultIfEmpty()
+                                  join TAP in _dbContext.TouristAttractionPhotos on TA.TouristAttractionId equals TAP.TouristAttractionId into photoGroup
+                                  from photo in photoGroup.DefaultIfEmpty()
+                                  select new TouristAttractionSearchDTO
+                                  {
+                                      TouristAttractionId = TA.TouristAttractionId,
+                                      TouristAttractionName = TA.TouristAttractionName,
+                                      TouristAttractionAddress = TA.TouristAttractionAddress,
+                                      TouristAttractionDescription = TA.TouristAttractionDescription,
+                                      PhotoUrl = (photo != null) ? photo.PhotoURL : null,
+                                      CityName = (city != null) ? city.CityName : null
+                                  }).Take(limit != 0 ? limit : 10);
 
                     var result2 = await query2.ToListAsync();
                     return result2;

@@ -22,6 +22,7 @@ namespace capstone_project_be.Application.Features.Search.Handles
             string value = request.SearchData.Value;
             string type = request.SearchData.Type;
             string property = request.SearchData.Property;
+            int limit = request.SearchData.Limit;
 
             IEnumerable<dynamic> list = Enumerable.Empty<dynamic>();
 
@@ -40,13 +41,13 @@ namespace capstone_project_be.Application.Features.Search.Handles
                     list = await _unitOfWork.CityRepository.FindValueContain(property.Trim(), value.Trim());
                     break;
                 case "Restaurants":
-                    list = await _unitOfWork.RestaurantRepository.FindValueContain(property.Trim(), value.Trim());
+                    list = await _unitOfWork.RestaurantRepository.FindValueContain(property.Trim(), value.Trim(), limit);
                     break;
                 case "Accommodations":
-                    list = await _unitOfWork.AccommodationRepository.FindValueContain(property.Trim(), value.Trim());
+                    list = await _unitOfWork.AccommodationRepository.FindValueContain(property.Trim(), value.Trim(), limit);
                     break;
                 case "TouristAttractions":
-                    list = await _unitOfWork.TouristAttractionRepository.FindValueContain(property.Trim(), value.Trim());
+                    list = await _unitOfWork.TouristAttractionRepository.FindValueContain(property.Trim(), value.Trim(), limit);
                     break;
                 case "Blogs":
                     list = await _unitOfWork.BlogRepository.FindValueContain(property.Trim(), value.Trim());

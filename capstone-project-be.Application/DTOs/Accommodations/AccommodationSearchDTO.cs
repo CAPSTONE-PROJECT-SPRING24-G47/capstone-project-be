@@ -7,5 +7,7 @@
         public string AccommodationAddress { get; set; }
         public string AccommodationDescription { get; set; }
         public string PhotoUrl { get; set; }
+        public string CityName { get; set; }
+
     }
 }

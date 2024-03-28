@@ -15,59 +15,65 @@ namespace capstone_project_be.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<AccommodationSearchDTO>> FindValueContain(string property, string value)
+        public async Task<IEnumerable<AccommodationSearchDTO>> FindValueContain(string property, string value, int limit)
         {
             switch (property)
             {
                 case "AccommodationName":
-                    var query = (from a in _dbContext.Accommodations
-                                join p in _dbContext.AccommodationPhotos
-                                on a.AccommodationId equals p.AccommodationId into gj
-                                from subp in gj.DefaultIfEmpty()
-                                where a.AccommodationName.Contains(value)
-                                select new AccommodationSearchDTO
-                                {
-                                    AccommodationId = a.AccommodationId,
-                                    AccommodationName = a.AccommodationName,
-                                    AccommodationAddress = a.AccommodationAddress,
-                                    AccommodationDescription = a.AccommodationDescription,
-                                    PhotoUrl = (subp != null) ? subp.PhotoURL : null
-                                }).Take(10);
+                    var query = (from A in _dbContext.Accommodations
+                                 where A.AccommodationName.Contains(value)
+                                 join C in _dbContext.Cities on A.CityId equals C.CityId into cityGroup
+                                 from city in cityGroup.DefaultIfEmpty()
+                                 join AP in _dbContext.AccommodationPhotos on A.AccommodationId equals AP.AccommodationId into photoGroup
+                                 from photo in photoGroup.DefaultIfEmpty()
+                                 select new AccommodationSearchDTO
+                                 {
+                                     AccommodationId = A.AccommodationId,
+                                     AccommodationName = A.AccommodationName,
+                                     AccommodationAddress = A.AccommodationAddress,
+                                     AccommodationDescription = A.AccommodationDescription,
+                                     PhotoUrl = (photo != null) ? photo.PhotoURL : null,
+                                     CityName = (city != null) ? city.CityName : null
+                                 }).Take(limit != 0 ? limit : 10);
 
                     var result = await query.ToListAsync();
                     return result;
                 case "AccommodationAddress":
-                    var query1 = (from a in _dbContext.Accommodations
-                                 join p in _dbContext.AccommodationPhotos
-                                 on a.AccommodationId equals p.AccommodationId into gj
-                                 from subp in gj.DefaultIfEmpty()
-                                 where a.AccommodationAddress.Contains(value)
-                                 select new AccommodationSearchDTO
-                                 {
-                                     AccommodationId = a.AccommodationId,
-                                     AccommodationName = a.AccommodationName,
-                                     AccommodationAddress = a.AccommodationAddress,
-                                     AccommodationDescription = a.AccommodationDescription,
-                                     PhotoUrl = (subp != null) ? subp.PhotoURL : null
-                                 }).Take(10);
+                    var query1 = (from A in _dbContext.Accommodations
+                                  where A.AccommodationAddress.Contains(value)
+                                  join C in _dbContext.Cities on A.CityId equals C.CityId into cityGroup
+                                  from city in cityGroup.DefaultIfEmpty()
+                                  join AP in _dbContext.AccommodationPhotos on A.AccommodationId equals AP.AccommodationId into photoGroup
+                                  from photo in photoGroup.DefaultIfEmpty()
+                                  select new AccommodationSearchDTO
+                                  {
+                                      AccommodationId = A.AccommodationId,
+                                      AccommodationName = A.AccommodationName,
+                                      AccommodationAddress = A.AccommodationAddress,
+                                      AccommodationDescription = A.AccommodationDescription,
+                                      PhotoUrl = (photo != null) ? photo.PhotoURL : null,
+                                      CityName = (city != null) ? city.CityName : null
+                                  }).Take(limit != 0 ? limit : 10);
 
                     var result1 = await query1.ToListAsync();
                     return result1;
 
                 case "AccommodationDescription":
-                    var query2 = (from a in _dbContext.Accommodations
-                                 join p in _dbContext.AccommodationPhotos
-                                 on a.AccommodationId equals p.AccommodationId into gj
-                                 from subp in gj.DefaultIfEmpty()
-                                 where a.AccommodationDescription.Contains(value)
-                                 select new AccommodationSearchDTO
-                                 {
-                                     AccommodationId = a.AccommodationId,
-                                     AccommodationName = a.AccommodationName,
-                                     AccommodationAddress = a.AccommodationAddress,
-                                     AccommodationDescription = a.AccommodationDescription,
-                                     PhotoUrl = (subp != null) ? subp.PhotoURL : null
-                                 }).Take(10);
+                    var query2 = (from A in _dbContext.Accommodations
+                                  where A.AccommodationDescription.Contains(value)
+                                  join C in _dbContext.Cities on A.CityId equals C.CityId into cityGroup
+                                  from city in cityGroup.DefaultIfEmpty()
+                                  join AP in _dbContext.AccommodationPhotos on A.AccommodationId equals AP.AccommodationId into photoGroup
+                                  from photo in photoGroup.DefaultIfEmpty()
+                                  select new AccommodationSearchDTO
+                                  {
+                                      AccommodationId = A.AccommodationId,
+                                      AccommodationName = A.AccommodationName,
+                                      AccommodationAddress = A.AccommodationAddress,
+                                      AccommodationDescription = A.AccommodationDescription,
+                                      PhotoUrl = (photo != null) ? photo.PhotoURL : null,
+                                      CityName = (city != null) ? city.CityName : null
+                                  }).Take(limit != 0 ? limit : 10);
 
                     var result2 = await query2.ToListAsync();
                     return result2;

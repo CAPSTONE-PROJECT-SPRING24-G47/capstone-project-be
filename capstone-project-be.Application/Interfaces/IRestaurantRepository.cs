@@ -5,7 +5,7 @@ namespace capstone_project_be.Application.Interfaces
 {
     public interface IRestaurantRepository : IGenericRepository<Restaurant>
     {
-        public Task<IEnumerable<RestaurantSearchDTO>> FindValueContain(string property, string value);
+        public Task<IEnumerable<RestaurantSearchDTO>> FindValueContain(string property, string value, int limit);
 
     }
 }
