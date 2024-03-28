@@ -1,6 +1,7 @@
 ﻿using capstone_project_be.Application.DTOs.BlogComments;
 using capstone_project_be.Application.DTOs.Trip_Accommodations;
 using capstone_project_be.Application.Features.BlogComments.Requests;
+using capstone_project_be.Application.Features.Blogs.Requests;
 using capstone_project_be.Application.Features.Trip_Accommodations.Requests;
 using capstone_project_be.Application.Responses;
 using MediatR;
@@ -20,9 +21,9 @@ namespace capstone_project_be.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<BlogCommentDTO>> GetBlogComments()
+        public async Task<IEnumerable<BlogCommentDTO>> GetBlogComments(int pageIndex)
         {
-            var response = await _mediator.Send(new GetBlogCommentsRequest());
+            var response = await _mediator.Send(new GetBlogCommentsRequest(pageIndex));
             return response;
         }
 
@@ -33,10 +34,24 @@ namespace capstone_project_be.API.Controllers
             return response;
         }
 
-        [HttpGet("{id}/get-comment-by-blogId")]
-        public async Task<BaseResponse<BlogCommentDTO>> GetCommentsByBlogId(string id)
+        [HttpGet("get-number-of-blog-comment")]
+        public async Task<int> GetNumberOfBlogComments()
         {
-            var response = await _mediator.Send(new GetCommentsByBlogIdRequest(id));
+            var response = await _mediator.Send(new GetNumberOfBlogCommentsRequest());
+            return response;
+        }
+
+        [HttpGet("{id}/get-comment-by-blogId")]
+        public async Task<BaseResponse<BlogCommentDTO>> GetCommentsByBlogId(string id, int pageIndex)
+        {
+            var response = await _mediator.Send(new GetCommentsByBlogIdRequest(id,pageIndex));
+            return response;
+        }
+
+        [HttpGet("{id}/get-number-of-comment-by-blogId")]
+        public async Task<int> GetNumberOfCommentsByBlogId(string id)
+        {
+            var response = await _mediator.Send(new GetNumberOfCommentsByBlogIdRequest(id));
             return response;
         }
 

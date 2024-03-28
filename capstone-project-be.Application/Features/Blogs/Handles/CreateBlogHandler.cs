@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using capstone_project_be.Application.DTOs.Blog_BlogCategories;
-using capstone_project_be.Application.DTOs.BlogPhotos;
 using capstone_project_be.Application.DTOs.Blogs;
 using capstone_project_be.Application.Features.Blogs.Requests;
 using capstone_project_be.Application.Interfaces;
@@ -78,53 +77,6 @@ namespace capstone_project_be.Application.Features.Blogs.Handles
             }
             var blog_BlogCategoryList = _mapper.Map<IEnumerable<Blog_BlogCategory>>(blog_BlogCategories.Distinct());
             await _unitOfWork.Blog_BlogCategoryRepository.AddRange(blog_BlogCategoryList);
-
-            var blogContent = blog.BlogContent;
-            string input = blogContent;
-            string[] inputParts = input.Split(new string[] { "<img src=\"" }, StringSplitOptions.RemoveEmptyEntries);
-
-            int count = 1;
-            var blogPhotos = new List<CRUDBlogPhotoDTO>();
-            foreach (string part in inputParts)
-            {
-                int startIndex = part.IndexOf("base64,", StringComparison.Ordinal);
-                int index = blogContent.IndexOf("data:image", StringComparison.Ordinal);
-                if (startIndex != -1)
-                {
-                    // Cắt chuỗi từ vị trí sau "base64,"
-                    string base64Data = part.Substring(startIndex + 7);
-
-                    // Tìm vị trí của dấu "
-                    int endIndex = base64Data.IndexOf("\"", StringComparison.Ordinal);
-                    if (endIndex != -1)
-                    {
-                        // Lấy dữ liệu base64 của ảnh
-                        base64Data = base64Data.Substring(0, endIndex);
-                        var fileName = (blogId + "_" + count.ToString());
-                        savedFileName = GenerateFileNameToSave(fileName);
-                        blogPhotos.Add(
-                            new CRUDBlogPhotoDTO
-                            {
-                                BlogId = blogId,
-                                PhotoURL = await _storageRepository.UploadFileFromBase64Async(base64Data, savedFileName),
-                                SavedFileName = savedFileName
-                            }
-                            );
-                        count++;
-
-                        //Thay đường dẫn base 64 bằng đường dẫn trên google cloud
-                        var signedUrl = await _storageRepository.GetSignedUrlAsync(savedFileName);
-                        var subString1 = blogContent.Substring(0, index);
-                        var subString2 = blogContent.Substring(subString1.Length + 23 + endIndex);
-                        blog.BlogContent = subString1 + signedUrl + subString2;
-                    }
-                }
-            }
-
-            var blogPhotoList = _mapper.Map<IEnumerable<BlogPhoto>>(blogPhotos);
-            await _unitOfWork.BlogPhotoRepository.AddRange(blogPhotoList);
-
-            await _unitOfWork.BlogRepository.Update(blog);
             await _unitOfWork.Save();
 
             return new BaseResponse<BlogDTO>()

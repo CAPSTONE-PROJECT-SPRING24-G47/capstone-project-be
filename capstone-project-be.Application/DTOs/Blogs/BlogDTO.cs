@@ -1,8 +1,5 @@
 ﻿using capstone_project_be.Application.DTOs.Blog_BlogCategories;
-using capstone_project_be.Application.DTOs.BlogPhotos;
 using capstone_project_be.Application.DTOs.Users;
-using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace capstone_project_be.Application.DTOs.Blogs
 {
@@ -20,7 +17,6 @@ namespace capstone_project_be.Application.DTOs.Blogs
         public string? SavedFileName { get; set; }
 
         public CreateUserDTO User { get; set; }
-        public IEnumerable<BlogPhotoDTO> BlogPhotos { get; set; }
         public IEnumerable<ReadBlog_BlogCategoryDTO> Blog_BlogCatagories { get; set; }
     }
 }

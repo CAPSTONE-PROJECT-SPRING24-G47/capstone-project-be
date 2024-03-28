@@ -11,13 +11,11 @@ namespace capstone_project_be.Infrastructure.Repositories
     public class StorageRepository : IStorageRepository
     {
         private readonly GCSConfigOptions _options;
-        private readonly ILogger<BlogPhotoRepository> _logger;
         private readonly GoogleCredential _googleCredential;
 
-        public StorageRepository(IOptions<GCSConfigOptions> options, ILogger<BlogPhotoRepository> logger)
+        public StorageRepository(IOptions<GCSConfigOptions> options)
         {
             _options = options.Value;
-            _logger = logger;
 
             try
             {
@@ -25,7 +23,6 @@ namespace capstone_project_be.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{ex.Message}");
                 throw;
             }
         }
@@ -38,11 +35,9 @@ namespace capstone_project_be.Infrastructure.Repositories
                 {
                     await storageClient.DeleteObjectAsync(_options.GoogleCloudStorageBucketName, fileNameToDelete);
                 }
-                _logger.LogInformation($"File {fileNameToDelete} deleted");
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error occured while deleting file {fileNameToDelete}: {ex.Message}");
                 throw;
             }
         }
@@ -55,12 +50,10 @@ namespace capstone_project_be.Infrastructure.Repositories
                 var urlSigner = UrlSigner.FromServiceAccountCredential(sac);
                 // provides limited permission and time to make a request: time here is mentioned for 30 minutes.
                 var signedUrl = await urlSigner.SignAsync(_options.GoogleCloudStorageBucketName, fileNameToRead, TimeSpan.FromMinutes(timeOutInMinutes));
-                _logger.LogInformation($"Signed url obtained for file {fileNameToRead}");
                 return signedUrl.ToString();
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error occured while obtaining signed url for file {fileNameToRead}: {ex.Message}");
                 throw;
             }
         }
@@ -69,7 +62,6 @@ namespace capstone_project_be.Infrastructure.Repositories
         {
             try
             {
-                _logger.LogInformation($"Uploading: file {fileNameToSave} to storage {_options.GoogleCloudStorageBucketName}");
                 using (var memoryStream = new MemoryStream())
                 {
                     await fileToUpload.CopyToAsync(memoryStream);
@@ -78,14 +70,12 @@ namespace capstone_project_be.Infrastructure.Repositories
                     {
                         // upload file stream
                         var uploadedFile = await storageClient.UploadObjectAsync(_options.GoogleCloudStorageBucketName, fileNameToSave, fileToUpload.ContentType, memoryStream);
-                        _logger.LogInformation($"Uploaded: file {fileNameToSave} to storage {_options.GoogleCloudStorageBucketName}");
                         return uploadedFile.MediaLink;
                     }
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error while uploading file {fileNameToSave}: {ex.Message}");
                 throw;
             }
         }
@@ -103,13 +93,11 @@ namespace capstone_project_be.Infrastructure.Repositories
                     var byteArray = memoryStream.ToArray();
                     var base64String = Convert.ToBase64String(byteArray);
 
-                    _logger.LogInformation($"Retrieved file {fileName} from storage {_options.GoogleCloudStorageBucketName} as Base64");
                     return base64String;
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error while retrieving file {fileName}: {ex.Message}");
                 throw;
             }
         }
